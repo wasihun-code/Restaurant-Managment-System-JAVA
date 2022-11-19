@@ -17,56 +17,59 @@ public class Customers extends AdminCustomers {
         System.out.println("\n");
         System.out.println("\t \t\t\t\t Welcome Customer");
         while (true) {
-            System.out.println("\t \t \t \t 1. Place Your Cart");
-            System.out.println("\t \t \t \t 2. View Your Carted Items");
-            System.out.println("\t \t \t \t 3. Delete an item from order");
-            System.out.println("\t \t \t \t 4. Display sub total");
-            System.out.println("\t \t \t \t 5. Go back to main menu");
-            System.out.println("\t \t \t \t 6. Exit");
-            try {
-                // Scanner class to read
-                sc = new Scanner(System.in);
-                System.out.print("\n\t\t\t\t =>Enter your choice: ");
-                int choice = sc.nextInt();
-                boolean goBackToMainMenu = false;
+            System.out.println("\t \t \t 1. Place Your Cart");
+            System.out.println("\t \t \t 2. View Your Carted Items");
+            System.out.println("\t \t \t 3. Delete an item from order");
+            System.out.println("\t \t \t 4. Display sub total");
+            System.out.println("\t \t \t 5. Go back to main menu");
+            System.out.println("\t \t \t 6. Exit");
 
+            int choice;
+            boolean goBackToMainMenu = false;
+
+            // Validate user input with try-catch
+            try {
+                System.out.print("\n\t\t\t\t =>Enter your choice: ");
+                choice = sc.nextInt();
+                sc.nextLine(); // To consume the newline character
+            } catch (Exception e) {
                 clearScreen();
-                switch (choice) {
-                    case 1:
-                        addToCart();
-                        break;
-                    case 2:
-                        viewCart();
-                        break;
-                    case 3:
-                        removeFromCart();
-                        break;
-                    case 4:
-                        showSubtotal();
-                        break;
-                    case 5:
-                        // Go back to main menu
-                        goBackToMainMenu = true;
-                        return;
-                    case 6:
-                        System.out.println("Thank you for using our service");
-                        System.exit(0);
-                        break;
-                    default:
-                        System.out.println("Invalid choice");
-                        break;
-                }
-                // if user wants to go back to main menu
-                if (goBackToMainMenu) {
-                    break;
-                }
-            } catch (Exception ex) {
-                System.out.println("\n\n\n\t\t\t\t =>Program Forced to exit. Please Try again");
-                break;
+                System.out.println("Invalid choice");
+                sc.nextLine(); // To consume the newline character
+                continue;
             }
 
+            clearScreen();
+            switch (choice) {
+                case 1:
+                    addToCart();
+                    break;
+                case 2:
+                    viewCart();
+                    break;
+                case 3:
+                    removeFromCart();
+                    break;
+                case 4:
+                    showSubtotal();
+                    break;
+                case 5:
+                    // Go back to main menu
+                    goBackToMainMenu = true;
+                    return;
+                case 6:
+                    System.out.println("Thank you for using our service");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
+            }
+            // if user wants to go back to main menu
+            if (goBackToMainMenu) {
+                break;
+            }
         }
-
     }
 
     /**
@@ -176,18 +179,5 @@ public class Customers extends AdminCustomers {
             totalBill += itemPrice * itemQuantity;
         }
         System.out.println("\t \t \t \t =>Total Bill: " + totalBill + "\n\n");
-    }
-
-    // Test this java class
-    public static void main(String[] args) {
-        new Customers();
-    }
-
-    public void clearScreen() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

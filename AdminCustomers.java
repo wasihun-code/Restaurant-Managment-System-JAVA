@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -20,7 +22,7 @@ public class AdminCustomers {
 
     // Scanner object to take input from the user
     Scanner sc = new Scanner(System.in);
-    
+
     // Constructor to initialize the menu
     public AdminCustomers() {
         item = new HashMap<String, Object>() {
@@ -70,19 +72,20 @@ public class AdminCustomers {
         menu.add(item);
 
     }
-    
+
     public void displayMenu() {
         if (menu.isEmpty()) {
             System.out.println("\t \t \t \t =>Order Menu is empty");
             return;
         }
-        System.out.println("\t \t \t \t Number \t Food \t Price");
-        for (HashMap<String, Object> menuItem : menu) {
-            System.out.print("\t \t \t \t \t" + menuItem.get("itemNumber") + " \t  ");
-            System.out.print(menuItem.get("itemName") + "\t");
-            System.out.print(menuItem.get("itemPrice"));
-            System.out.println();
+        Formatter f = new Formatter();
+        f.format("%15s %15s %15s %15s\n", "", "Number",
+                "Item Name", "Item Price", "Item Quantity");
+        for (HashMap<String, Object> item : menu) {
+            f.format("%14s %14s %18s %10s\n", "", item.get("itemNumber"),
+                    item.get("itemName"), item.get("itemPrice"));
         }
+        System.out.println(f);
     }
 
     public boolean itemExists(String itemName) {
@@ -95,10 +98,10 @@ public class AdminCustomers {
                 // Convert the item name to capital case(to be identical with menu items case)
                 String capitalCaseName = itemName.substring(0, 1).toUpperCase();
                 capitalCaseName += itemName.substring(1).toLowerCase();
-                
+
                 // if item is present in the menu then return
                 if (menuItem.containsValue(capitalCaseName)) {
-                    System.out.println("Item already exists");
+                    System.out.println("\n\t\t\t\t =>Item already exists");
                     return true;
                 }
             }
@@ -106,8 +109,11 @@ public class AdminCustomers {
         return false;
     }
 
-    // Test AdminCustomer class
-    public static void main(String[] args) {
-        new AdminCustomers();
+    public void clearScreen() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

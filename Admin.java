@@ -10,23 +10,30 @@ public class Admin extends AdminCustomers {
     Scanner sc = new Scanner(System.in);
 
     Admin() {
-        System.out.println("Welcome Admin");
+        clearScreen();
+        System.out.println("\n \t \t \t \t Welcome Admin");
 
         while (true) {
-            System.out.println("1. View total sales");
-            System.out.println("2. Add new items in the order menu");
-            System.out.println("3. Delete items from the order menu");
-            System.out.println("4. Display order menu");
-            System.out.println("5. Display sales menu");
-            System.out.println("6. Go back to main menu");
-            System.out.println("7. Exit");
-
-            int adminChoice = sc.nextInt();
+            adminMainMenu();
+            int adminChoice;
             boolean goBackToMainMenu = false;
-            sc.nextLine();
+
+            // Validate user input with try-catch
+            try { 
+                System.out.print("\n\t\t\t\t =>Enter your choice: ");
+                adminChoice = sc.nextInt();
+                sc.nextLine(); // To consume the newline character
+            } catch (Exception e) {
+                clearScreen();
+                System.out.println("\n\t\t\t\t =>Invalid input");
+                sc.nextLine(); // To consume the newline character
+                continue;
+            }
+
+            clearScreen();
             switch (adminChoice) {
                 case 1:
-                    displayMenu();
+                    viewTotalSales();
                     break;
                 case 2:
                     addToMenu();
@@ -35,7 +42,7 @@ public class Admin extends AdminCustomers {
                     deleteFromMenu();
                     break;
                 case 4:
-                    viewTotalSales();
+                    displayMenu();
                     break;
                 case 5:
                     displaySalesMenu();
@@ -45,11 +52,11 @@ public class Admin extends AdminCustomers {
                     goBackToMainMenu = true;
                     break;
                 case 7:
-                    System.out.println("Thank you for using our service");
+                    System.out.println("\n\t\t\t\t =>Thank you for using our service");
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println("I\n\t\t\t\t =>nvalid choice");
                     break;
             }
             // if user wants to go back to main menu
@@ -60,11 +67,9 @@ public class Admin extends AdminCustomers {
     }
 
     public void viewTotalSales() {
-        displayMenu();
-
         // Return if no user has items in their cart
         if (sales.isEmpty()) {
-            System.out.println("No sales yet");
+            System.out.println("\n\t\t\t\t =>No sales yet");
             return;
         }
 
@@ -85,8 +90,8 @@ public class Admin extends AdminCustomers {
         }
 
         // Print total items sold and total sales generated
-        System.out.println("Total Items Sold: " + totalItems);
-        System.out.println("Total Sales: " + totalSales);
+        System.out.println("\n\t\t\t\t =>Total Items Sold: " + totalItems);
+        System.out.println("\n\t\t\t\t =>Total Sales: " + totalSales);
         return;
     }
 
@@ -101,10 +106,9 @@ public class Admin extends AdminCustomers {
 
         // Increment the itemNumber by 1
         tempitemNumber++;
-        System.out.println(tempitemNumber);
         final int itemNumber = tempitemNumber;
 
-        System.out.println("Enter item name");
+        System.out.print("\n\t\t\t\t =>Enter item name: ");
         final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
@@ -112,9 +116,11 @@ public class Admin extends AdminCustomers {
             return;
         }
 
-        System.out.println("Enter item price");
+        System.out.print("\t\t\t\t =>Enter item price: ");
         final int itemPrice = sc.nextInt();
-        sc.nextLine();
+        sc.nextLine(); // Consume new line character
+
+        // Add item detail to the hashmap
         item = new HashMap<String, Object>() {
             {
                 put("itemNumber", itemNumber);
@@ -122,33 +128,45 @@ public class Admin extends AdminCustomers {
                 put("itemPrice", itemPrice);
             }
         };
+        // Add item to the menu
         menu.add(item);
     }
 
     public void deleteFromMenu() {
+
+        // return if menu doesn't contain items
         if (menu.isEmpty()) {
-            System.out.println("Menu is already empty.");
+            System.out.println("\n\t\t\t\t =>Menu is already empty.");
             return;
         }
-        System.out.print("Enter item number to delete: ");
+        displayMenu();
+        System.out.print("\n\t\t\t\t =>Enter item number to delete: ");
         int itemNumber = sc.nextInt();
+
+        // Loop through the menu items
         for (HashMap<String, Object> menuItem : menu) {
+
+            // if what user chose is in the menu
             if (menuItem.containsValue(itemNumber)) {
+
+                // Then remove it
                 menu.remove(menuItem);
-                System.out.println("Item deleted successfully.");
+                System.out.println("\n\t\t\t\t =>Item deleted successfully.");
                 return;
             }
         }
-        System.out.println("Item not found.");
-        System.out.println("Enter valid number");
+        // if what admin chose isn't in the menu. Prompt with an error message
+        System.out.println("\n\t\t\t\t =>Item not found.");
+        System.out.println("\n\t\t\t\t => Please Enter a valid number again");
         return;
     }
 
     public void displaySalesMenu() {
         if (sales.isEmpty()) {
-            System.out.println("No sales yet");
+            System.out.println("\n\t\t\t\t =>No sales yet");
             return;
         }
+        // *** use FORmatter ***
         System.out.println("Item Number\tItem Name\tItem Price\tItem Quantity");
         for (HashMap<String, Object> salesItem : sales) {
             System.out.println(salesItem.get("itemNumber") + "\t\t"
@@ -158,4 +176,13 @@ public class Admin extends AdminCustomers {
         }
     }
 
+    public void adminMainMenu() {
+        System.out.println("\n\t \t \t \t 1. View total sales");
+        System.out.println("\t \t \t \t 2. Add new items in the order menu");
+        System.out.println("\t \t \t \t 3. Delete items from the order menu");
+        System.out.println("\t \t \t \t 4. Display order menu");
+        System.out.println("\t \t \t \t 5. Display sales menu");
+        System.out.println("\t \t \t \t 6. Go back to main menu");
+        System.out.println("\t \t \t \t 7. Exit");
+    }
 }
