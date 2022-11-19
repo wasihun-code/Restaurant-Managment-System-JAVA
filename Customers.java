@@ -15,13 +15,12 @@ public class Customers extends AdminCustomers {
      */
     public Customers() {
         // OrderMenu should be populated from admins orderMenu
-        orderMenu = createInitialOrderMenu();
         clearScreen();
         System.out.println("\n");
         System.out.println("\t \t\t\t\t Welcome Customer");
         while (true) {
-            System.out.println("\t \t \t \t 1. Place Your Order");
-            System.out.println("\t \t \t \t 2. View Your Ordered Items");
+            System.out.println("\t \t \t \t 1. Place Your Cart");
+            System.out.println("\t \t \t \t 2. View Your Carted Items");
             System.out.println("\t \t \t \t 3. Delete an item from order");
             System.out.println("\t \t \t \t 4. Display final bill");
             try {
@@ -57,13 +56,8 @@ public class Customers extends AdminCustomers {
     }
 
     /**
-     * @param orderMenu
-     * @return void
-     */
-
-    /**
      * @name addToCart
-     * @param orderMenu
+     * @param menu
      * @return void
      */
     public void addToCart() {
@@ -73,18 +67,19 @@ public class Customers extends AdminCustomers {
         int itemNumber = sc.nextInt();
 
         // Check if itemNumber is present in the orderMenu
-        for (HashMap<String, Object> orderItem1 : orderMenu) {
+        for (HashMap<String, Object> menuItem : menu) {
             // if itemnumber is present in the orderMenu
-            if (orderItem1.containsValue(itemNumber)) {
-                for (HashMap<String, Object> customersListItem : customersList) {
-                    if (customersListItem.containsValue(itemNumber)) {
-                        customersListItem.put("itemQuantity", (int) customersListItem.get("itemQuantity") + 1);
+            if (menuItem.containsValue(itemNumber)) {
+                for (HashMap<String, Object> cartItem : cart) {
+                    if (cartItem.containsValue(itemNumber)) {
+                        cartItem.put("itemQuantity", (int) cartItem.get("itemQuantity") + 1);
                         System.out.println("\n\t \t \t \t =>Item quantity increased**\n");
                         return;
                     }
                 }
-                customersList.add(orderItem1);
-                System.out.println("\n\t \t \t \t =>Item added to your order**\n");
+                cart.add(menuItem);
+                sales.add(menuItem);
+                System.out.println("\n\t \t \t \t =>Item added to your Cart**\n");
                 return;
             }
         }
@@ -94,19 +89,19 @@ public class Customers extends AdminCustomers {
 
     /**
      * @name viewCart
-     * @param customersList
+     * @param cart
      * @return void
      */
     public void viewCart() {
-        if (customersList.isEmpty()) {
-            System.out.println("\t \t \t \t =>Your order is empty\n\n");
+        if (cart.isEmpty()) {
+            System.out.println("\t \t \t \t =>Your Cart is empty\n\n");
         } else {
             System.out.println("\t \t \t \t Number \t Food \t Price \t Quantity");
-            for (HashMap<String, Object> orderItem1 : customersList) {
-                System.out.print("\t \t \t \t" + orderItem1.get("itemNumber") + " \t\t");
-                System.out.print(orderItem1.get("itemName") + " \t  ");
-                System.out.print(orderItem1.get("itemPrice") + " \t\t  ");
-                System.out.print(orderItem1.get("itemQuantity") + " \t ");
+            for (HashMap<String, Object> menuItem : cart) {
+                System.out.print("\t \t \t \t" + menuItem.get("itemNumber") + " \t\t");
+                System.out.print(menuItem.get("itemName") + " \t  ");
+                System.out.print(menuItem.get("itemPrice") + " \t\t  ");
+                System.out.print(menuItem.get("itemQuantity") + " \t ");
                 System.out.println();
             }
         }
@@ -114,55 +109,56 @@ public class Customers extends AdminCustomers {
 
     /**
      * @name removeFromCart
-     * @param customersList
+     * @param cart
      * @return void
      */
     public void removeFromCart() {
-        if (customersList.isEmpty()) {
-            System.out.println("\t \t \t \t =>Your order is empty\n\n");
+        if (cart.isEmpty()) {
+            System.out.println("\t \t \t \t =>Your Cart is empty\n\n");
             return;
         }
         sc = new Scanner(System.in);
         System.out.print("\t\t\t\t =>Enter the item Number");
         int itemNumber = sc.nextInt();
 
-        // Loop through the customersList to find the itemNumber
-        for (HashMap<String, Object> orderItem1 : customersList) {
+        // Loop through the cart to find the itemNumber
+        for (HashMap<String, Object> menuItem : cart) {
             // if itemnumber is present in the orderMenu
-            if (orderItem1.containsValue(itemNumber)) {
+            if (menuItem.containsValue(itemNumber)) {
                 // if itemQuantity is more than 1, decrease the quantity by 1
-                if ((int) orderItem1.get("itemQuantity") > 1) {
-                    orderItem1.put("itemQuantity", (int) orderItem1.get("itemQuantity") - 1);
+                if ((int) menuItem.get("itemQuantity") > 1) {
+                    menuItem.put("itemQuantity", (int) menuItem.get("itemQuantity") - 1);
                     System.out.println("\n\t \t \t \t =>Item quantity decreased");
                     return;
                 }
                 // if itemQuantity is 1, remove the item from the list
-                customersList.remove(orderItem1);
-                System.out.println("\n\t \t \t \t =>Item removed from your order");
+                cart.remove(menuItem);
+                sales.remove(menuItem);
+                System.out.println("\n\t \t \t \t =>Item removed from your Cart");
                 return;
             }
         }
-        // If itemNumber is not found in the customersList after looping through it
-        System.out.println("\t \t \t \t =>You choosed an item not listed in Your Order");
-        System.out.println("\t \t \t \t =>Please choose an item listed in Your Order\n\n");
+        // If itemNumber is not found in the cart after looping through it
+        System.out.println("\t \t \t \t =>You choosed an item not listed in Your Cart");
+        System.out.println("\t \t \t \t =>Please choose an item listed in Your Cart\n\n");
         return;
     }
 
     /**
      * @name showSubtotal
-     * @param customersList
+     * @param cart
      * @return void
      */
     public void showSubtotal() {
-        if (customersList.isEmpty()) {
-            System.out.println("\t \t \t \t =>Your order is empty\n\n");
+        if (cart.isEmpty()) {
+            System.out.println("\t \t \t \t =>Your Cart is empty\n\n");
             return;
         }
         int totalBill = 0;
         viewCart();
-        for (HashMap<String, Object> orderItem1 : customersList) {
-            int itemPrice = (int) orderItem1.get("itemPrice");
-            int itemQuantity = (int) orderItem1.get("itemQuantity");
+        for (HashMap<String, Object> menuItem : cart) {
+            int itemPrice = (int) menuItem.get("itemPrice");
+            int itemQuantity = (int) menuItem.get("itemQuantity");
             totalBill += itemPrice * itemQuantity;
         }
         System.out.println("\t \t \t \t =>Total Bill: " + totalBill +"\n\n");
