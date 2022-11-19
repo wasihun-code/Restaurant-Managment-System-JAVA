@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Scanner;
 
 // 1. View total sales
@@ -6,6 +7,7 @@ import java.util.Scanner;
 // 4. Display order menu
 
 public class Admin {
+    LinkedList<String> orderMenu = new LinkedList<String>();
 
     Admin() {
         System.out.println("Welcome Admin");
@@ -56,6 +58,6 @@ public class Admin {
 
     public static void main(String[] args) {
         Admin a = new Admin();
-        
+
     }
 }
