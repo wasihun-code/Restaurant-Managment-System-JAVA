@@ -57,7 +57,6 @@ public class Admin {
     }
 
     public static void main(String[] args) {
-        Admin a = new Admin();
-
+        new Admin();
     }
 }
