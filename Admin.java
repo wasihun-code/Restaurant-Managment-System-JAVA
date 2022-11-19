@@ -6,7 +6,7 @@ import java.util.Scanner;
 // 3. Delete items from the order menu
 // 4. Display order menu
 
-public class Admin {
+public class Admin extends AdminCustomers {
     LinkedList<String> orderMenu = new LinkedList<String>();
 
     Admin() {
@@ -49,10 +49,6 @@ public class Admin {
     }
 
     public void deleteFromMenu() {
-
-    }
-
-    public void displayMenu() {
 
     }
 
