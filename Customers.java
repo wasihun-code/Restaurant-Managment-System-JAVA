@@ -3,11 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-// 1. Place your order
-// 2. View your ordered items
-// 3. Delete an item from order
-// 4. Display final bill
-// 5. Back To Main Menu
 
 public class Customers {
     // An item is represented as a HashMap with itemNumber, itemName, itemPrice,
@@ -48,16 +43,16 @@ public class Customers {
                 clearScreen();
                 switch (choice) {
                     case 1:
-                        placeYourOrder();
+                        addToCart();
                         break;
                     case 2:
-                        viewYourOrderedItems();
+                        viewCart();
                         break;
                     case 3:
-                        deleteAnItemFromOrder();
+                        removeFromCart();
                         break;
                     case 4:
-                        displayFinalBill();
+                        showSubtotal();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -117,12 +112,12 @@ public class Customers {
     }
 
     /**
-     * @name placeYourOrder
+     * @name addToCart
      * @param orderMenu
      * @return void
      */
-    public void placeYourOrder() {
-        displayOrderMenu();
+    public void addToCart() {
+        displayMenu();
         System.out.print("\n\t\t\t\t =>Enter the item Number: ");
         sc = new Scanner(System.in);
         int itemNumber = sc.nextInt();
@@ -148,11 +143,11 @@ public class Customers {
     }
 
     /**
-     * @name viewYourOrderedItems
+     * @name viewCart
      * @param customersList
      * @return void
      */
-    public void viewYourOrderedItems() {
+    public void viewCart() {
         if (customersList.isEmpty()) {
             System.out.println("\t \t \t \t =>Your order is empty\n\n");
         } else {
@@ -168,11 +163,11 @@ public class Customers {
     }
 
     /**
-     * @name deleteAnItemFromOrder
+     * @name removeFromCart
      * @param customersList
      * @return void
      */
-    public void deleteAnItemFromOrder() {
+    public void removeFromCart() {
         if (customersList.isEmpty()) {
             System.out.println("\t \t \t \t =>Your order is empty\n\n");
             return;
@@ -204,17 +199,17 @@ public class Customers {
     }
 
     /**
-     * @name displayFinalBill
+     * @name showSubtotal
      * @param customersList
      * @return void
      */
-    public void displayFinalBill() {
+    public void showSubtotal() {
         if (customersList.isEmpty()) {
             System.out.println("\t \t \t \t =>Your order is empty\n\n");
             return;
         }
         int totalBill = 0;
-        viewYourOrderedItems();
+        viewCart();
         for (HashMap<String, Object> orderItem1 : customersList) {
             int itemPrice = (int) orderItem1.get("itemPrice");
             int itemQuantity = (int) orderItem1.get("itemQuantity");
@@ -223,7 +218,7 @@ public class Customers {
         System.out.println("\t \t \t \t =>Total Bill: " + totalBill +"\n\n");
     }
 
-    public void displayOrderMenu() {
+    public void displayMenu() {
         if (orderMenu.isEmpty()) {
             System.out.println("\t \t \t \t =>Order Menu is empty");
             return;

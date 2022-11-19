@@ -25,13 +25,13 @@ public class Admin {
                 viewTotalSales();
                 break;
             case 2:
-                addnewItemsToMenu();
+                addToMenu();
                 break;
             case 3:
-                deleteItemsToMenu();
+                deleteFromMenu();
                 break;
             case 4:
-                displayOrderMenu();
+                displayMenu();
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -44,15 +44,15 @@ public class Admin {
 
     }
 
-    public void addnewItemsToMenu() {
+    public void addToMenu() {
 
     }
 
-    public void deleteItemsToMenu() {
+    public void deleteFromMenu() {
 
     }
 
-    public void displayOrderMenu() {
+    public void displayMenu() {
 
     }
 
