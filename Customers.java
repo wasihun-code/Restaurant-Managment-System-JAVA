@@ -1,11 +1,6 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 // 1. Place your order
@@ -37,7 +32,8 @@ public class Customers {
     public Customers() {
         // OrderMenu should be populated from admins orderMenu
         orderMenu = createInitialOrderMenu();
-
+        clearScreen();
+        System.out.println("\n");
         System.out.println("\t \t\t\t\t Welcome Customer");
         while (true) {
             System.out.println("\t \t \t \t 1. Place Your Order");
@@ -47,7 +43,7 @@ public class Customers {
             try {
                 // Scanner class to read
                 sc = new Scanner(System.in);
-                System.out.print("\t \t \t \t \t \t Enter your choice: ");
+                System.out.print("\n\t\t\t\t =>Enter your choice: ");
                 int choice = sc.nextInt();
                 clearScreen();
                 switch (choice) {
@@ -68,8 +64,8 @@ public class Customers {
                         break;
                 }
             } catch (Exception ex) {
-                System.out.println("Exception in constructor");
-                continue;
+                System.out.println("\n\n\n\t\t\t\t =>Program Forced to exit. Please Try again");
+                break;
             }
 
         }
@@ -127,7 +123,7 @@ public class Customers {
      */
     public void placeYourOrder() {
         displayOrderMenu();
-        System.out.println("Enter the item Number");
+        System.out.print("\n\t\t\t\t =>Enter the item Number: ");
         sc = new Scanner(System.in);
         int itemNumber = sc.nextInt();
 
@@ -138,17 +134,17 @@ public class Customers {
                 for (HashMap<String, Object> customersListItem : customersList) {
                     if (customersListItem.containsValue(itemNumber)) {
                         customersListItem.put("itemQuantity", (int) customersListItem.get("itemQuantity") + 1);
-                        System.out.println("Item quantity increased");
+                        System.out.println("\n\t \t \t \t =>Item quantity increased**\n");
                         return;
                     }
                 }
                 customersList.add(orderItem1);
-                System.out.println("Item added to your order");
+                System.out.println("\n\t \t \t \t =>Item added to your order**\n");
                 return;
             }
         }
-        System.out.println("You choosed an item not listed in the menu");
-        System.out.println("Please choose an item from the menu");
+        System.out.println("\t \t \t \t =>You choosed an item not listed in the menu");
+        System.out.println("\t \t \t \t =>Please choose an item from the menu");
     }
 
     /**
@@ -158,11 +154,11 @@ public class Customers {
      */
     public void viewYourOrderedItems() {
         if (customersList.isEmpty()) {
-            System.out.println("Your order is empty");
+            System.out.println("\t \t \t \t =>Your order is empty\n\n");
         } else {
             System.out.println("\t \t \t \t Number \t Food \t Price \t Quantity");
             for (HashMap<String, Object> orderItem1 : customersList) {
-                System.out.print("\t \t \t \t\t" + orderItem1.get("itemNumber") + " \t  ");
+                System.out.print("\t \t \t \t" + orderItem1.get("itemNumber") + " \t\t");
                 System.out.print(orderItem1.get("itemName") + " \t  ");
                 System.out.print(orderItem1.get("itemPrice") + " \t\t  ");
                 System.out.print(orderItem1.get("itemQuantity") + " \t ");
@@ -178,30 +174,33 @@ public class Customers {
      */
     public void deleteAnItemFromOrder() {
         if (customersList.isEmpty()) {
-            System.out.println("Your order is empty");
+            System.out.println("\t \t \t \t =>Your order is empty\n\n");
             return;
         }
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the item Number");
+        sc = new Scanner(System.in);
+        System.out.print("\t\t\t\t =>Enter the item Number");
         int itemNumber = sc.nextInt();
-        boolean itemFound = false;
 
         // Loop through the customersList to find the itemNumber
         for (HashMap<String, Object> orderItem1 : customersList) {
             // if itemnumber is present in the orderMenu
             if (orderItem1.containsValue(itemNumber)) {
-                // Remove the item from the customersList
+                // if itemQuantity is more than 1, decrease the quantity by 1
+                if ((int) orderItem1.get("itemQuantity") > 1) {
+                    orderItem1.put("itemQuantity", (int) orderItem1.get("itemQuantity") - 1);
+                    System.out.println("\n\t \t \t \t =>Item quantity decreased");
+                    return;
+                }
+                // if itemQuantity is 1, remove the item from the list
                 customersList.remove(orderItem1);
-                System.out.println("Item removed from your order");
-                break;
+                System.out.println("\n\t \t \t \t =>Item removed from your order");
+                return;
             }
         }
         // If itemNumber is not found in the customersList after looping through it
-        if (!itemFound) {
-            System.out.println("You choosed an item not listed in Your Order");
-            System.out.println("Please choose an item listed in Your Order");
-        }
-        sc.close();
+        System.out.println("\t \t \t \t =>You choosed an item not listed in Your Order");
+        System.out.println("\t \t \t \t =>Please choose an item listed in Your Order\n\n");
+        return;
     }
 
     /**
@@ -211,7 +210,7 @@ public class Customers {
      */
     public void displayFinalBill() {
         if (customersList.isEmpty()) {
-            System.out.println("Your order is empty");
+            System.out.println("\t \t \t \t =>Your order is empty\n\n");
             return;
         }
         int totalBill = 0;
@@ -221,27 +220,26 @@ public class Customers {
             int itemQuantity = (int) orderItem1.get("itemQuantity");
             totalBill += itemPrice * itemQuantity;
         }
-        System.out.println("\t Total Bill: " + totalBill);
+        System.out.println("\t \t \t \t =>Total Bill: " + totalBill +"\n\n");
     }
 
     public void displayOrderMenu() {
         if (orderMenu.isEmpty()) {
-            System.out.println("Order Menu is empty");
+            System.out.println("\t \t \t \t =>Order Menu is empty");
             return;
         }
         System.out.println("\t \t \t \t Number \t Food \t Price");
         for (HashMap<String, Object> orderMenuItem : orderMenu) {
-            System.out.print("\t \t \t \t" + orderMenuItem.get("itemNumber") + " \t  ");
-            System.out.print(orderMenuItem.get("itemName") + " \t  ");
-            System.out.print(orderMenuItem.get("itemPrice") + " \t\t  ");
-            System.out.print(orderMenuItem.get("itemQuantity") + " \t ");
+            System.out.print("\t \t \t \t \t" + orderMenuItem.get("itemNumber") + " \t  ");
+            System.out.print(orderMenuItem.get("itemName") + "\t");
+            System.out.print(orderMenuItem.get("itemPrice"));
             System.out.println();
         }
     }
 
+    // Test this java class
     public static void main(String[] args) {
-        Customers c = new Customers();
-        c.displayOrderMenu();
+        new Customers();
     }
 
     public void clearScreen() {
