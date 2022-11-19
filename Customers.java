@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
 public class Customers extends AdminCustomers {
 
     // Scanner to read user input
@@ -14,7 +13,6 @@ public class Customers extends AdminCustomers {
      * @throws InterruptedException
      */
     public Customers() {
-        // OrderMenu should be populated from admins orderMenu
         clearScreen();
         System.out.println("\n");
         System.out.println("\t \t\t\t\t Welcome Customer");
@@ -22,12 +20,16 @@ public class Customers extends AdminCustomers {
             System.out.println("\t \t \t \t 1. Place Your Cart");
             System.out.println("\t \t \t \t 2. View Your Carted Items");
             System.out.println("\t \t \t \t 3. Delete an item from order");
-            System.out.println("\t \t \t \t 4. Display final bill");
+            System.out.println("\t \t \t \t 4. Display sub total");
+            System.out.println("\t \t \t \t 5. Go back to main menu");
+            System.out.println("\t \t \t \t 6. Exit");
             try {
                 // Scanner class to read
                 sc = new Scanner(System.in);
                 System.out.print("\n\t\t\t\t =>Enter your choice: ");
                 int choice = sc.nextInt();
+                boolean goBackToMainMenu = false;
+
                 clearScreen();
                 switch (choice) {
                     case 1:
@@ -42,9 +44,21 @@ public class Customers extends AdminCustomers {
                     case 4:
                         showSubtotal();
                         break;
+                    case 5:
+                        // Go back to main menu
+                        goBackToMainMenu = true;
+                        return;
+                    case 6:
+                        System.out.println("Thank you for using our service");
+                        System.exit(0);
+                        break;
                     default:
                         System.out.println("Invalid choice");
                         break;
+                }
+                // if user wants to go back to main menu
+                if (goBackToMainMenu) {
+                    break;
                 }
             } catch (Exception ex) {
                 System.out.println("\n\n\n\t\t\t\t =>Program Forced to exit. Please Try again");
@@ -161,9 +175,8 @@ public class Customers extends AdminCustomers {
             int itemQuantity = (int) menuItem.get("itemQuantity");
             totalBill += itemPrice * itemQuantity;
         }
-        System.out.println("\t \t \t \t =>Total Bill: " + totalBill +"\n\n");
+        System.out.println("\t \t \t \t =>Total Bill: " + totalBill + "\n\n");
     }
-
 
     // Test this java class
     public static void main(String[] args) {

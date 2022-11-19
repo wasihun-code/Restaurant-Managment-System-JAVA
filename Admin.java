@@ -12,18 +12,21 @@ public class Admin extends AdminCustomers {
     Admin() {
         System.out.println("Welcome Admin");
 
-        ;
         while (true) {
             System.out.println("1. View total sales");
             System.out.println("2. Add new items in the order menu");
             System.out.println("3. Delete items from the order menu");
             System.out.println("4. Display order menu");
+            System.out.println("5. Display sales menu");
+            System.out.println("6. Go back to main menu");
+            System.out.println("7. Exit");
 
             int adminChoice = sc.nextInt();
+            boolean goBackToMainMenu = false;
             sc.nextLine();
             switch (adminChoice) {
                 case 1:
-                    viewTotalSales();
+                    displayMenu();
                     break;
                 case 2:
                     addToMenu();
@@ -32,11 +35,26 @@ public class Admin extends AdminCustomers {
                     deleteFromMenu();
                     break;
                 case 4:
-                    displayMenu();
+                    viewTotalSales();
+                    break;
+                case 5:
+                    displaySalesMenu();
+                    break;
+                case 6:
+                    // Go back to main menu
+                    goBackToMainMenu = true;
+                    break;
+                case 7:
+                    System.out.println("Thank you for using our service");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Invalid choice");
                     break;
+            }
+            // if user wants to go back to main menu
+            if (goBackToMainMenu) {
+                break;
             }
         }
     }
@@ -126,8 +144,18 @@ public class Admin extends AdminCustomers {
         return;
     }
 
-    // Test admin class
-    public static void main(String[] args) {
-        new Admin();
+    public void displaySalesMenu() {
+        if (sales.isEmpty()) {
+            System.out.println("No sales yet");
+            return;
+        }
+        System.out.println("Item Number\tItem Name\tItem Price\tItem Quantity");
+        for (HashMap<String, Object> salesItem : sales) {
+            System.out.println(salesItem.get("itemNumber") + "\t\t"
+                    + salesItem.get("itemName") + "\t\t"
+                    + salesItem.get("itemPrice"));
+            System.out.println();
+        }
     }
+
 }

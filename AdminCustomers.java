@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class AdminCustomers {
     // An item is represented as a HashMap with itemNumber, \
@@ -17,6 +18,9 @@ public class AdminCustomers {
     // user carts
     ArrayList<HashMap<String, Object>> sales = new ArrayList<HashMap<String, Object>>();
 
+    // Scanner object to take input from the user
+    Scanner sc = new Scanner(System.in);
+    
     // Constructor to initialize the menu
     public AdminCustomers() {
         item = new HashMap<String, Object>() {
@@ -64,8 +68,9 @@ public class AdminCustomers {
             }
         };
         menu.add(item);
-    }
 
+    }
+    
     public void displayMenu() {
         if (menu.isEmpty()) {
             System.out.println("\t \t \t \t =>Order Menu is empty");
@@ -99,5 +104,10 @@ public class AdminCustomers {
             }
         }
         return false;
+    }
+
+    // Test AdminCustomer class
+    public static void main(String[] args) {
+        new AdminCustomers();
     }
 }
