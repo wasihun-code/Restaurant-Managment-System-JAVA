@@ -44,21 +44,32 @@ public class Admin extends AdminCustomers {
     public void viewTotalSales() {
         displayMenu();
 
+        // Return if no user has items in their cart
         if (sales.isEmpty()) {
             System.out.println("No sales yet");
             return;
         }
-        ;
+
         int totalSales = 0;
         int totalItems = 0;
+        // Loop through admin's sales list
         for (HashMap<String, Object> salesItem : sales) {
+
+            // Extract the price of the item
             int itemPrice = (int) salesItem.get("itemPrice");
+
+            // Extract its quantity
             int itemQuantity = (int) salesItem.get("itemPrice");
+
+            // Calculate total sales and increment number of quantity
             totalSales += (itemPrice * itemQuantity);
             totalItems += itemQuantity;
         }
+
+        // Print total items sold and total sales generated
         System.out.println("Total Items Sold: " + totalItems);
         System.out.println("Total Sales: " + totalSales);
+        return;
     }
 
     public void addToMenu() {
@@ -67,45 +78,33 @@ public class Admin extends AdminCustomers {
 
         // Get the last itemNumber from the menu
         for (HashMap<String, Object> menuItem : menu) {
-            int keyNumber = (int) menuItem.get("itemNumber");
-            if (keyNumber > tempitemNumber) {
-                tempitemNumber = (int) menuItem.get("itemNumber");
-            }
+            tempitemNumber = (int) menuItem.get("itemNumber");
         }
 
         // Increment the itemNumber by 1
-        int itemNumber = tempitemNumber + 1;
-        item.put("itemNumber", itemNumber);
+        tempitemNumber++;
+        System.out.println(tempitemNumber);
+        final int itemNumber = tempitemNumber;
 
         System.out.println("Enter item name");
-        String itemName = sc.nextLine();
+        final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
-        for (HashMap<String, Object> menuItem : menu) {
-
-            // Convert the item name to capital case
-            String tempitemName = itemName.substring(0, 1).toUpperCase();
-            tempitemName += itemName.substring(1).toLowerCase();
-            System.out.println(tempitemName);
-            // if item is present in the menu then return
-            if (menuItem.containsValue(tempitemName)) {
-                System.out.println("Item already exists");
-                return;
-            }
+        if (itemExists(itemName)) {
+            return;
         }
-        item.put("itemName", itemName);
 
         System.out.println("Enter item price");
-        int itemPrice = sc.nextInt();
-        sc.nextLine(); // To consume the new line character
-        item.put("itemPrice", itemPrice);
-
-        System.out.println("Enter item quantity");
-        int itemQuantity = sc.nextInt();
-        item.put("itemQuantity", itemQuantity);
-
+        final int itemPrice = sc.nextInt();
+        sc.nextLine();
+        item = new HashMap<String, Object>() {
+            {
+                put("itemNumber", itemNumber);
+                put("itemName", itemName);
+                put("itemPrice", itemPrice);
+            }
+        };
         menu.add(item);
-
     }
 
     public void deleteFromMenu() {
