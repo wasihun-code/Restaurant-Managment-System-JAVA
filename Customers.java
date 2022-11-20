@@ -93,6 +93,7 @@ public class Customers extends AdminCustomers {
                         System.out.println("\n\t \t \t \t =>Item quantity increased**\n");
                         return;
                     }
+                    cartItem.put("itemQuantity", 1);
                 }
                 cart.add(menuItem);
                 sales.add(menuItem);
