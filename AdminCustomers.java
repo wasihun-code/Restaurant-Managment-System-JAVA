@@ -1,3 +1,4 @@
+
 // Import necessary packages
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,16 +13,25 @@ public class AdminCustomers {
     public static HashMap<String, Object> item;
 
     // An order is represented as an ArrayList of items
-    public static ArrayList<HashMap<String, Object>> menu;
+    public static ArrayList<HashMap<String, Object>> menu = new ArrayList<HashMap<String, Object>>();
 
     // A customers cart is represented as an ArrayList of items chosen
-    public static ArrayList<HashMap<String, Object>> cart;
+    public static ArrayList<HashMap<String, Object>> cart = new ArrayList<HashMap<String, Object>>();
 
     // An Admins sales is represented as an ArrayList of items sold
-    public static ArrayList<HashMap<String, Object>> sales;
+    public static ArrayList<HashMap<String, Object>> sales = new ArrayList<HashMap<String, Object>>();
 
     // Scanner object to take input from the user
     Scanner sc = new Scanner(System.in);
+
+    // Colors
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
 
     // Constructor to initialize the menu from a file
     public AdminCustomers() {
@@ -41,7 +51,7 @@ public class AdminCustomers {
                 for (HashMap<String, Object> menuItem : menu) {
 
                     // if the itemNumber is already present
-                    if (menuItem.containsValue(itemNumber)) {;
+                    if (menuItem.containsValue(itemNumber)) {
 
                         // then set duplicateFound to true and break out of the loop
                         duplicateFound = true;
@@ -50,7 +60,7 @@ public class AdminCustomers {
                 }
 
                 // item is already present in the menu so skip adding it to menu again
-                if (duplicateFound){
+                if (duplicateFound) {
 
                     // reset duplicateFound to false
                     duplicateFound = false;
@@ -73,54 +83,6 @@ public class AdminCustomers {
         } catch (IOException e) {
             System.out.println("Error: " + "Menu does not exist.");
         }
-     
-        /*   
-        item = new HashMap<String, Object>() {
-            {
-                put("itemNumber", 1);
-                put("itemName", "Burger");
-                put("itemPrice", 100);
-                put("itemQuantity", 1);
-            }
-        };
-        menu.add(item);
-        item = new HashMap<String, Object>() {
-            {
-                put("itemNumber", 2);
-                put("itemName", "Pizza");
-                put("itemPrice", 200);
-                put("itemQuantity", 1);
-            }
-        };
-        menu.add(item);
-        item = new HashMap<String, Object>() {
-            {
-                put("itemNumber", 3);
-                put("itemName", "Sandwich");
-                put("itemPrice", 50);
-                put("itemQuantity", 1);
-            }
-        };
-        menu.add(item);
-        item = new HashMap<String, Object>() {
-            {
-                put("itemNumber", 4);
-                put("itemName", "Fries");
-                put("itemPrice", 30);
-                put("itemQuantity", 1);
-            }
-        };
-        menu.add(item);
-        item = new HashMap<String, Object>() {
-            {
-                put("itemNumber", 5);
-                put("itemName", "Pasta");
-                put("itemPrice", 150);
-                put("itemQuantity", 1);
-            }
-        };
-        menu.add(item);
-        */
     }
 
     // Method to display the menu in a tabular format
@@ -133,20 +95,31 @@ public class AdminCustomers {
         // Create a table to display the menu
         Formatter f = new Formatter();
 
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s\n" + ANSI_RESET, "",
+        "", "ORDER MENU", "");
+
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s\n" + ANSI_RESET, "",
+        "---------", "-------------", "------------");
         // format the table header
-        f.format("%15s %15s %15s %15s\n", "", "Number",
-                "Item Name", "Item Price", "Item Quantity");
+        f.format(ANSI_PURPLE + "%15s %15s %15s %15s\n" + ANSI_RESET, "", "Number",
+                "Item Name", "Item Price");
 
-        // loop through the menu 
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s\n" + ANSI_RESET, "",
+                "---------", "-------------", "------------");
+        // loop through the menu
         for (HashMap<String, Object> item1 : menu) {
-
             // format the table body
-            f.format("%14s %14s %18s %10s\n", "", item1.get("itemNumber"),
+            f.format(ANSI_CYAN +"%14s %14s %15s %10s\n" + ANSI_RESET, "", item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"));
+            f.format(ANSI_GREEN + "%15s %15s %15s %15s\n" + ANSI_RESET, "",
+                    "---------", "-------------", "------------");
         }
 
         // display the table menu
-        System.out.println(f);
+        // f.format(ANSI_GREEN + "%15s %15s %15s %15s\n" + ANSI_RESET, "",
+        // "-----------------", "-----------------", "------------");
+        System.out.println(ANSI_GREEN + f + ANSI_RESET);
+        f.close();
     }
 
     // Method to check if an item is already present in the menu
@@ -172,7 +145,7 @@ public class AdminCustomers {
     }
 
     // Method to clear the console screen
-    public void clearScreen() {
+    public static void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
