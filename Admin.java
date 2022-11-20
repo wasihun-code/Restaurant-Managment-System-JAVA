@@ -1,11 +1,6 @@
 import java.util.HashMap;
 import java.util.Scanner;
 
-// 1. View total sales
-// 2. Add new items in the order menu
-// 3. Delete items from the order menu
-// 4. Display order menu
-
 public class Admin extends AdminCustomers {
     Scanner sc = new Scanner(System.in);
 
