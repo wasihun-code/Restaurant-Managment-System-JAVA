@@ -1,3 +1,4 @@
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -6,7 +7,7 @@ public class Admin extends AdminCustomers {
 
     Admin() {
         clearScreen();
-        System.out.println("\n \t \t \t \t Welcome Admin");
+        System.out.println(ANSI_CYAN + "\n \t \t \t \t Welcome Admin" + ANSI_RESET);
 
         while (true) {
             adminMainMenu();
@@ -14,13 +15,13 @@ public class Admin extends AdminCustomers {
             boolean goBackToMainMenu = false;
 
             // Validate user input with try-catch
-            try { 
-                System.out.print("\n\t\t\t\t =>Enter your choice: ");
+            try {
+                System.out.print(ANSI_CYAN + "\n\t\t\t\t =>Enter your choice: " + ANSI_RESET);
                 adminChoice = sc.nextInt();
                 sc.nextLine(); // To consume the newline character
             } catch (Exception e) {
                 clearScreen();
-                System.out.println("\n\t\t\t\t =>Invalid input");
+                System.out.println(ANSI_RED + "\n\t\t\t\t =>Invalid input" + ANSI_RESET);
                 sc.nextLine(); // To consume the newline character
                 continue;
             }
@@ -47,11 +48,11 @@ public class Admin extends AdminCustomers {
                     goBackToMainMenu = true;
                     break;
                 case 7:
-                    System.out.println("\n\t\t\t\t =>Thank you for using our service");
+                    System.out.println(ANSI_RED + "\n\t\t\t\t =>Thank you for using our service" + ANSI_RESET);
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("I\n\t\t\t\t =>nvalid choice");
+                    System.out.println(ANSI_RED + "\n\t\t\t\t =>Invalid choice" + ANSI_RESET);
                     break;
             }
             // if user wants to go back to main menu
@@ -64,7 +65,7 @@ public class Admin extends AdminCustomers {
     public void viewTotalSales() {
         // Return if no user has items in their cart
         if (sales.isEmpty()) {
-            System.out.println("\n\t\t\t\t =>No sales yet");
+            System.out.println(ANSI_RED + "\n\t\t\t\t =>No sales yet" + ANSI_RESET);
             return;
         }
 
@@ -85,8 +86,8 @@ public class Admin extends AdminCustomers {
         }
 
         // Print total items sold and total sales generated
-        System.out.println("\n\t\t\t\t =>Total Items Sold: " + totalItems);
-        System.out.println("\n\t\t\t\t =>Total Sales: " + totalSales);
+        System.out.println(ANSI_RED + "\n\t\t\t\t =>Total Items Sold: " + totalItems + ANSI_RESET);
+        System.out.println(ANSI_RED + "\n\t\t\t\t =>Total Sales: " + totalSales + ANSI_RESET);
         return;
     }
 
@@ -103,7 +104,7 @@ public class Admin extends AdminCustomers {
         tempitemNumber++;
         final int itemNumber = tempitemNumber;
 
-        System.out.print("\n\t\t\t\t =>Enter item name: ");
+        System.out.print(ANSI_CYAN + "\n\t\t\t\t =>Enter item name: " + ANSI_RESET);
         final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
@@ -111,7 +112,7 @@ public class Admin extends AdminCustomers {
             return;
         }
 
-        System.out.print("\t\t\t\t =>Enter item price: ");
+        System.out.print(ANSI_CYAN + "\t\t\t\t =>Enter item price: " + ANSI_RESET);
         final int itemPrice = sc.nextInt();
         sc.nextLine(); // Consume new line character
 
@@ -131,11 +132,11 @@ public class Admin extends AdminCustomers {
 
         // return if menu doesn't contain items
         if (menu.isEmpty()) {
-            System.out.println("\n\t\t\t\t =>Menu is already empty.");
+            System.out.println(ANSI_RED + "\n\t\t\t\t =>Menu is already empty." + ANSI_RESET);
             return;
         }
         displayMenu();
-        System.out.print("\n\t\t\t\t =>Enter item number to delete: ");
+        System.out.print(ANSI_CYAN + "\n\t\t\t\t =>Enter item number to delete: " + ANSI_RESET);
         int itemNumber = sc.nextInt();
 
         // Loop through the menu items
@@ -146,38 +147,58 @@ public class Admin extends AdminCustomers {
 
                 // Then remove it
                 menu.remove(menuItem);
-                System.out.println("\n\t\t\t\t =>Item deleted successfully.");
+                System.out.println(ANSI_RED + "\n\t\t\t\t =>Item deleted successfully." + ANSI_RESET);
                 return;
             }
         }
         // if what admin chose isn't in the menu. Prompt with an error message
-        System.out.println("\n\t\t\t\t =>Item not found.");
-        System.out.println("\n\t\t\t\t => Please Enter a valid number again");
+        System.out.println(ANSI_RED + "\n\t\t\t\t =>Item not found." + ANSI_RESET);
+        System.out.println(ANSI_RED + "\n\t\t\t\t => Please Enter a valid number again" + ANSI_RESET);
         return;
     }
 
     public void displaySalesMenu() {
-        if (sales.isEmpty()) {
-            System.out.println("\n\t\t\t\t =>No sales yet");
+        if (menu.isEmpty()) {
+            System.out.println(ANSI_RED + "\t \t \t \t =>Order Menu is empty" + ANSI_RESET);
             return;
         }
-        // *** use FORmatter ***
-        System.out.println("Item Number\tItem Name\tItem Price\tItem Quantity");
-        for (HashMap<String, Object> salesItem : sales) {
-            System.out.println(salesItem.get("itemNumber") + "\t\t"
-                    + salesItem.get("itemName") + "\t\t"
-                    + salesItem.get("itemPrice"));
-            System.out.println();
+
+        // Create a table to display the menu
+        Formatter f = new Formatter();
+
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + ANSI_RESET, "",
+        "", "SALES MENU", "", "");
+
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + ANSI_RESET, "",
+        "---------", "-------------", "------------", "-------------");
+        // format the table header
+        f.format(ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + ANSI_RESET, "", "Number",
+                "Item Sold", "Price Sold", "Quantity Sold");
+
+        f.format(ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + ANSI_RESET, "",
+                "---------", "-------------", "------------", "-------------");
+        // loop through the menu
+        for (HashMap<String, Object> item1 : sales) {
+            // format the table body
+            f.format(ANSI_CYAN +"%14s %14s %15s %10s\n" + ANSI_RESET, "", item1.get("itemNumber"),
+                    item1.get("itemName"), item1.get("itemPrice"), item1.get("itemQuantity"));
+            f.format(ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + ANSI_RESET, "",
+                    "---------", "-------------", "------------", "-------------");
         }
+
+        // display the table menu
+        System.out.println("\n\n");
+        System.out.println(ANSI_GREEN + f + ANSI_RESET);
+        f.close();
     }
 
     public void adminMainMenu() {
-        System.out.println("\n\t \t \t \t 1. View total sales");
-        System.out.println("\t \t \t \t 2. Add new items in the order menu");
-        System.out.println("\t \t \t \t 3. Delete items from the order menu");
-        System.out.println("\t \t \t \t 4. Display order menu");
-        System.out.println("\t \t \t \t 5. Display sales menu");
-        System.out.println("\t \t \t \t 6. Go back to main menu");
-        System.out.println("\t \t \t \t 7. Exit");
+        System.out.println(ANSI_YELLOW + "\n\t \t \t \t 1. View total sales" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "2. Add new items in the order menu" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 3. Delete items from the order menu" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 4. Display order menu" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 5. Display sales menu" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 6. Go back to main menu" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 7. Exit" + ANSI_RESET);
     }
 }
