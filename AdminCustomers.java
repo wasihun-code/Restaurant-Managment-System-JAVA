@@ -7,45 +7,56 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class AdminCustomers {
-    // An item is represented as a HashMap with itemNumber, \
-    // itemName, itemPrice, itemQuantity as keys
-     public static HashMap<String, Object> item;
+    // Item representation {"itemNumber"=1, "itemName"="Burger", "itemPrice"=100}
+    public static HashMap<String, Object> item;
 
-    // An order is represented as an ArrayList of HashMaps(items representation)
-     public static ArrayList<HashMap<String, Object>> menu = new ArrayList<HashMap<String, Object>>();
+    // An order is represented as an ArrayList of items
+    public static ArrayList<HashMap<String, Object>> menu;
 
-    // A customers order is represented as an ArrayList of HashMaps(items) created
-    // from menu
-     public static ArrayList<HashMap<String, Object>> cart = new ArrayList<HashMap<String, Object>>();
+    // A customers cart is represented as an ArrayList of items chosen
+    public static ArrayList<HashMap<String, Object>> cart;
 
-    // An Admins sales is represented as an array of HashMaps(items) created from
-    // user carts
-     public static ArrayList<HashMap<String, Object>> sales = new ArrayList<HashMap<String, Object>>();
+    // An Admins sales is represented as an ArrayList of items sold
+    public static ArrayList<HashMap<String, Object>> sales;
 
     // Scanner object to take input from the user
     Scanner sc = new Scanner(System.in);
 
-    // Constructor to initialize the menu
+    // Constructor to initialize the menu from a file
     public AdminCustomers() {
         try (BufferedReader in = new BufferedReader(new FileReader("ETH.txt"))) {
             String line;
             boolean duplicateFound = false;
+
+            // read the file line by line
             while ((line = in.readLine()) != null) {
+                // split the line into tokens: itemNumber, itemName and itemPrice
                 String[] parts = line.split(",");
 
+                // extract the itemNumber
                 int itemNumber = Integer.parseInt(parts[0]);
+
+                // Check if the itemNumber is already present in the menu
                 for (HashMap<String, Object> menuItem : menu) {
-                    System.out.println("ItemNumber: " +menuItem.get("itemNumber"));
+
+                    // if the itemNumber is already present
                     if (menuItem.containsValue(itemNumber)) {;
-                        System.out.println("Item Already Added");
+
+                        // then set duplicateFound to true and break out of the loop
                         duplicateFound = true;
                         break;
                     }
                 }
+
+                // item is already present in the menu so skip adding it to menu again
                 if (duplicateFound){
+
+                    // reset duplicateFound to false
                     duplicateFound = false;
                     continue;
                 }
+
+                // item is not present in the menu so create its representation
                 item = new HashMap<>() {
                     {
                         put("itemNumber", Integer.parseInt(parts[0]));
@@ -53,11 +64,13 @@ public class AdminCustomers {
                         put("itemPrice", Integer.parseInt(parts[2]));
                     }
                 };
+
+                // then add it to the menu
                 menu.add(item);
             }
             System.out.println(menu);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + "Menu does not exist.");
         }
      
         /*   
@@ -109,23 +122,33 @@ public class AdminCustomers {
         */
     }
 
+    // Method to display the menu in a tabular format
     public void displayMenu() {
         if (menu.isEmpty()) {
             System.out.println("\t \t \t \t =>Order Menu is empty");
             return;
         }
 
+        // Create a table to display the menu
         Formatter f = new Formatter();
+
+        // format the table header
         f.format("%15s %15s %15s %15s\n", "", "Number",
                 "Item Name", "Item Price", "Item Quantity");
 
+        // loop through the menu 
         for (HashMap<String, Object> item1 : menu) {
+
+            // format the table body
             f.format("%14s %14s %18s %10s\n", "", item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"));
         }
+
+        // display the table menu
         System.out.println(f);
     }
 
+    // Method to check if an item is already present in the menu
     public boolean itemExists(String itemName) {
         // if menu have a list of items
         if (!menu.isEmpty()) {
@@ -147,6 +170,7 @@ public class AdminCustomers {
         return false;
     }
 
+    // Method to clear the console screen
     public void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
