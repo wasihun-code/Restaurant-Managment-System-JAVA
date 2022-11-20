@@ -1,0 +1,4 @@
+1,DoroWot,400
+2,Tibs,300
+3,Shiro,150
+4,Kitifo,450
