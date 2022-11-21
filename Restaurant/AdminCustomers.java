@@ -1,18 +1,18 @@
 package Restaurant;
 
-// Import necessary packages
-import java.sql.Connection;
+// Import necessary util packages
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Scanner;
 
 // Import necessary sql packages
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+// Import Utilities module from Commons package
 import Commmons.Utilities;
 
 public class AdminCustomers {
@@ -28,39 +28,52 @@ public class AdminCustomers {
     // An Admins sales is represented as an ArrayList of items sold
     public static ArrayList<HashMap<String, Object>> sales = new ArrayList<HashMap<String, Object>>();
 
-    // Scanner object to take input from the user
-    Scanner sc = new Scanner(System.in);
-
-    /*
-     * MENU SHOULD BE INITIALIZED FROM THE DATABASE NOT FROM A FILE
-     */
+    // LOAD MENU FROM DATABASE
     public AdminCustomers() {
-        // Populate the menu from database table
-        String uname = "root";
-        String password = "RMS.java";
-        String url = "jdbc:mysql://localhost:3306/restaurant";
+
+        // Save database user name and password as constants
+        final String uname = "root";
+        final String password = "RMS.java";
+
+        // Create url to connect to mysql database
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
 
         try {
+            // Connect to the database
             Connection con = DriverManager.getConnection(url, uname, password);
+
+            // Create a statement
             Statement st = con.createStatement();
+
+            // Execute the query and save the result in a ResultSet
             ResultSet rs = st.executeQuery("select * from ethiopians_menu");
 
+            // Loop through the result set
             while (rs.next()) {
-                item = new HashMap<String, Object>(){
+
+                // Create a new HashMap item for each database table row
+                item = new HashMap<String, Object>() {
                     {
                         put("itemNumber", rs.getInt("ID"));
                         put("itemName", rs.getString("Name"));
                         put("itemPrice", rs.getInt("Price"));
                     }
                 };
-                System.out.println("Item Name: " + item.get("itemName"));
+
                 // Check if item already exists in the menu
                 if (!itemExists(item.get("itemName").toString())) {
-                    System.out.println("Item do");
+
+                    // Add the item to the menu if it doesn't exist
                     menu.add(item);
+                } else {
+
+                    // Skip the item if it already exists
+                    continue;
                 }
             }
-            displayMenu();
+            // close the connection
+            con.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(0);
@@ -69,7 +82,11 @@ public class AdminCustomers {
 
     // Method to display the menu in a tabular format
     public void displayMenu() {
+
+        // If menu is empty
         if (menu.isEmpty()) {
+
+            // Display message to admin and return
             System.out.println("\t \t \t \t => Order Menu is empty");
             return;
         }
@@ -77,53 +94,65 @@ public class AdminCustomers {
         // Create a table to display the menu
         Formatter f = new Formatter();
 
+        // Format the table title
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
                 + Utilities.ANSI_RESET, "", "", "ORDER MENU", "");
 
+        // Format the table title separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
                 + Utilities.ANSI_RESET, "", "---------",
                 "-------------", "------------");
-        // format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
-                Utilities.ANSI_RESET, "", "Number", "Item Name", "Item Price");
 
+        // Format the table header
+        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n"
+                + Utilities.ANSI_RESET, "",
+                "Number", "Item Name", "Item Price");
+
+        // Format the table header separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
                 + Utilities.ANSI_RESET, "",
                 "---------", "-------------", "------------");
-        // loop through the menu
+
+        // Traverse through the menu
         for (HashMap<String, Object> item1 : menu) {
-            // format the table body
-            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
+
+            // Format the table rows
+            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s\n"
+                    + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"));
-            f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
+
+            // Format the table row separator
+            f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
+                    + Utilities.ANSI_RESET, "",
                     "---------", "-------------", "------------");
         }
-
-        // display the table menu
-        // f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" +
-        // Utilities.ANSI_RESET, "",
-        // "-----------------", "-----------------", "------------");
+        // Print the formatted table
         System.out.println(Utilities.ANSI_GREEN + f + Utilities.ANSI_RESET);
         f.close();
     }
 
     // Method to check if an item is already present in the menu
     public boolean itemExists(String itemName) {
-        // if menu have a list of items
+
+        // If menu have a list of items
         if (!menu.isEmpty()) {
 
             // Loop through the menu items
             for (HashMap<String, Object> menuItem : menu) {
 
-                // Convert the item name to capital case(to be identical with menu items case)
+                // Convert the item name to upper case for comparison
                 String itemNameUpper = itemName.toUpperCase();
-                // if item is present in the menu then return
+
+                // if the name of the item is already present in the menu
                 if (menuItem.containsValue(itemNameUpper)) {
-                    System.out.println("\n\t\t\t\t => Item already exists");
+
+                    // return true cause the item already exists
                     return true;
                 }
             }
         }
+
+        // Traversed through the menu and didn't find the item so return false
         return false;
     }
 

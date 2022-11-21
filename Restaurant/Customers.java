@@ -1,23 +1,22 @@
 package Restaurant;
-import java.io.IOException;
+
+// Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
+
+// Import utilities module from Commons package
 import Commmons.Utilities;
 public class Customers extends AdminCustomers {
 
     // Scanner to read user input
     Scanner sc = new Scanner(System.in);
 
-    /**
-     * @param args
-     * @throws IOException
-     * @throws InterruptedException
-     */
+
     public Customers() {
         Utilities.clearScreen();
         System.out.println("\n");
-        System.out.println(Utilities.ANSI_CYAN + "\t \t\t\t\t Welcome Customer" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t\t\t\t Welcome Customer" + Utilities.ANSI_RESET);
         while (true) {
             customerMainMenu();
 
@@ -26,12 +25,12 @@ public class Customers extends AdminCustomers {
 
             // Validate user input with try-catch
             try {
-                System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t =>Enter your choice: " + Utilities.ANSI_RESET);
+                System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
                 choice = sc.nextInt();
                 sc.nextLine(); // To consume the newline character
             } catch (Exception e) {
                 Utilities.clearScreen();
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t =>Invalid Input. Please Try again" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input. Please Try again" + Utilities.ANSI_RESET);
                 sc.nextLine(); // To consume the newline character
                 continue;
             }
@@ -55,14 +54,14 @@ public class Customers extends AdminCustomers {
                     goBackToMainMenu = true;
                     return;
                 case 6:
-                    System.out.println("Thank you for using our service");
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
                     break;
             }
-            // if user wants to go back to main menu
+            // If user wants to go back to main menu
             if (goBackToMainMenu) {
                 break;
             }
@@ -70,8 +69,11 @@ public class Customers extends AdminCustomers {
     }
 
     public void addToCart() {
+        // Display menu to user to be able to select items
         displayMenu();
-        System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t =>Enter the item Number: " + Utilities.ANSI_RESET);
+
+        // Get the item number from user
+        System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
         sc = new Scanner(System.in);
         int itemNumber = sc.nextInt();
 
@@ -92,7 +94,7 @@ public class Customers extends AdminCustomers {
 
                             // Just increase the item quantity and return without again adding it to cart
                             cartItem.put("itemQuantity", (int) cartItem.get("itemQuantity") + 1);
-                            System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t =>Item quantity increased**\n" + Utilities.ANSI_RESET);
+                            System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity increased**\n" + Utilities.ANSI_RESET);
                             return;
                         }
                     }
@@ -107,14 +109,14 @@ public class Customers extends AdminCustomers {
                 sales.add(menuItem);
 
                 // Print the item added to cart
-                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t =>Item added to your Cart**\n" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item added to your Cart**\n" + Utilities.ANSI_RESET);
                 return;
             }
         }
         
         // If the item is not found in the menu print the error message
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>You choosed an item not listed in the menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Please choose an item from the menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in the menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Please choose an item from the menu" + Utilities.ANSI_RESET);
     }
 
     public void viewCart() {
@@ -123,7 +125,7 @@ public class Customers extends AdminCustomers {
         if (cart.isEmpty()) {
 
             // Print the error message and return
-            System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Order Menu is empty" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Order Menu is empty" + Utilities.ANSI_RESET);
             return;
         }
 
@@ -170,13 +172,13 @@ public class Customers extends AdminCustomers {
         if (cart.isEmpty()) {
 
             // Print the error message and return
-            System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Your Cart is empty\n\n" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Your Cart is empty\n\n" + Utilities.ANSI_RESET);
             return;
         }
 
         // Read the item number from the user
+        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter the item Number" + Utilities.ANSI_RESET);
         sc = new Scanner(System.in);
-        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t =>Enter the item Number" + Utilities.ANSI_RESET);
         int itemNumber = sc.nextInt();
 
         // Loop through the cart to find the itemNumber
@@ -192,20 +194,20 @@ public class Customers extends AdminCustomers {
                     menuItem.put("itemQuantity", (int) menuItem.get("itemQuantity") - 1);
 
                     // Print the item quantity decreased message
-                    System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t =>Item quantity decreased" + Utilities.ANSI_RESET);
+                    System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity decreased" + Utilities.ANSI_RESET);
                     return;
                 }
                 // if itemQuantity is 1, remove the item from the list
                 cart.remove(menuItem);
                 sales.remove(menuItem);
-                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t =>Item removed from your Cart" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item removed from your Cart" + Utilities.ANSI_RESET);
                 return;
             }
         }
 
         // If itemNumber is not found in the cart after looping through it
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>You choosed an item not listed in Your Cart" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Please choose an item listed in Your Cart\n\n" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in Your Cart" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Please choose an item listed in Your Cart\n\n" + Utilities.ANSI_RESET);
         return;
     }
 
@@ -215,7 +217,7 @@ public class Customers extends AdminCustomers {
         if (cart.isEmpty()) {
 
             // No items in the cart, print the error message and return
-            System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Your Cart is empty\n\n" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Your Cart is empty\n\n" + Utilities.ANSI_RESET);
             return;
         }
 
@@ -236,7 +238,7 @@ public class Customers extends AdminCustomers {
         }
 
         // Print the total bill
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Total Bill: " + totalBill + "\n\n" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Total Bill: " + totalBill + "\n\n" + Utilities.ANSI_RESET);
         return;
     }
 

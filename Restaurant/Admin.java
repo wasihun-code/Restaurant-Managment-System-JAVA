@@ -1,15 +1,22 @@
 package Restaurant;
 
+// Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
+
+// Import utilities module from Commons package
 import Commmons.Utilities;
 
 public class Admin extends AdminCustomers {
+
+    // Scanner object to read user input
     Scanner sc = new Scanner(System.in);
 
     public Admin() {
         Utilities.clearScreen();
+
+        // Display welcome message to admin
         System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t WELCOME ADMIN" + Utilities.ANSI_RESET);
 
         while (true) {
@@ -138,12 +145,18 @@ public class Admin extends AdminCustomers {
 
     public void deleteFromMenu() {
 
-        // return if menu doesn't contain items
+        // if menu doesn't have any items
         if (menu.isEmpty()) {
+
+            // Display message to admin and return
             System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Menu is already empty." + Utilities.ANSI_RESET);
             return;
         }
+
+        // Menu is not empty so display it
         displayMenu();
+
+        // Get item number to delete
         System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
         int itemNumber = sc.nextInt();
 
@@ -155,41 +168,57 @@ public class Admin extends AdminCustomers {
 
                 // Then remove it
                 menu.remove(menuItem);
+
+                // Display success message to admin and return
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
                 return;
             }
         }
-        // if what admin chose isn't in the menu. Prompt with an error message
+
+        // If what admin chose isn't in the menu. Prompt with an error message and return
         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item not found." + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Please Enter a valid number again" + Utilities.ANSI_RESET);
         return;
     }
 
     public void displaySalesMenu() {
+
+        // If no user has items in their cart then sales is empty
         if (sales.isEmpty()) {
+
+            // Display message to admin and return
             System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Sales Menu is empty" + Utilities.ANSI_RESET);
             return;
         }
 
+        // Users have some items in their cart so display the sales menu
         // Create a table to display the menu
         Formatter f = new Formatter();
 
+        // Format the table title
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
         "", "SALES MENU", "", "");
 
+        // Format the table title separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
         "---------", "-------------", "------------", "-------------");
+
         // format the table header
         f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
                 "Item Sold", "Price Sold", "Quantity Sold");
 
+        // Format the table header separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                 "---------", "-------------", "------------", "-------------");
-        // loop through the menu
+
+        // Traverse through the sales menu
         for (HashMap<String, Object> item1 : sales) {
-            // format the table body
+
+            // Format the sales menu rows
             f.format(Utilities.ANSI_CYAN +"%14s %14s %15s %10s %15s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"), item1.get("itemQuantity"));
+
+            // Format the sales menu rows separator
             f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                     "---------", "-------------", "------------", "-------------");
         }
