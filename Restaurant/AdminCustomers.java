@@ -37,7 +37,7 @@ public class AdminCustomers {
     public AdminCustomers() {
         // Populate the menu from database table
         String uname = "root";
-        String password = "3134";
+        String password = "RMS.java";
         String url = "jdbc:mysql://localhost:3306/restaurant";
 
         try {
@@ -53,8 +53,10 @@ public class AdminCustomers {
                         put("itemPrice", rs.getInt("Price"));
                     }
                 };
+                System.out.println("Item Name: " + item.get("itemName"));
                 // Check if item already exists in the menu
                 if (!itemExists(item.get("itemName").toString())) {
+                    System.out.println("Item do");
                     menu.add(item);
                 }
             }
@@ -114,11 +116,9 @@ public class AdminCustomers {
             for (HashMap<String, Object> menuItem : menu) {
 
                 // Convert the item name to capital case(to be identical with menu items case)
-                String capitalCaseName = itemName.substring(0, 1).toUpperCase();
-                capitalCaseName += itemName.substring(1).toLowerCase();
-
+                String itemNameUpper = itemName.toUpperCase();
                 // if item is present in the menu then return
-                if (menuItem.containsValue(capitalCaseName)) {
+                if (menuItem.containsValue(itemNameUpper)) {
                     System.out.println("\n\t\t\t\t => Item already exists");
                     return true;
                 }
