@@ -1,5 +1,6 @@
 package Accounts;
 
+// Import necessary util packages
 import java.util.Formatter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,7 +15,8 @@ import java.sql.Statement;
 import Commmons.Utilities;
 
 public class CreateAccount {
-    Scanner in = new Scanner(System.in);
+
+    // Create strings to save user input
     String UserName, UserId, UserPassword, UserEmail, UserPhone, AccountType;
 
     // receive new account DETAILS
@@ -113,7 +115,7 @@ public class CreateAccount {
             // Format the column names
             f.format("%-15s %-15s %-15s %-15s %-15s %-15s\n", "UserID", "UserName", "UserPhone",
                     "UserEmail", "UserPassword", "AccountType");
-            
+
             // Loop through the result set
             while (rs.next()) {
 
@@ -137,6 +139,9 @@ public class CreateAccount {
         Matcher matcher = null;
         String string;
 
+        // Create scanner object to get user input
+        Scanner in = new Scanner(System.in);
+
         do {
 
             // Clear the screen
@@ -153,17 +158,8 @@ public class CreateAccount {
 
         } while (!(matcher.find())); // Loop until the user input matches the pattern
 
+        in.close();
         return string;
     }
 
-    // Test this class
-    public static void main(String[] args) {
-        // CreateAccount createAccount = new CreateAccount();
-        // createAccount.readAccountDetail();
-        // createAccount.WriteOnDatabase();
-        // createAccount.UserId = "1000";
-        // createAccount.UserPassword = "Wase1234@";
-
-        // createAccount.displayAccountDetail();
-    }
 }

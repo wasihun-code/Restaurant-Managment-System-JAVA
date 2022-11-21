@@ -9,10 +9,11 @@ import java.sql.Statement;
 
 public class LoginToAccount {
 
-    public boolean userIDAuthentication(String UserId) {
-        String uname = "root";
-        String pass = "RMS.java";
-        String url = "jdbc:mysql://localhost:3306/restaurant";
+    public boolean authenticateId(String UserId) {
+        // Create strings to store database user name and password 
+        final String uname = "root";
+        final String pass = "RMS.java";
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
 
         // Connect to the database and check if the user id exists
         try {
@@ -38,10 +39,10 @@ public class LoginToAccount {
         return true;
     }
 
-    public boolean userPasswordAuthentication(String UserId, String UserPassword) {
-        String uname = "root";
-        String pass = "RMS.java";
-        String url = "jdbc:mysql://localhost:3306/restaurant";
+    public boolean authenticatePassword(String UserId, String UserPassword) {
+        final String uname = "root";
+        final String pass = "RMS.java";
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
 
         try {
             Connection con = DriverManager.getConnection(url, uname, pass);
@@ -60,19 +61,11 @@ public class LoginToAccount {
             }
 
         } catch (SQLException e) {
+
             // Display account not found message
             System.out.println("Wrong password");
             return false;
         }
         return true;
-    }
-
-
-
-    // Test this class
-    public static void main(String[] args) {
-        LoginToAccount login = new LoginToAccount();
-        login.userIDAuthentication("1000");
-        login.userPasswordAuthentication("1000", "Wase1234@");
     }
 }
