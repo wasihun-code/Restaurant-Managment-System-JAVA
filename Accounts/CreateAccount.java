@@ -31,7 +31,7 @@ public class CreateAccount {
                     Utilities.ANSI_RESET);
             System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 2. CUSTOMER" +
                     Utilities.ANSI_RESET);
-            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 4. EXIT" +
+            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 3. EXIT" +
                     Utilities.ANSI_RESET);
 
             int choice = 0;
@@ -87,7 +87,7 @@ public class CreateAccount {
                         break;
 
                     // Exit
-                    case 4:
+                    case 3:
                         System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
                                 Utilities.ANSI_RESET);
                         System.exit(1);
@@ -131,9 +131,9 @@ public class CreateAccount {
         String prompt;
         prompt = """
                 First name must be minimum 2 characters long and contain only letters
-                Last name must be minimum 2 characters long and contain only letters
-                There must be a space between the first and last name
-                Enter your name:
+                \t\t\t\t Last name must be minimum 2 characters long and contain only letters
+                \t\t\t\t There must be a space between the first and last name
+                \t\t\t\t Enter your name:
                 """;
 
         // Get verified user name from the user
@@ -148,9 +148,9 @@ public class CreateAccount {
         // Create string prompt to display to the user about password requirements
         prompt = """
                 Minimum 6 characters, Maximum 10 characters
-                At least One uppercase letter, One lowercase letter
-                At least One Digit and One special characteር
-                \t Enter Password:
+                \t\t\t\t At least One uppercase letter, One lowercase letter
+                \t\t\t\t At least One Digit and One special characteር
+                \t\t\t\t Enter Password:
                 """;
         // Get verified user password from the user
         UserPassword = verifyUserInputREGEX(passwordPattern, prompt);
