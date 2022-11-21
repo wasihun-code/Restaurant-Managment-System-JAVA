@@ -29,22 +29,25 @@ public class LoginToAccount {
             // Exit the program if user enters incorrect password
             if (!authenticateId(userid)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
             }
 
             // Get password from user
-            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your password: " + Utilities.ANSI_RESET);
+            System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter your password: " + Utilities.ANSI_RESET);
             password = sc.nextLine();
 
             // Exit the program if user enters incorrect password
             if (!authenticatePassword(userid, password)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
             }
             // Authenticate password
             while (true) {
+
+                // Clear the screen
+                Utilities.clearScreen();
 
                 // Display the main menu
                 loginOptions();
@@ -81,15 +84,8 @@ public class LoginToAccount {
                         new Customer();
                         break;
 
-                    // Go back to main menu
-                    case 3:
-
-                        // Return to main menu
-                        goBackToMainMenu = true;
-                        break;
-
                     // Exit
-                    case 4:
+                    case 3:
 
                         // Display a goodbye message to the user
                         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
@@ -133,7 +129,6 @@ public class LoginToAccount {
 
                 // If the user id exists, return true
                 if (useridstored.equals(UserId)) {
-                    System.out.println("User ID exists");
                     return true;
                 }
             }
@@ -161,7 +156,6 @@ public class LoginToAccount {
 
                 // If the user password exists, return true
                 if (userpasswordstored.equals(UserPassword)) {
-                    System.out.println("Login Successful");
                     return true;
                 }
             }
@@ -180,7 +174,6 @@ public class LoginToAccount {
         System.out.println("\n\n");
         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. ADMIN" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. CUSTOMER" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. MAIN MENU" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Exit" + Utilities.ANSI_RESET);
     }
 }

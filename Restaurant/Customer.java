@@ -76,6 +76,7 @@ public class Customer extends AdminCustomers {
         System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
         sc = new Scanner(System.in);
         int itemNumber = sc.nextInt();
+        sc.nextLine();
 
         // loop through the menu to find the item
         for (HashMap<String, Object> menuItem : menu) {
@@ -180,6 +181,7 @@ public class Customer extends AdminCustomers {
         System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter the item Number" + Utilities.ANSI_RESET);
         sc = new Scanner(System.in);
         int itemNumber = sc.nextInt();
+        sc.nextLine(); // consume the new line
 
         // Loop through the cart to find the itemNumber
         for (HashMap<String, Object> menuItem : cart) {

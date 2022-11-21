@@ -80,7 +80,7 @@ public class Admin extends AdminCustomers {
         }
 
         // First display menu
-        displayMenu();
+        displaySalesMenu();
 
         // Intialize total sales to 0 and total items sold to 0
         int totalSales = 0;
@@ -159,6 +159,7 @@ public class Admin extends AdminCustomers {
         // Get item number to delete
         System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
         int itemNumber = sc.nextInt();
+        sc.nextLine(); // Consume new line character
 
         // Loop through the menu items
         for (HashMap<String, Object> menuItem : menu) {
