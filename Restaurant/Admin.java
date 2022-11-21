@@ -166,8 +166,8 @@ public class Admin extends AdminCustomers {
     }
 
     public void displaySalesMenu() {
-        if (menu.isEmpty()) {
-            System.out.println(Utilities.ANSI_RED + "\t \t \t \t =>Order Menu is empty" + Utilities.ANSI_RESET);
+        if (sales.isEmpty()) {
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Sales Menu is empty" + Utilities.ANSI_RESET);
             return;
         }
 
