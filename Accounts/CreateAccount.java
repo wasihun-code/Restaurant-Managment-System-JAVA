@@ -15,9 +15,101 @@ import java.sql.Statement;
 import Commmons.Utilities;
 
 public class CreateAccount {
+    // Scanner object to read user input
+    static Scanner sc = new Scanner(System.in);
 
     // Create strings to save user input
-    String UserName, UserId, UserPassword, UserEmail, UserPhone, AccountType;
+    static String UserName, UserId, UserPassword, UserEmail, UserPhone, AccountType;
+
+    public CreateAccount() {
+        try (Scanner input = new Scanner(System.in)) {
+
+            // Display create account main menu
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t   => Choose Account Type: "
+                    + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 1. ADMIN" +
+                    Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 2. CUSTOMER" +
+                    Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 4. EXIT" +
+                    Utilities.ANSI_RESET);
+
+            int choice = 0;
+
+            // Loop indefinitely until user chooses to exit
+            while (true) {
+                // Get user choice
+                System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter your choice: " +
+                        Utilities.ANSI_RESET);
+
+                // Validate user input using try-catch
+                try {
+                    choice = input.nextInt();
+                    input.nextLine(); // Consume newline left-over
+                } catch (Exception e) {
+                    System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
+                            Utilities.ANSI_RESET);
+                    System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                            Utilities.ANSI_RESET);
+                    input.nextLine(); // Consume newline left-over
+                    continue;
+                }
+
+                // switch case to choose account type
+                switch (choice) {
+
+                    // Admin Account
+                    case 1:
+                        // Enter Master password to create admin account
+                        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter Master Password: "
+                                + Utilities.ANSI_RESET);
+                        String masterPassword;
+
+                        try {
+                            masterPassword = input.nextLine();
+                            if (masterPassword == "RMC.java") {
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Password" +
+                                        Utilities.ANSI_RESET);
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                                        Utilities.ANSI_RESET);
+                                System.exit(1);
+                            }
+                        } catch (Exception e) {
+                            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                                    Utilities.ANSI_RESET);
+                            System.exit(1);
+                        }
+                        break;
+
+                    // Customer Account
+                    case 2:
+                        AccountType = "U";
+                        break;
+
+                    // Exit
+                    case 4:
+                        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                                Utilities.ANSI_RESET);
+                        System.exit(1);
+
+                    // Invalid choice
+                    default:
+                        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
+                                Utilities.ANSI_RESET);
+                        break;
+                }
+                if (choice == 1 || choice == 2)
+                    break;
+            }
+            readAccountDetail();
+            WriteOnDatabase();
+            displayAccountDetail();
+            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                    Utilities.ANSI_RESET);
+            System.exit(1);
+        }
+
+    }
 
     // receive new account DETAILS
     public void readAccountDetail() {
@@ -65,7 +157,7 @@ public class CreateAccount {
     }
 
     // Write UserId, phone, password, bankaccount to database
-    public boolean WriteOnDatabase() {
+    public static boolean WriteOnDatabase() {
 
         // Create strings for the database connection
         String uname = "root";
@@ -88,7 +180,8 @@ public class CreateAccount {
         } catch (SQLException e) {
 
             // Display account could not be created
-            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account could not be created" + Utilities.ANSI_RESET);
+            System.out.println("Error: " + e.getMessage());
+            System.out.println(Utilities.ANSI_RED + "\t\t\t\t =Account>  could not be created" + Utilities.ANSI_RESET);
             return false;
         }
         return true;
@@ -100,48 +193,28 @@ public class CreateAccount {
         // Create formatter object to format the user account details
         Formatter f = new Formatter();
 
-        try {
-            // Connect to the database
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant",
-                    "root", "RMS.java");
+        // Format the column names
+        f.format("%-15s %-15s %-15s %-15s %-15s %-15s\n", "UserID", "UserName", "UserPhone",
+                "UserEmail", "UserPassword", "AccountType");
 
-            // Create a statement
-            Statement st = con.createStatement();
+        // Loop through the result set
 
-            // Create a result set and execute the statement
-            var rs = st.executeQuery("SELECT * FROM accounts WHERE UserID = '" + UserId
-                    + "' AND UserPassword = '" + UserPassword + "'");
+        // Format the user account details
+        f.format("%-15s %-15s %-15s %-15s %-15s %-15s",
+                CreateAccount.UserId, CreateAccount.UserName, CreateAccount.UserPhone,
+                CreateAccount.UserEmail, CreateAccount.UserPassword, CreateAccount.AccountType);
 
-            // Format the column names
-            f.format("%-15s %-15s %-15s %-15s %-15s %-15s\n", "UserID", "UserName", "UserPhone",
-                    "UserEmail", "UserPassword", "AccountType");
-
-            // Loop through the result set
-            while (rs.next()) {
-
-                // Format the user account details
-                f.format("%-15s %-15s %-15s %-15s %-15s %-15s", rs.getString(1),
-                        rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6));
-
-            }
-            System.out.println(f);
-        } catch (SQLException ex) {
-            // Display error message
-            System.out.println("Error: " + ex.getMessage());
-        }
+        System.out.println(f);
         // Close the formatter
         f.close();
     }
 
     // Use regular expression to match user inputs: phone, name and accountnumber
-    public String verifyUserInputREGEX(Pattern pattern, String prompt) {
+    public static String verifyUserInputREGEX(Pattern pattern, String prompt) {
         Matcher matcher = null;
         String string;
 
         // Create scanner object to get user input
-        Scanner in = new Scanner(System.in);
-
         do {
 
             // Clear the screen
@@ -151,14 +224,13 @@ public class CreateAccount {
             System.out.print(Utilities.ANSI_RED + "\t\t\t\t " + prompt + Utilities.ANSI_RESET);
 
             // Get the user input
-            string = in.nextLine();
+            string = sc.nextLine();
 
             // Create a matcher object to match the user input with the pattern
             matcher = pattern.matcher(string);
 
         } while (!(matcher.find())); // Loop until the user input matches the pattern
 
-        in.close();
         return string;
     }
 
