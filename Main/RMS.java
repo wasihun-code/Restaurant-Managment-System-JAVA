@@ -1,9 +1,10 @@
 package Main;
 
 import java.util.Scanner;
+
+import Accounts.CreateAccount;
+import Accounts.LoginToAccount;
 import Commmons.Utilities;
-import Restaurant.Admin;
-import Restaurant.Customers;
 
 public class RMS {
     public static void main(String[] args) {
@@ -19,9 +20,9 @@ public class RMS {
 
                 // Display the main menu
                 System.out.println("\n\n");
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Admin Login" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Customer Login" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Exit" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. LOGIN" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. CREATE ACCOUNT" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. EXIT" + Utilities.ANSI_RESET);
 
                 // Delare variable to store user choice
                 int choice;
@@ -44,14 +45,14 @@ public class RMS {
                 // Switch case to handle user choice
                 switch (choice) {
 
-                    // Admin Login
+                    // Login
                     case 1:
-                        new Admin();
+                        new LoginToAccount();
                         break;
 
-                    // Customer Login
+                    // Create 
                     case 2:
-                        new Customers();
+                        new CreateAccount();
                         break;
 
                     // Exit
