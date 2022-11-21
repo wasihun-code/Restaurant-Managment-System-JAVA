@@ -4,10 +4,19 @@ package Restaurant;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
+
+// Import necessary sql packages
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import Commmons.Utilities;
 
 public class AdminCustomers {
@@ -30,53 +39,27 @@ public class AdminCustomers {
      * MENU SHOULD BE INITIALIZED FROM THE DATABASE NOT FROM A FILE
      */
     public AdminCustomers() {
-        try (BufferedReader in = new BufferedReader(new FileReader("ETH.txt"))) {
-            String line;
-            boolean duplicateFound = false;
+        // Populate the menu from database table
+        String uname = "root";
+        String password = "3134";
+        String url = "jdbc:mysql://localhost:3306/restaurant";
 
-            // read the file line by line
-            while ((line = in.readLine()) != null) {
-                // split the line into tokens: itemNumber, itemName and itemPrice
-                String[] parts = line.split(",");
+        try {
+            Connection con = DriverManager.getConnection(url, uname, password);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from ethiopians_menu");
 
-                // extract the itemNumber
-                int itemNumber = Integer.parseInt(parts[0]);
-
-                // Check if the itemNumber is already present in the menu
-                for (HashMap<String, Object> menuItem : menu) {
-
-                    // if the itemNumber is already present
-                    if (menuItem.containsValue(itemNumber)) {
-
-                        // then set duplicateFound to true and break out of the loop
-                        duplicateFound = true;
-                        break;
-                    }
-                }
-
-                // item is already present in the menu so skip adding it to menu again
-                if (duplicateFound) {
-
-                    // reset duplicateFound to false
-                    duplicateFound = false;
-                    continue;
-                }
-
-                // item is not present in the menu so create its representation
-                item = new HashMap<>() {
-                    {
-                        put("itemNumber", Integer.parseInt(parts[0]));
-                        put("itemName", parts[1]);
-                        put("itemPrice", Integer.parseInt(parts[2]));
-                    }
-                };
-
-                // then add it to the menu
+            while (rs.next()) {
+                item = new HashMap<String, Object>();
+                item.put("itemNumber", rs.getInt("ID"));
+                item.put("itemName", rs.getString("Name"));
+                item.put("itemPrice", rs.getInt("Price"));
                 menu.add(item);
             }
-            System.out.println(menu);
-        } catch (IOException e) {
-            System.out.println("Error: " + "Menu does not exist.");
+            displayMenu();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(0);
         }
     }
 
