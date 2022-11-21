@@ -1,9 +1,6 @@
 package Restaurant;
 
 // Import necessary packages
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Formatter;
@@ -11,7 +8,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 // Import necessary sql packages
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,11 +46,17 @@ public class AdminCustomers {
             ResultSet rs = st.executeQuery("select * from ethiopians_menu");
 
             while (rs.next()) {
-                item = new HashMap<String, Object>();
-                item.put("itemNumber", rs.getInt("ID"));
-                item.put("itemName", rs.getString("Name"));
-                item.put("itemPrice", rs.getInt("Price"));
-                menu.add(item);
+                item = new HashMap<String, Object>(){
+                    {
+                        put("itemNumber", rs.getInt("ID"));
+                        put("itemName", rs.getString("Name"));
+                        put("itemPrice", rs.getInt("Price"));
+                    }
+                };
+                // Check if item already exists in the menu
+                if (!itemExists(item.get("itemName").toString())) {
+                    menu.add(item);
+                }
             }
             displayMenu();
         } catch (SQLException e) {
