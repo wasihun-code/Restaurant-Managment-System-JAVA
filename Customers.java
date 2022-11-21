@@ -243,10 +243,10 @@ public class Customers extends AdminCustomers {
     public void customerMainMenu() {
 
         // Display customers main menu in yellow color
-        System.out.println(ANSI_YELLOW + "\t \t \t \t 1. Place Your Cart" + ANSI_RESET);
-        System.out.println(ANSI_YELLOW + "\t \t \t \t 2. View Your Carted Items" + ANSI_RESET);
-        System.out.println(ANSI_YELLOW + "\t \t \t \t 3. Delete an item from order" + ANSI_RESET);
-        System.out.println(ANSI_YELLOW + "\t \t \t \t 4. Display sub total" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 1. Add to Cart" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 2. View Cart" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 3. Deleter From Cart" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\t \t \t \t 4. Display Sub total" + ANSI_RESET);
         System.out.println(ANSI_YELLOW + "\t \t \t \t 5. Go back to main menu" + ANSI_RESET);
         System.out.println(ANSI_YELLOW + "\t \t \t \t 6. Exit" + ANSI_RESET);
     }

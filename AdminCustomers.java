@@ -8,7 +8,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class AdminCustomers {
+public class AdminCustomers extends Utilities {
     // Item representation {"itemNumber"=1, "itemName"="Burger", "itemPrice"=100}
     public static HashMap<String, Object> item;
 
@@ -24,14 +24,7 @@ public class AdminCustomers {
     // Scanner object to take input from the user
     Scanner sc = new Scanner(System.in);
 
-    // Colors
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
+
 
     // Constructor to initialize the menu from a file
     public AdminCustomers() {

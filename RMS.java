@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class RMS extends AdminCustomers {
+
+public class RMS extends Utilities{
     public static void main(String[] args) {
-        clearScreen();
+        AdminCustomers.clearScreen();
         try (Scanner sc = new Scanner(System.in)) {
             while (true) {
                 System.out.println("\n\n");
@@ -17,13 +18,13 @@ public class RMS extends AdminCustomers {
                     choice = sc.nextInt();
                     sc.nextLine(); // To consume the newline character
                 } catch (Exception e) {
-                    clearScreen();
+                    AdminCustomers.clearScreen();
                     System.out.println(ANSI_RED + "\n\t\t\t\t =>Invalid Input" + ANSI_RESET);
                     sc.nextLine(); // To consume the newline character
                     continue;
                 }
 
-                clearScreen();
+                AdminCustomers.clearScreen();
                 switch (choice) {
                     case 1:
                         new Admin();
