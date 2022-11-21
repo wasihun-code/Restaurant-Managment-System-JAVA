@@ -10,6 +10,7 @@ import java.sql.Statement;
 // Import necessary packages
 import java.util.Scanner;
 
+// Import project packages
 import Commmons.Utilities;
 import Restaurant.Admin;
 import Restaurant.Customer;
@@ -20,96 +21,101 @@ public class LoginToAccount {
         // Create Strings to store user input
         String userid, password;
 
-        // Create a scanner object to read user input and close it when done
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            // Get username and password from user
+            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your username: " + Utilities.ANSI_RESET);
+            userid = sc.nextLine();
 
-        // Get username and password from user
-        System.out.print("\n\t\t\t\t => Enter your username: ");
-        userid = sc.nextLine();
-
-        // Authenticate user id
-        if (authenticateId(userid)) {
+            // Exit the program if user enters incorrect password
+            if (!authenticateId(userid)) {
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.exit(1);
+            }
 
             // Get password from user
-            System.out.print("\n\t\t\t\t => Enter your password: ");
+            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your password: " + Utilities.ANSI_RESET);
             password = sc.nextLine();
 
+            // Exit the program if user enters incorrect password
+            if (!authenticatePassword(userid, password)) {
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.exit(1);
+            }
             // Authenticate password
-            if (authenticatePassword(userid, password)) {
+            while (true) {
 
-                while (true) {
+                // Display the main menu
+                loginOptions();
 
-                    // Display the main menu
-                    System.out.println("\n\n");
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. ADMIN" + Utilities.ANSI_RESET);
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. CUSTOMER" + Utilities.ANSI_RESET);
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. MAIN MENU" + Utilities.ANSI_RESET);
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Exit" + Utilities.ANSI_RESET);
+                // Delare variable to store user choice
+                int choice;
+                boolean goBackToMainMenu = false;
 
-                    // Delare variable to store user choice
-                    int choice;
-                    boolean goBackToMainMenu = false;
-
-                    // Validate User input using -catch
-                    try {
-                        System.out.print(
-                                Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
-                        choice = sc.nextInt();
-                        sc.nextLine(); // To consume the newline character
-                    } catch (Exception e) {
-                        Utilities.clearScreen();
-                        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input" + Utilities.ANSI_RESET);
-                        sc.nextLine(); // To consume the newline character
-                        continue;
-                    }
-
-                    // Clear the screen everytime user makes a choice
+                // Validate User input using -catch
+                try {
+                    System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
+                    choice = sc.nextInt();
+                    sc.nextLine(); // To consume the newline character
+                } catch (Exception e) {
                     Utilities.clearScreen();
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input" + Utilities.ANSI_RESET);
+                    sc.nextLine(); // To consume the newline character
+                    continue;
+                }
 
-                    // Switch case to handle user choice
-                    switch (choice) {
+                // Clear the screen everytime user makes a choice
+                Utilities.clearScreen();
 
-                        // Login
-                        case 1:
-                            new Admin();
-                            break;
+                // Switch case to handle user choice
+                switch (choice) {
 
-                        // Create
-                        case 2:
-                            new Customer();
-                            break;
+                    // Admin Login
+                    case 1:
+                        new Admin();
+                        break;
 
-                        // Go back to main menu
-                        case 3:
-                            goBackToMainMenu = true;
-                            break;
-
-                        case 4:
-                            // Display a goodbye message to the user
-                            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
-                                    + Utilities.ANSI_RESET);
-                            // Exit the program if user chooses to exit
-                            System.exit(0);
-                            break;
-
-                        // Invalid choice
-                        default:
-                            // Display an error message if user enters a number other than 1, 2 or 3
-                            System.out.println(
-                                    Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
-                            break;
-                    }
+                    // Customer Login
+                    case 2:
+                        new Customer();
+                        break;
 
                     // Go back to main menu
-                    if (goBackToMainMenu) {
+                    case 3:
+
+                        // Return to main menu
+                        goBackToMainMenu = true;
                         break;
-                    }
+
+                    // Exit
+                    case 4:
+
+                        // Display a goodbye message to the user
+                        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
+                                + Utilities.ANSI_RESET);
+                        // Exit the program if user chooses to exit
+                        System.exit(0);
+                        break;
+
+                    // Invalid choice: Display error message and read input again
+                    default:
+
+                        // Display an error message if user enters a number other than 1, 2 or 3
+                        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
+                        break;
+                }
+
+                // Return to main menu
+                if (goBackToMainMenu) {
+                    break;
                 }
             }
         }
     }
 
     public static boolean authenticateId(String UserId) {
+
         // Create strings to store database user name and password
         final String uname = "root";
         final String pass = "RMS.java";
@@ -136,7 +142,7 @@ public class LoginToAccount {
             System.out.println("Account not found");
             return false;
         }
-        return true;
+        return false;
     }
 
     public static boolean authenticatePassword(String UserId, String UserPassword) {
@@ -166,6 +172,15 @@ public class LoginToAccount {
             System.out.println("Wrong password");
             return false;
         }
-        return true;
+        return false;
+    }
+
+    public void loginOptions() {
+        // Display the main menu
+        System.out.println("\n\n");
+        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. ADMIN" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. CUSTOMER" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. MAIN MENU" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Exit" + Utilities.ANSI_RESET);
     }
 }
