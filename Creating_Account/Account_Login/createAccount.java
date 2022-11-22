@@ -1,4 +1,5 @@
 // package CountriesTextFile;
+package Account_Login;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,11 +7,68 @@ import java.io.BufferedWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Commmons.Utilities;
+
 public class createAccount extends loginAbstract {
-    Scanner in = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
+
+    createAccount(){
+        int userChoice;
+        boolean jumpToMain = false;
+        System.out.println("\n\n");
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Create Admin Account" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Create User Account" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Jump to Main Menu" + Utilities.ANSI_RESET);
+        
+        Utilities.clearScreen();
+        // System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t " + Utilities.ANSI_RESET);
+
+        while (true) {
+            
+            try {
+                System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
+                userChoice = sc.nextInt();
+                sc.nextLine(); // To consume the newline character
+            } catch (Exception e) {
+                Utilities.clearScreen();
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid input" + Utilities.ANSI_RESET);
+                sc.nextLine(); // To consume the newline character
+                continue;
+            }
+
+            Utilities.clearScreen();
+            switch (userChoice) {
+                case 1:
+                    receiveAccountDetail();
+                    writeOnFile("Admin.txt");
+                    displayAccountDetail();
+                    break;
+                case 2:
+                    receiveAccountDetail();
+                    writeOnFile("User.txt");
+                    displayAccountDetail();
+                    break;
+                case 3:
+                    jumpToMain= true;
+                    break;
+                case 4:
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
+                    break;
+            }
+            // if user wants to go back to main menu
+            if (jumpToMain) {
+                break;
+            }
+        }
+    }
 
     // receive new account DETAILS
-    public void readAccountDetail() {
+    public void receiveAccountDetail() {
+
 
         // Create the phoneNumber, accountNumber and fullName pattern to match to
         Pattern phoneNumberPattern = Pattern.compile("^[0-9]{2}$");
@@ -75,7 +133,7 @@ public class createAccount extends loginAbstract {
             String string, String prompt) {
         do {
             System.out.print(prompt);
-            string = in.nextLine();
+            string = sc.nextLine();
             matcher = pattern.matcher(string);
         } while (!(matcher.find()));
         return string;
