@@ -1,5 +1,9 @@
 package Restaurant;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
@@ -7,66 +11,73 @@ import java.util.Scanner;
 
 // Import utilities module from Commons package
 import Commmons.Utilities;
+
 public class Customer extends AdminCustomers {
 
     // Scanner to read user input
     Scanner sc = new Scanner(System.in);
 
+    // public Customer() {
+    // Utilities.clearScreen();
+    // System.out.println("\n");
+    // System.out.println(Utilities.ANSI_RED + "\t \t\t\t\t Welcome Customer" +
+    // Utilities.ANSI_RESET);
+    // while (true) {
+    // customerMainMenu();
 
-    public Customer() {
-        Utilities.clearScreen();
-        System.out.println("\n");
-        System.out.println(Utilities.ANSI_RED + "\t \t\t\t\t Welcome Customer" + Utilities.ANSI_RESET);
-        while (true) {
-            customerMainMenu();
+    // int choice;
+    // boolean goBackToMainMenu = false;
 
-            int choice;
-            boolean goBackToMainMenu = false;
+    // // Validate user input with try-catch
+    // try {
+    // System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " +
+    // Utilities.ANSI_RESET);
+    // choice = sc.nextInt();
+    // sc.nextLine(); // To consume the newline character
+    // } catch (Exception e) {
+    // Utilities.clearScreen();
+    // System.out.println(
+    // Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input. Please Try again" +
+    // Utilities.ANSI_RESET);
+    // sc.nextLine(); // To consume the newline character
+    // continue;
+    // }
 
-            // Validate user input with try-catch
-            try {
-                System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
-                choice = sc.nextInt();
-                sc.nextLine(); // To consume the newline character
-            } catch (Exception e) {
-                Utilities.clearScreen();
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input. Please Try again" + Utilities.ANSI_RESET);
-                sc.nextLine(); // To consume the newline character
-                continue;
-            }
-
-            Utilities.clearScreen();
-            switch (choice) {
-                case 1:
-                    addToCart();
-                    break;
-                case 2:
-                    viewCart();
-                    break;
-                case 3:
-                    removeFromCart();
-                    break;
-                case 4:
-                    showSubtotal();
-                    break;
-                case 5:
-                    // Go back to main menu
-                    goBackToMainMenu = true;
-                    return;
-                case 6:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
-                    break;
-            }
-            // If user wants to go back to main menu
-            if (goBackToMainMenu) {
-                break;
-            }
-        }
-    }
+    // Utilities.clearScreen();
+    // switch (choice) {
+    // case 1:
+    // addToCart();
+    // break;
+    // case 2:
+    // viewCart();
+    // break;
+    // case 3:
+    // removeFromCart();
+    // break;
+    // case 4:
+    // showSubtotal();
+    // break;
+    // case 5:
+    // // Go back to main menu
+    // goBackToMainMenu = true;
+    // return;
+    // case 6:
+    // System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using
+    // our service"
+    // + Utilities.ANSI_RESET);
+    // System.exit(0);
+    // break;
+    // default:
+    // System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" +
+    // Utilities.ANSI_RESET);
+    // break;
+    // }
+    // // If user wants to go back to main menu
+    // if (goBackToMainMenu) {
+    // break;
+    // }
+    // }
+    // }
 
     public void addToCart() {
         // Display menu to user to be able to select items
@@ -95,7 +106,8 @@ public class Customer extends AdminCustomers {
 
                             // Just increase the item quantity and return without again adding it to cart
                             cartItem.put("itemQuantity", (int) cartItem.get("itemQuantity") + 1);
-                            System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity increased**\n" + Utilities.ANSI_RESET);
+                            System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity increased**\n"
+                                    + Utilities.ANSI_RESET);
                             return;
                         }
                     }
@@ -109,20 +121,61 @@ public class Customer extends AdminCustomers {
                 // Also add the item to the sales menu as if the user has bought it
                 sales.add(menuItem);
 
+                // Add the item to users cart in the database as well
+                addToCartDatabase(menuItem);
+
                 // Print the item added to cart
-                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item added to your Cart**\n" + Utilities.ANSI_RESET);
+                System.out.println(
+                        Utilities.ANSI_RED + "\n\t \t \t \t => Item added to your Cart**\n" + Utilities.ANSI_RESET);
                 return;
             }
         }
-        
+
         // If the item is not found in the menu print the error message
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in the menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Please choose an item from the menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in the menu"
+                + Utilities.ANSI_RESET);
+        System.out.println(
+                Utilities.ANSI_RED + "\t \t \t \t => Please choose an item from the menu" + Utilities.ANSI_RESET);
+    }
+
+    // Add the item to the users cart in the database as well
+    public void addToCartDatabase(HashMap<String, Object> menuItem) {
+
+        // Create Strings for the database connection
+        String url = "jdbc:mysql://localhost:3306/restaurant";
+        String uname = "root";
+        String pass = "RMS.java";
+
+        // Connect with the database using try-resource
+        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+
+            // Create a statement to execute the query
+            java.sql.Statement stmt = con.createStatement();
+
+            // Create a query to insert the item to the cart
+            String query = "INSERT INTO cart_1009 VALUES(?,?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setInt(1, (int) menuItem.get("itemNumber"));
+            pstmt.setString(2, (String) menuItem.get("itemName"));
+            pstmt.setInt(3, (int) menuItem.get("itemPrice"));
+            pstmt.setInt(4, (int) menuItem.get("itemQuantity"));
+
+            // Execute the query
+            pstmt.executeUpdate();
+
+            // Close the statement
+            stmt.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+
+        }
     }
 
     public void viewCart() {
 
-        // If the cart is empty 
+        // If the cart is empty
         if (cart.isEmpty()) {
 
             // Print the error message and return
@@ -135,11 +188,11 @@ public class Customer extends AdminCustomers {
 
         // Format the table title
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
-        "", "\t CART", "", "");
+                "", "\t CART", "", "");
 
         // Format the table title separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
-        "---------", "-------------", "------------", "-------------");
+                "---------", "-------------", "------------", "-------------");
 
         // Format the table header
         f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
@@ -148,14 +201,15 @@ public class Customer extends AdminCustomers {
         // Format the table header separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                 "---------", "-------------", "------------", "-------------");
-            
+
         // Loop through the users cart
         for (HashMap<String, Object> item1 : cart) {
 
             // Format the table body
-            f.format(Utilities.ANSI_CYAN +"%14s %14s %15s %10s %10s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
+            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s %10s\n" + Utilities.ANSI_RESET, "",
+                    item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"), item1.get("itemQuantity"));
-            
+
             // Format the table body separator
             f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                     "---------", "-------------", "------------", "-------------");
@@ -196,20 +250,24 @@ public class Customer extends AdminCustomers {
                     menuItem.put("itemQuantity", (int) menuItem.get("itemQuantity") - 1);
 
                     // Print the item quantity decreased message
-                    System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity decreased" + Utilities.ANSI_RESET);
+                    System.out.println(
+                            Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity decreased" + Utilities.ANSI_RESET);
                     return;
                 }
                 // if itemQuantity is 1, remove the item from the list
                 cart.remove(menuItem);
                 sales.remove(menuItem);
-                System.out.println(Utilities.ANSI_RED + "\n\t \t \t \t => Item removed from your Cart" + Utilities.ANSI_RESET);
+                System.out.println(
+                        Utilities.ANSI_RED + "\n\t \t \t \t => Item removed from your Cart" + Utilities.ANSI_RESET);
                 return;
             }
         }
 
         // If itemNumber is not found in the cart after looping through it
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in Your Cart" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Please choose an item listed in Your Cart\n\n" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => You choosed an item not listed in Your Cart"
+                + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Please choose an item listed in Your Cart\n\n"
+                + Utilities.ANSI_RESET);
         return;
     }
 
@@ -225,7 +283,6 @@ public class Customer extends AdminCustomers {
 
         // Display the cart for user to see
         viewCart();
-        
 
         int totalBill = 0;
         // Loop through the cart
@@ -240,7 +297,8 @@ public class Customer extends AdminCustomers {
         }
 
         // Print the total bill
-        System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Total Bill: " + totalBill + "\n\n" + Utilities.ANSI_RESET);
+        System.out.println(
+                Utilities.ANSI_RED + "\t \t \t \t => Total Bill: " + totalBill + "\n\n" + Utilities.ANSI_RESET);
         return;
     }
 
@@ -254,5 +312,19 @@ public class Customer extends AdminCustomers {
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 4. Display Sub total" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 5. Go back to main menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 6. Exit" + Utilities.ANSI_RESET);
+    }
+
+    // Test this class only
+    public static void main(String[] args) {
+        Customer customer = new Customer();
+        AdminCustomers.item = new HashMap<>() {
+            {
+                put("itemNumber", 1);
+                put("itemName", "Burger");
+                put("itemPrice", 100);
+                put("itemQuantity", 1);
+            }
+        };
+        customer.addToCartDatabase(item);
     }
 }
