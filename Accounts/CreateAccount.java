@@ -21,7 +21,8 @@ public class CreateAccount {
     static Scanner sc = new Scanner(System.in);
 
     // Create strings to store user details
-    static String UserName, UserPassword, UserEmail, UserPhone, AccountType;
+    static String UserName = "Account", UserPassword = "Password";
+    static String UserEmail = "Email", UserPhone = "1234576890", AccountType = "C";
 
     // Create an int to store user id
     static int UserId;
@@ -119,9 +120,19 @@ public class CreateAccount {
                 if (choice == 1 || choice == 2)
                     break;
             }
-            readAccountDetail();
-            WriteOnDatabase();
-            displayAccountDetail();
+            
+            if (readAccountDetail()) {
+                if (storeAccountOnDB()){
+                    if(createCartOnDB()) {
+                        displayAccountDetail();
+                        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Account Created Successfully" +
+                                Utilities.ANSI_RESET);
+                    }
+                }
+            } else {
+                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account Creation Failed" +
+                        Utilities.ANSI_RESET);
+            }
             System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
                     Utilities.ANSI_RESET);
             System.exit(1);
@@ -130,7 +141,7 @@ public class CreateAccount {
     }
 
     // receive new account DETAILS
-    public void readAccountDetail() {
+    public static boolean readAccountDetail() {
 
         // Create the user name pattern which users have to follow
         Pattern UserNamePattern = Pattern.compile("^[a-zA-Z]{2,10} [a-zA-z]{2,}$");
@@ -154,13 +165,13 @@ public class CreateAccount {
                 \t\t\t\t Enter your name:""";
 
         // Get verified user name from the user
-        UserName = verifyUserInputREGEX(UserNamePattern, prompt);
+        UserName = validateUserInput(UserNamePattern, prompt);
 
         // Get verified user phone number from the user
-        UserPhone = verifyUserInputREGEX(phonePattern, "\t Phone Number(10 digits):");
+        UserPhone = validateUserInput(phonePattern, "\t Phone Number(10 digits):");
 
         // Get verified user email from the user
-        UserEmail = verifyUserInputREGEX(emailPattern, "\t Email:");
+        UserEmail = validateUserInput(emailPattern, "\t Email:");
 
         // Create string prompt to display to the user about password requirements
         prompt = """
@@ -170,21 +181,20 @@ public class CreateAccount {
                 \t\t\t\t Enter Password:""";
 
         // Get verified user password from the user
-        UserPassword = verifyUserInputREGEX(passwordPattern, prompt);
+        UserPassword = validateUserInput(passwordPattern, prompt);
+        return true;
     }
 
     // Write UserId, phone, password, bankaccount to database
-    public static boolean WriteOnDatabase() {
+    public static boolean storeAccountOnDB() {
 
         // Create strings for the database connection
         String uname = "root";
         String pass = "RMS.java";
         String url = "jdbc:mysql://localhost:3306/restaurant";
 
-        try {
-            // Connect to the database
-            Connection con = DriverManager.getConnection(url, uname, pass);
-
+        // Create a connection object
+        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
             // Create a statement
             Statement st = con.createStatement();
 
@@ -202,19 +212,18 @@ public class CreateAccount {
             while (rs.next()) {
                 UserId = rs.getInt("UserId");
             }
-
         } catch (SQLException e) {
-
-            // Display account could not be created
-            System.out.println("Error: " + e.getMessage());
-            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account could not be created" + Utilities.ANSI_RESET);
+            // Catch any SQL exception and print the error and return false
+            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Error: " + e.getMessage() +
+                    Utilities.ANSI_RESET);
             return false;
         }
+
         return true;
     }
 
     // Displaying detail after creating a new account
-    public void displayAccountDetail() {
+    public static void displayAccountDetail() {
 
         // Create formatter object to format the user account details
         Formatter f = new Formatter();
@@ -222,8 +231,6 @@ public class CreateAccount {
         // Format the column names
         f.format("%-8s %-20s %-13s %-25s %-12s\n", "ID", "Name", "Phone",
                 "Email", "Password");
-
-        // Loop through the result set
 
         // Format the user account details
         f.format("%-8s %-20s %-13s %-25s %-12s",
@@ -236,7 +243,7 @@ public class CreateAccount {
     }
 
     // Use regular expression to match user inputs: phone, name and accountnumber
-    public static String verifyUserInputREGEX(Pattern pattern, String prompt) {
+    public static String validateUserInput(Pattern pattern, String prompt) {
         Matcher matcher = null;
         String string;
 
@@ -258,6 +265,35 @@ public class CreateAccount {
         } while (!(matcher.find())); // Loop until the user input matches the pattern
 
         return string;
+    }
+
+    // Create a cart table for the user on the database
+    public static boolean createCartOnDB() {
+
+        // Create strings for the database connection
+        String uname = "root";
+        String password = "RMS.java";
+        String url = "jdbc:mysql://localhost:3306/restaurant";
+
+        try (Connection con = DriverManager.getConnection(url, uname, password)) {
+            // Create a statement
+            Statement st = con.createStatement();
+
+            // Create a cart table for the user
+            st.executeUpdate("CREATE TABLE cart_" + UserId
+                    + " (itemNumber INT(4), itemName VARCHAR(10), itemPrice INT(4), itemQuantity INT(2))");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        CreateAccount.readAccountDetail();
+        CreateAccount.storeAccountOnDB();
+        CreateAccount.createCartOnDB();
+        CreateAccount.displayAccountDetail();
     }
 
 }
