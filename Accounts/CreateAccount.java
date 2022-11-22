@@ -16,12 +16,14 @@ import java.sql.Statement;
 import Commmons.Utilities;
 
 public class CreateAccount {
+
     // Scanner object to read user input
     static Scanner sc = new Scanner(System.in);
 
-    // Create strings to save user input
+    // Create strings to store user details
     static String UserName, UserPassword, UserEmail, UserPhone, AccountType;
 
+    // Create an int to store user id
     static int UserId;
 
     public CreateAccount() {
@@ -58,26 +60,38 @@ public class CreateAccount {
                     continue;
                 }
 
+                // Clear the screen
+                Utilities.clearScreen();
+
                 // switch case to choose account type
                 switch (choice) {
 
                     // Admin Account
                     case 1:
-                        // Enter Master password to create admin account
+
+                        // Prompt user to enter master password
                         System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter Master Password: "
                                 + Utilities.ANSI_RESET);
+
+                        // Store master password in a string
                         String masterPassword;
 
                         try {
+
+                            // Get master password from user
                             masterPassword = input.nextLine();
-                            if (masterPassword == "RMC.java") {
+
+                            // Check if master password is correct
+                            if (!(masterPassword == "RMC.java")) {
+
+                                // If Incorrect, throw an exception and exit
                                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Password" +
                                         Utilities.ANSI_RESET);
-                                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
-                                        Utilities.ANSI_RESET);
-                                System.exit(1);
+                                throw new Exception();
                             }
                         } catch (Exception e) {
+
+                            // Catch the exception and exit
                             System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
                                     Utilities.ANSI_RESET);
                             System.exit(1);
@@ -87,7 +101,7 @@ public class CreateAccount {
 
                     // Customer Account
                     case 2:
-                        AccountType = "U";
+                        AccountType = "C";
                         break;
 
                     // Exit
