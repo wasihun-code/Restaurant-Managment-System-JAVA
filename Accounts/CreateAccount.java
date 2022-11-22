@@ -19,10 +19,10 @@ public class CreateAccount {
 
     // Scanner object to read user input
     static Scanner sc = new Scanner(System.in);
-
+    
     // Create strings to store user details
-    static String UserName = "Account", UserPassword = "Password";
-    static String UserEmail = "Email", UserPhone = "1234576890", AccountType = "C";
+    static String UserName = "1000", UserPassword = "13";
+    static String UserEmail = "me@gmail.com", UserPhone = "1234576890", AccountType = "C";
 
     // Create an int to store user id
     static int UserId;
@@ -31,16 +31,7 @@ public class CreateAccount {
         try (Scanner input = new Scanner(System.in)) {
 
             // Display create account main menu
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t   => Choose Account Type: "
-                    + Utilities.ANSI_RESET);
-            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 1. ADMIN" +
-                    Utilities.ANSI_RESET);
-            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 2. CUSTOMER" +
-                    Utilities.ANSI_RESET);
-            System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 3. EXIT" +
-                    Utilities.ANSI_RESET);
-
-            int choice = 0;
+            createAccountMainMenu();
 
             // Loop indefinitely until user chooses to exit
             while (true) {
@@ -48,18 +39,11 @@ public class CreateAccount {
                 System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter your choice: " +
                         Utilities.ANSI_RESET);
 
-                // Validate user input using try-catch
-                try {
-                    choice = input.nextInt();
-                    input.nextLine(); // Consume newline left-over
-                } catch (Exception e) {
-                    System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
-                            Utilities.ANSI_RESET);
-                    System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
-                            Utilities.ANSI_RESET);
-                    input.nextLine(); // Consume newline left-over
+                int choice = Utilities.validateUserInputTryCatch();
+
+                // User has chosen to input something other than an integer so ask them again
+                if (choice == -1234)
                     continue;
-                }
 
                 // Clear the screen
                 Utilities.clearScreen();
@@ -120,19 +104,35 @@ public class CreateAccount {
                 if (choice == 1 || choice == 2)
                     break;
             }
-            
+
+            // If account detail is valid
             if (readAccountDetail()) {
-                if (storeAccountOnDB()){
-                    if(createCartOnDB()) {
+
+                // If account is created on the database successfully
+                if (storeAccountOnDB()) {
+
+                    // If cart is created on the database successfully
+                    if (createCartOnDB()) {
+
+                        // Display the account details
                         displayAccountDetail();
+
+                        // Display success message and exit
                         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Account Created Successfully" +
                                 Utilities.ANSI_RESET);
                     }
                 }
-            } else {
+            }
+
+            // If account is not created successfully
+            else {
+
+                // Display error message and exit
                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account Creation Failed" +
                         Utilities.ANSI_RESET);
             }
+
+            // But whatever happens, exit
             System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
                     Utilities.ANSI_RESET);
             System.exit(1);
@@ -289,11 +289,16 @@ public class CreateAccount {
         return true;
     }
 
-    public static void main(String[] args) {
-        CreateAccount.readAccountDetail();
-        CreateAccount.storeAccountOnDB();
-        CreateAccount.createCartOnDB();
-        CreateAccount.displayAccountDetail();
+    // Display the create account menu
+    public static void createAccountMainMenu() {
+        System.out.println(Utilities.ANSI_RED + "\n\t\t\t   => Choose Account Type: "
+                + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 1. ADMIN" +
+                Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 2. CUSTOMER" +
+                Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 3. EXIT" +
+                Utilities.ANSI_RESET);
     }
 
 }

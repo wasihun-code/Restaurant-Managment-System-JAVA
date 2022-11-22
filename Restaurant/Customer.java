@@ -28,21 +28,13 @@ public class Customer extends AdminCustomers {
         while (true) {
             customerMainMenu();
 
-            int choice;
+            // Store user choice of going back to main menu
             boolean goBackToMainMenu = false;
 
             // Validate user input with try-catch
-            try {
-                System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " +
-                        Utilities.ANSI_RESET);
-                choice = sc.nextInt();
-                sc.nextLine(); // To consume the newline character
-            } catch (Exception e) {
-                Utilities.clearScreen();
-                System.out.println(
-                        Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input. Please Try again" +
-                                Utilities.ANSI_RESET);
-                sc.nextLine(); // To consume the newline character
+            int choice = Utilities.validateUserInputTryCatch();
+
+            if (choice == -1234) {
                 continue;
             }
 
@@ -113,7 +105,7 @@ public class Customer extends AdminCustomers {
                             // Add the item to users cart in the database as well
                             // This function will also increment the quantity if the item is already in the
                             // cart
-                            addToCartDatabase(menuItem, true);
+                            dbAddToCart(menuItem, true);
                             return;
                         }
                     }
@@ -125,7 +117,7 @@ public class Customer extends AdminCustomers {
                 cart.add(menuItem);
 
                 // Add the item to users cart in the database as well
-                addToCartDatabase(menuItem, false);
+                dbAddToCart(menuItem, false);
 
                 // Also add the item to the sales menu as if the user has bought it
                 sales.add(menuItem);
@@ -145,7 +137,7 @@ public class Customer extends AdminCustomers {
     }
 
     // Add the item to the users cart in the database as well
-    public void addToCartDatabase(HashMap<String, Object> menuItem, boolean itemExists) {
+    public void dbAddToCart(HashMap<String, Object> menuItem, boolean itemExists) {
 
         // Create Strings for the database connection
         String url = "jdbc:mysql://localhost:3306/restaurant";
@@ -156,7 +148,6 @@ public class Customer extends AdminCustomers {
         try (Connection con = DriverManager.getConnection(url, uname, pass)) {
 
             // Create a statement to execute the query
-
 
             if (itemExists) {
                 // Store table name of users cart
@@ -295,6 +286,11 @@ public class Customer extends AdminCustomers {
         return;
     }
 
+    // Remove item from the database as well
+    public void dbremoveFromCart() {
+
+    }
+
     public void showSubtotal() {
 
         // if the cart is empty
@@ -338,18 +334,20 @@ public class Customer extends AdminCustomers {
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 6. Exit" + Utilities.ANSI_RESET);
     }
 
- /*    // Test this class only
-    public static void main(String[] args) {
-        Customer customer = new Customer();
-        AdminCustomers.item = new HashMap<>() {
-            {
-                put("itemNumber", 1);
-                put("itemName", "DOROWOT");
-                put("itemPrice", 250);
-                put("itemQuantity", 1);
-            }
-        };
-        customer.addToCartDatabase(item, true);
-    }
- */
+   
+    /*
+     * // Test this class only
+     * public static void main(String[] args) {
+     * Customer customer = new Customer();
+     * AdminCustomers.item = new HashMap<>() {
+     * {
+     * put("itemNumber", 1);
+     * put("itemName", "DOROWOT");
+     * put("itemPrice", 250);
+     * put("itemQuantity", 1);
+     * }
+     * };
+     * customer.addToCartDatabase(item, true);
+     * }
+     */
 }

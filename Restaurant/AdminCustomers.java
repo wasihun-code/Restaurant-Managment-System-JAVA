@@ -31,53 +31,14 @@ public class AdminCustomers {
     // LOAD MENU FROM DATABASE
     public AdminCustomers() {
 
-        // Save database user name and password as constants
-        final String uname = "root";
-        final String password = "RMS.java";
+        // Load the menu from the database when user logs in
+        dbLoadMenu();
+        
+        // Load the sales from the database when user logs in
+        dbLoadSales();
 
-        // Create url to connect to mysql database
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
-
-        try {
-            // Connect to the database
-            Connection con = DriverManager.getConnection(url, uname, password);
-
-            // Create a statement
-            Statement st = con.createStatement();
-
-            // Execute the query and save the result in a ResultSet
-            ResultSet rs = st.executeQuery("select * from ethiopians_menu");
-
-            // Loop through the result set
-            while (rs.next()) {
-
-                // Create a new HashMap item for each database table row
-                item = new HashMap<String, Object>() {
-                    {
-                        put("itemNumber", rs.getInt("ID"));
-                        put("itemName", rs.getString("Name"));
-                        put("itemPrice", rs.getInt("Price"));
-                    }
-                };
-
-                // Check if item already exists in the menu
-                if (!itemExists(item.get("itemName").toString())) {
-
-                    // Add the item to the menu if it doesn't exist
-                    menu.add(item);
-                } else {
-
-                    // Skip the item if it already exists
-                    continue;
-                }
-            }
-            // close the connection
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+        // Load the cart from the database when user logs in
+        dbLoadCart();
     }
 
     // Method to display the menu in a tabular format
@@ -154,6 +115,67 @@ public class AdminCustomers {
 
         // Traversed through the menu and didn't find the item so return false
         return false;
+    }
+
+    // Method to load the menu from the database
+    public void dbLoadMenu() {
+        // Save database user name and password as constants
+        final String uname = "root";
+        final String password = "RMS.java";
+
+        // Create url to connect to mysql database
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
+
+        try {
+            // Connect to the database
+            Connection con = DriverManager.getConnection(url, uname, password);
+
+            // Create a statement
+            Statement st = con.createStatement();
+
+            // Execute the query and save the result in a ResultSet
+            ResultSet rs = st.executeQuery("select * from ethiopians_menu");
+
+            // Loop through the result set
+            while (rs.next()) {
+
+                // Create a new HashMap item for each database table row
+                item = new HashMap<String, Object>() {
+                    {
+                        put("itemNumber", rs.getInt("ID"));
+                        put("itemName", rs.getString("Name"));
+                        put("itemPrice", rs.getInt("Price"));
+                    }
+                };
+
+                // Check if item already exists in the menu
+                if (!itemExists(item.get("itemName").toString())) {
+
+                    // Add the item to the menu if it doesn't exist
+                    menu.add(item);
+                } else {
+
+                    // Skip the item if it already exists
+                    continue;
+                }
+            }
+            // close the connection
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    // Method to load the sales from the database
+    public void dbLoadSales() {
+
+    }
+
+    // Method to load the cart from the database
+    public void dbLoadCart() {
+
     }
 
 }

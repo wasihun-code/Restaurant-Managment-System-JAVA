@@ -24,18 +24,10 @@ public class RMS {
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. CREATE ACCOUNT" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. EXIT" + Utilities.ANSI_RESET);
 
-                // Delare variable to store user choice
-                int choice;
-
                 // Validate User input using -catch
-                try {
-                    System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
-                    choice = sc.nextInt();
-                    sc.nextLine(); // To consume the newline character
-                } catch (Exception e) {
-                    Utilities.clearScreen();
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Input" + Utilities.ANSI_RESET);
-                    sc.nextLine(); // To consume the newline character
+                int choice = Utilities.validateUserInputTryCatch();
+
+                if (choice == -1234) {
                     continue;
                 }
 
