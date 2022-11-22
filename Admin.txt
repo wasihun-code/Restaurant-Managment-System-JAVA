@@ -1,0 +1,12 @@
+
+ID: 1001
+Password: Pass123@
+Full Name: Miki Get
+Phone Number: 12345
+Bank Account: 12345
+
+ID: 1001
+Password: Mkmki12@
+Full Name: miki Geta
+Phone Number: 12341
+Bank Account: 14343

@@ -8,19 +8,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import Commmons.Utilities;
+import Restaurant.Admin;
+import Restaurant.Customers;
 
 public class createAccount extends loginAbstract {
     Scanner sc = new Scanner(System.in);
 
-    createAccount(){
+    public createAccount(){
+        //To accept user details while creating a new account we use constractor method
+
         int userChoice;
         boolean jumpToMain = false;
+       
         System.out.println("\n\n");
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Create Admin Account" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Create User Account" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Jump to Main Menu" + Utilities.ANSI_RESET);
         
-        Utilities.clearScreen();
+        
         // System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t " + Utilities.ANSI_RESET);
 
         while (true) {
@@ -42,11 +47,13 @@ public class createAccount extends loginAbstract {
                     receiveAccountDetail();
                     writeOnFile("Admin.txt");
                     displayAccountDetail();
+                    new Admin();
                     break;
                 case 2:
                     receiveAccountDetail();
                     writeOnFile("User.txt");
                     displayAccountDetail();
+                    new Customers();
                     break;
                 case 3:
                     jumpToMain= true;
@@ -71,8 +78,8 @@ public class createAccount extends loginAbstract {
 
 
         // Create the phoneNumber, accountNumber and fullName pattern to match to
-        Pattern phoneNumberPattern = Pattern.compile("^[0-9]{2}$");
-        Pattern accountNumberPattern = Pattern.compile("^[0-9]{2}$");
+        Pattern phoneNumberPattern = Pattern.compile("^[0-9]{5}$");
+        Pattern accountNumberPattern = Pattern.compile("^[0-9]{5}$");
         Pattern fullNamePattern = Pattern.compile("^[a-zA-Z]{2,10} [a-zA-z]{2,10}$");
         Pattern passwordPattern = Pattern.compile(
                 "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,8}$");
