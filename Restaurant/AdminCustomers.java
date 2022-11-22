@@ -33,12 +33,6 @@ public class AdminCustomers {
 
         // Load the menu from the database when user logs in
         dbLoadMenu();
-        
-        // Load the sales from the database when user logs in
-        dbLoadSales();
-
-        // Load the cart from the database when user logs in
-        dbLoadCart();
     }
 
     // Method to display the menu in a tabular format
@@ -167,15 +161,4 @@ public class AdminCustomers {
             System.exit(0);
         }
     }
-
-    // Method to load the sales from the database
-    public void dbLoadSales() {
-
-    }
-
-    // Method to load the cart from the database
-    public void dbLoadCart() {
-
-    }
-
 }
