@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 // Import necessary sql pacages
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,7 +20,9 @@ public class CreateAccount {
     static Scanner sc = new Scanner(System.in);
 
     // Create strings to save user input
-    static String UserName, UserId, UserPassword, UserEmail, UserPhone, AccountType;
+    static String UserName, UserPassword, UserEmail, UserPhone, AccountType;
+
+    static int UserId;
 
     public CreateAccount() {
         try (Scanner input = new Scanner(System.in)) {
@@ -79,6 +82,7 @@ public class CreateAccount {
                                     Utilities.ANSI_RESET);
                             System.exit(1);
                         }
+                        AccountType = "A";
                         break;
 
                     // Customer Account
@@ -92,7 +96,7 @@ public class CreateAccount {
                                 Utilities.ANSI_RESET);
                         System.exit(1);
 
-                    // Invalid choice
+                        // Invalid choice
                     default:
                         System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
                                 Utilities.ANSI_RESET);
@@ -133,25 +137,24 @@ public class CreateAccount {
                 First name must be minimum 2 characters long and contain only letters
                 \t\t\t\t Last name must be minimum 2 characters long and contain only letters
                 \t\t\t\t There must be a space between the first and last name
-                \t\t\t\t Enter your name:
-                """;
+                \t\t\t\t Enter your name:""";
 
         // Get verified user name from the user
         UserName = verifyUserInputREGEX(UserNamePattern, prompt);
 
         // Get verified user phone number from the user
-        UserPhone = verifyUserInputREGEX(phonePattern, "\t Phone Number(10 digits): ");
+        UserPhone = verifyUserInputREGEX(phonePattern, "\t Phone Number(10 digits):");
 
         // Get verified user email from the user
-        UserEmail = verifyUserInputREGEX(emailPattern, "\t Email: ");
+        UserEmail = verifyUserInputREGEX(emailPattern, "\t Email:");
 
         // Create string prompt to display to the user about password requirements
         prompt = """
                 Minimum 6 characters, Maximum 10 characters
                 \t\t\t\t At least One uppercase letter, One lowercase letter
                 \t\t\t\t At least One Digit and One special characteር
-                \t\t\t\t Enter Password:
-                """;
+                \t\t\t\t Enter Password:""";
+
         // Get verified user password from the user
         UserPassword = verifyUserInputREGEX(passwordPattern, prompt);
     }
@@ -177,11 +180,20 @@ public class CreateAccount {
                             + UserName + "', '" + UserPhone + "', '" + UserEmail + "', '"
                             + UserPassword + "', '" + AccountType + "')");
 
+            // Extract user id from the database where user email and password match
+            ResultSet rs = st.executeQuery("SELECT UserId FROM accounts WHERE UserEmail = '"
+                    + UserEmail + "' AND UserPassword = '" + UserPassword + "'");
+
+            // Get the user id
+            while (rs.next()) {
+                UserId = rs.getInt("UserId");
+            }
+
         } catch (SQLException e) {
 
             // Display account could not be created
             System.out.println("Error: " + e.getMessage());
-            System.out.println(Utilities.ANSI_RED + "\t\t\t\t =Account>  could not be created" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account could not be created" + Utilities.ANSI_RESET);
             return false;
         }
         return true;
@@ -194,15 +206,15 @@ public class CreateAccount {
         Formatter f = new Formatter();
 
         // Format the column names
-        f.format("%-15s %-15s %-15s %-15s %-15s %-15s\n", "UserID", "UserName", "UserPhone",
-                "UserEmail", "UserPassword", "AccountType");
+        f.format("%-8s %-20s %-13s %-25s %-12s\n", "ID", "Name", "Phone",
+                "Email", "Password");
 
         // Loop through the result set
 
         // Format the user account details
-        f.format("%-15s %-15s %-15s %-15s %-15s %-15s",
+        f.format("%-8s %-20s %-13s %-25s %-12s",
                 CreateAccount.UserId, CreateAccount.UserName, CreateAccount.UserPhone,
-                CreateAccount.UserEmail, CreateAccount.UserPassword, CreateAccount.AccountType);
+                CreateAccount.UserEmail, CreateAccount.UserPassword);
 
         System.out.println(f);
         // Close the formatter
@@ -221,7 +233,7 @@ public class CreateAccount {
             Utilities.clearScreen();
 
             // Display the prompt
-            System.out.print(Utilities.ANSI_RED + "\t\t\t\t " + prompt + Utilities.ANSI_RESET);
+            System.out.print(Utilities.ANSI_PURPLE + "\t\t\t\t " + prompt + " " + Utilities.ANSI_RESET);
 
             // Get the user input
             string = sc.nextLine();
