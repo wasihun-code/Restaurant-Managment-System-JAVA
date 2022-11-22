@@ -16,18 +16,19 @@ import Restaurant.Admin;
 import Restaurant.Customer;
 
 public class LoginToAccount {
+    public static String UserId;
 
     public LoginToAccount() {
         // Create Strings to store user input
-        String userid, password;
+          String password;
 
         try (Scanner sc = new Scanner(System.in)) {
             // Get username and password from user
             System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your username: " + Utilities.ANSI_RESET);
-            userid = sc.nextLine();
+            UserId = sc.nextLine();
 
             // Exit the program if user enters incorrect password
-            if (!authenticateId(userid)) {
+            if (!authenticateId(UserId)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
@@ -38,7 +39,7 @@ public class LoginToAccount {
             password = sc.nextLine();
 
             // Exit the program if user enters incorrect password
-            if (!authenticatePassword(userid, password)) {
+            if (!authenticatePassword(UserId, password)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);

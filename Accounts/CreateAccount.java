@@ -185,7 +185,7 @@ public class CreateAccount {
         return true;
     }
 
-    // Write UserId, phone, password, bankaccount to database
+    // Write UserId, phone, password, bankaccount to database table: account
     public static boolean storeAccountOnDB() {
 
         // Create strings for the database connection
