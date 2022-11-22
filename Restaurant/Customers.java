@@ -97,6 +97,14 @@ public class Customers extends AdminCustomers {
                         }
                     }
                 }
+
+                /* 
+                        WE SHOULD ALSO INCREASE THE QUANTITY IN SALES MENU
+                        yEAH, I KNOW, I SHOULD HAVE DONE IT IN A BETTER WAY
+                        BUT I'M LAZY AF AND I'M NOT GONNA DO IT AGAIN :P
+                        sO I should add boolean and for loop for that. and add to cart.
+
+                */
                 // If the item is not in the users cart make the quantity 1
                 menuItem.put("itemQuantity", 1);
 
