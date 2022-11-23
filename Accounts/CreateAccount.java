@@ -65,7 +65,7 @@ public class CreateAccount {
                             masterPassword = input.nextLine();
 
                             // Check if master password is correct
-                            if (!(masterPassword == "RMC.java")) {
+                            if (!(masterPassword.equals("RMS.java"))) {
 
                                 // If Incorrect, throw an exception and exit
                                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Password" +
