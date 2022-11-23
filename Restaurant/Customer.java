@@ -156,7 +156,6 @@ public class Customer extends AdminCustomers {
                 // Store table name of users cart
                 String cart_table = "cart_" + LoginToAccount.UserId;
 
-
                 // If the item is already in the cart just increase the quantity
                 String query_cart = "UPDATE " + cart_table + " SET itemQuantity = itemQuantity + 1 WHERE itemName = ?";
 
@@ -269,35 +268,45 @@ public class Customer extends AdminCustomers {
             System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Your Cart is empty\n\n" + Utilities.ANSI_RESET);
             return;
         }
+        // Display the cart for the user to choose elements
+        viewCart();
 
         // Read the item number from the user
-        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter the item Number" + Utilities.ANSI_RESET);
+        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
         sc = new Scanner(System.in);
-        int itemNumber = sc.nextInt();
+        int itemNumberUser = sc.nextInt();
         sc.nextLine(); // consume the new line
 
         // Loop through the cart to find the itemNumber
-        for (HashMap<String, Object> menuItem : cart) {
+        for (HashMap<String, Object> cartItem : cart) {
 
             // if itemnumber is present in the orderMenu
-            if (menuItem.containsValue(itemNumber)) {
+            if (cartItem.containsValue(itemNumberUser)) {
 
                 // if itemQuantity is more than 1, decrease the quantity by 1
-                if ((int) menuItem.get("itemQuantity") > 1) {
+                if ((int) cartItem.get("itemQuantity") > 1) {
 
                     // Decrease the item quantity by 1
-                    menuItem.put("itemQuantity", (int) menuItem.get("itemQuantity") - 1);
+                    System.out.println((String) cartItem.get("itemName") + " Number is greater than one");
+                    cartItem.put("itemQuantity", (int) cartItem.get("itemQuantity") - 1);
+
+                    // Decrease the item quantity from the database as well
+                    removeItemFromCartAndSales_DB(itemNumberUser, true);
 
                     // Print the item quantity decreased message
                     System.out.println(
                             Utilities.ANSI_RED + "\n\t \t \t \t => Item quantity decreased" + Utilities.ANSI_RESET);
-                    return;
+                } else {
+
+                    // itemQuantity is 1, remove the item from the list
+                    cart.remove(cartItem);
+                    sales.remove(cartItem);
+
+                    // Remove the item from the database as well
+                    removeItemFromCartAndSales_DB(itemNumberUser, false);
+                    System.out.println(
+                            Utilities.ANSI_RED + "\n\t \t \t \t => Item removed from your Cart" + Utilities.ANSI_RESET);
                 }
-                // if itemQuantity is 1, remove the item from the list
-                cart.remove(menuItem);
-                sales.remove(menuItem);
-                System.out.println(
-                        Utilities.ANSI_RED + "\n\t \t \t \t => Item removed from your Cart" + Utilities.ANSI_RESET);
                 return;
             }
         }
@@ -311,9 +320,66 @@ public class Customer extends AdminCustomers {
     }
 
     // Remove item from the database as well
-    public void removeItemFromCartAndSales_DB() {
+    public void removeItemFromCartAndSales_DB(int itemNumberUser, boolean itemQuantityGreaterThanOne) {
         // THIS NEEDS TO BE IMPLEmENTED
 
+        // Create a connection to the database
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
+            // If the item exists in the database table
+            String cart_table = "cart_" + LoginToAccount.UserId;
+
+            if (itemQuantityGreaterThanOne) {
+                
+                // Create update statement for cart database table
+                String query_cart_update = "UPDATE " + cart_table + " SET itemQuantity = itemQuantity - 1 WHERE itemNumber = ?";
+
+                // Create prepared statement for updating the cart database table
+                PreparedStatement pstmt_cart_update = con.prepareStatement(query_cart_update);
+                pstmt_cart_update.setInt(1, itemNumberUser);
+
+                // Execute statement to decrease item quantity from cartdatabase table
+                pstmt_cart_update.executeUpdate();
+
+
+                // Create update statement for sales database table
+                String query_sales_update = "UPDATE sales SET itemQuantity = itemQuantity - 1 WHERE itemNumber = ?";
+                PreparedStatement pstmt_sales_update = con.prepareStatement(query_sales_update);
+                pstmt_sales_update.setInt(1, itemNumberUser);
+
+                // Execute statement to decrease item quantity from sales database table
+                pstmt_sales_update.executeUpdate();
+
+                // Display message for user
+                System.out.println("Item Quantity decreased from the database successefully");
+                return;
+            }
+
+            // Create a statement to remove from the sales table
+            String query_sales_remove = "DELETE FROM sales WHERE itemNumber = ?";
+
+            // Create prepared statement for updating the sales database table
+            PreparedStatement pstmt_sales_remove = con.prepareStatement(query_sales_remove);
+            pstmt_sales_remove.setInt(1, itemNumberUser);
+
+            // Execute statement to remove item from sales database table
+            pstmt_sales_remove.executeUpdate();
+
+            // String query_cart_remove = "DELETE FROM ? WHERE itemNumber = ?";
+            String query_cart_remove = "DELETE FROM " + cart_table + " WHERE itemNumber = ?";
+
+            // Create prepared statement for updating the cart database table
+            PreparedStatement pstmt_cart_remove = con.prepareStatement(query_cart_remove);
+            pstmt_cart_remove.setInt(1, itemNumberUser);
+
+            // Execute statement to remove item from cart database table
+            pstmt_cart_remove.executeUpdate();
+
+            return;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return;
+        }
 
     }
 

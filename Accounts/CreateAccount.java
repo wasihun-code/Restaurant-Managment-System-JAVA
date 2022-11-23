@@ -21,8 +21,8 @@ public class CreateAccount {
     static Scanner sc = new Scanner(System.in);
     
     // Create strings to store user details
-    static String UserName = "1000", UserPassword = "13";
-    static String UserEmail = "me@gmail.com", UserPhone = "1234576890", AccountType = "C";
+    static String UserName = "SOMETHING", UserPassword = "13";
+    static String UserEmail = "me@gmail.com", UserPhone = "1234576890", AccountType = "CUSTOMER";
 
     // Create an int to store user id
     static int UserId;
@@ -79,12 +79,12 @@ public class CreateAccount {
                                     Utilities.ANSI_RESET);
                             System.exit(1);
                         }
-                        AccountType = "A";
+                        AccountType = "ADMIN";
                         break;
 
                     // Customer Account
                     case 2:
-                        AccountType = "C";
+                        AccountType = "CUSTOMER";
                         break;
 
                     // Exit
@@ -183,7 +183,7 @@ public class CreateAccount {
         return true;
     }
 
-    // Write UserId, phone, password, bankaccount to database table: account
+    // Write username, phone, password, bankaccount to database table: account
     public static boolean storeAccount_DB() {
 
         // Create a connection object
