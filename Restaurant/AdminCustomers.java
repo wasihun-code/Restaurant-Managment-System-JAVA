@@ -142,4 +142,28 @@ public class AdminCustomers {
         return false;
     }
 
+    //function for country list and food displayMenu
+    public void chooseCountry(){
+        while(true){
+        //blue Colors
+        System.out.println(Utilities.ANSI_BLUE + "Choose Country" + Utilities.ANSI_RESET);
+        //green colors
+        System.out.println(Utilities.ANSI_GREEN + "1. Ethiopia" + Utilities.ANSI_RESET);
+        //yellow colors
+        System.out.println(Utilities.ANSI_YELLOW + "2. India" + Utilities.ANSI_RESET);
+        //red colors
+        System.out.println(Utilities.ANSI_RED + "3. Syria" + Utilities.ANSI_RESET);
+        //cyan colors
+        System.out.println(Utilities.ANSI_CYAN + "4. Myanmar" + Utilities.ANSI_RESET);
+        //pink colors
+        System.out.println(Utilities.ANSI_PURPLE + "5. Jump to main" + Utilities.ANSI_RESET);
+        //purple colors
+        System.out.println(Utilities.ANSI_PURPLE + "6. Exit" + Utilities.ANSI_RESET);
+
+        
+    }
 }
+}
+
+    
+
