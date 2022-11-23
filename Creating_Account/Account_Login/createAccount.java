@@ -28,7 +28,7 @@ public class createAccount extends loginAbstract {
         while (true) {
 
             int userChoice;
-        boolean jumpToMain = false;
+        // boolean jumpToMain = false;
        
         System.out.println("\n\n");
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Create Admin Account" + Utilities.ANSI_RESET);
@@ -58,35 +58,40 @@ public class createAccount extends loginAbstract {
                     new Admin();
                     return;
                 }
-                else if(userChoice==2){
+                else{
+                    System.out.println(Utilities.ANSI_RED + "\t \t \t \t Invalid Pass Code" + Utilities.ANSI_RESET);
+                    continue;
+                }
+            }
+            else if(userChoice==2){
                     receiveAccountDetail();
                     writeOnFile("User.txt");
                     displayAccountDetail();
                     new Customers();
                     return;
-                }
-                else if(userChoice==3){
-                    jumpToMain= true;
+            }
+            else if(userChoice==3){
+                    // jumpToMain= true;
                    return;
-                }
-                else if(userChoice==4){
+            }
+            else if(userChoice==4){
                     System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
                     System.exit(0);
                     return;
                 
-                }
-                else{
+            }
+            else{
                     System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
                     return;
-                }
+            }
                    
-            }
-            // if user wants to go back to main menu
-            if (jumpToMain) {
-                break;
-            }
         }
+            // if user wants to go back to main menu
+            // if (jumpToMain) {
+            //     break;
+            // }
     }
+   
 
     ////////////////////////////***************/////////////////////////////////
 

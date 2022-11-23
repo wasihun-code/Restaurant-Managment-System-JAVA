@@ -13,6 +13,10 @@ import Restaurant.Customers;
 public class loginAccount extends loginAbstract {
     Scanner sc = new Scanner(System.in);
 
+
+
+    //////////////////////////////////////////////////////////////////
+
     public loginAccount(){
         while (true) {
 
@@ -40,7 +44,7 @@ public class loginAccount extends loginAbstract {
                 continue;
             }
 
-            String adminPass;
+           
             Utilities.clearScreen();
 
             if(userChoice==1){
@@ -48,7 +52,6 @@ public class loginAccount extends loginAbstract {
               
                     System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Enter Your Admin ID" + Utilities.ANSI_RESET);
                     ID=sc.nextLine();
-
                    
                     if( userIDAuthentication("Admin.txt", ID)){
                         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Enter Your Password:" + Utilities.ANSI_RESET);
@@ -60,32 +63,58 @@ public class loginAccount extends loginAbstract {
                     }
                     else{
                         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user Id. Enter Correct Id" + Utilities.ANSI_RESET);
+                        continue;
                     }
 
                 }
-                
 
-            }
-            else if(userChoice== 2){
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter Your account Details" + Utilities.ANSI_RESET);
-
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t \n\n\nEnter your ID:" + Utilities.ANSI_RESET);
-                ID=sc.nextLine();
-                if(userIDAuthentication("User.txt", ID)){
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter your password" + Utilities.ANSI_RESET);
-                    if(userPasswordAuthentication("User.txt", password)){
-                        new Customers();
+                ////////////Copilote suggestion///////////
+                else if(userChoice==2){
+                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Enter Your User ID" + Utilities.ANSI_RESET);
+                    ID=sc.nextLine();
+                    if( userIDAuthentication("User.txt", ID)){
+                        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Enter Your Password:" + Utilities.ANSI_RESET);
+                        password=sc.nextLine();
+                        if(userPasswordAuthentication("User.txt", password)){
+                            new Customers();
+                        }
                     }
                     else{
-                        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user password. Enter Correct password" + Utilities.ANSI_RESET);
+                        System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user Id. Enter Correct Id" + Utilities.ANSI_RESET);
+                        continue;
                     }
-
+                }
+                else if(userChoice==3){
+                    return;
+                }
+                else if(userChoice==4){
+                    System.exit(0);
                 }
                 else{
-                    System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user Id. Enter Correct Id" + Utilities.ANSI_RESET);
+                    System.out.println(Utilities.ANSI_RED + "\t \t \t \t Invalid Input" + Utilities.ANSI_RESET);
                 }
+                ///////////////////copilote suggesion///////////
+                
+            // else if(userChoice== 2){
+            //     System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter Your account Details" + Utilities.ANSI_RESET);
 
-            }
+            //     System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t \n\n\nEnter your ID:" + Utilities.ANSI_RESET);
+            //     ID=sc.nextLine();
+            //     if(userIDAuthentication("User.txt", ID)){
+            //         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter your password" + Utilities.ANSI_RESET);
+            //         if(userPasswordAuthentication("User.txt", password)){
+            //             new Customers();
+            //         }
+            //         else{
+            //             System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user password. Enter Correct password" + Utilities.ANSI_RESET);
+            //         }
+
+            //     }
+            //     else{
+            //         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user Id. Enter Correct Id" + Utilities.ANSI_RESET);
+            //     }
+
+            // }
             
             // if user wants to go back to main menu
             if (jumpToMain) {
@@ -93,6 +122,8 @@ public class loginAccount extends loginAbstract {
             }
         }
     }
+
+    //////////////////////////////////////////////////////////////////
 
     public boolean userIDAuthentication(String fileToOpen, String ID) {
         Matcher idMatcher = null;

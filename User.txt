@@ -1,0 +1,6 @@
+
+ID: 1001
+Password: fisH12@
+Full Name: fish lash
+Phone Number: 12345
+Bank Account: 12345
