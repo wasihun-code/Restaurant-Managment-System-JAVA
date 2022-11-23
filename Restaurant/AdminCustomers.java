@@ -1,9 +1,12 @@
 package Restaurant;
 
 // Import necessary packages
-import java.io.BufferedReader;
+import java.io.*;
 import java.io.FileReader;
+import java.io.FileWriter;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -98,7 +101,7 @@ public class AdminCustomers {
                 "-------------", "------------");
         // format the table header
         f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
-                Utilities.ANSI_RESET, "", "Number", "Item Name", "Item Price");
+                Utilities.ANSI_RESET, "" );
 
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
                 + Utilities.ANSI_RESET, "",
@@ -219,12 +222,82 @@ public class AdminCustomers {
 
             // Read the file line by line
             String line;
+            //split the line from file by comma
+            String[] splitLine;
+            while ((line = bufferedReader.readLine()) != null) {
+                splitLine = line.split(",");
+                //add the split line to the menu
+                addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
+            }
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
             }
 
             // Close the file
             bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + "Menu does not exist.");
+        }
+    }
+    //add item to menu method
+    public void addItemToMenu(String itemNumber, String itemName, double itemPrice) {
+        // Create a new item
+        HashMap<String, Object> item = new HashMap<String, Object>();
+        item.put("itemNumber", itemNumber);
+        item.put("itemName", itemName);
+        item.put("itemPrice", itemPrice);
+
+        // Add the item to the menu
+        menu.add(item);
+    }
+     //Temporary method to add menus to file for testing
+     public void addMenuToFile() {
+        try {
+            // Create a file writer
+            FileWriter fileWriter = new FileWriter("menu.txt");
+
+            // Create a buffered writer
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            //////////////////////////////////////////////////////////
+
+            Formatter f = new Formatter();
+
+        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
+                + Utilities.ANSI_RESET, "", "", "ORDER MENU", "");
+
+        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
+                + Utilities.ANSI_RESET, "", "---------",
+                "-------------", "------------");
+        // format the table header
+        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
+                Utilities.ANSI_RESET, "", "Number", "Item Name", "Item Price");
+
+        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
+                + Utilities.ANSI_RESET, "",
+                "---------", "-------------", "------------");
+        // loop through the menu
+        for (HashMap<String, Object> item1 : menu) {
+            // format the table body
+            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
+                    item1.get("itemName"), item1.get("itemPrice"));
+            f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
+                    "---------", "-------------", "------------");
+        }
+
+        // display the table menu
+        // f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" +
+        // Utilities.ANSI_RESET, "",
+        // "-----------------", "-----------------", "------------");
+        System.out.println(Utilities.ANSI_GREEN + f + Utilities.ANSI_RESET);
+        //write the table above to the file
+        bufferedWriter.write(f.toString());
+        f.close();
+
+        ///////////////////////////////////////////////////////////////
+
+            // Write to the file
+         
         } catch (IOException e) {
             System.out.println("Error: " + "Menu does not exist.");
         }

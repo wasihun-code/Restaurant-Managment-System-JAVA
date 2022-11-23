@@ -1,0 +1,4 @@
+1,Mohinga,400
+2,Kyaw,300
+3,KhaoSoi,150
+4,Tofu,450
