@@ -1,4 +1,4 @@
-package Creating_Account;
+package Account_Login;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import Account_Login.loginAbstract;
 import Commmons.Utilities;
 import Restaurant.Admin;
 import Restaurant.Customers;
@@ -16,6 +14,8 @@ public class loginAccount extends loginAbstract {
     Scanner sc = new Scanner(System.in);
 
     public loginAccount(){
+        while (true) {
+
         int userChoice;
         boolean jumpToMain = false;
         System.out.println("\n\n");
@@ -27,7 +27,7 @@ public class loginAccount extends loginAbstract {
         // Utilities.clearScreen();
         // System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t " + Utilities.ANSI_RESET);
 
-        while (true) {
+        
             
             try {
                 System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
@@ -45,9 +45,7 @@ public class loginAccount extends loginAbstract {
 
             if(userChoice==1){
 
-                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter Admin Pass Code" + Utilities.ANSI_RESET);
-                adminPass=sc.nextLine();
-                if(adminPass.equals("admin")){
+              
                     System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Enter Your Admin ID" + Utilities.ANSI_RESET);
                     ID=sc.nextLine();
 

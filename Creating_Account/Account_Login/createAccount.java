@@ -14,10 +14,20 @@ import Restaurant.Customers;
 public class createAccount extends loginAbstract {
     Scanner sc = new Scanner(System.in);
 
+     /////////////////////////**************////////////////////////////////////
+
+
+
     public createAccount(){
         //To accept user details while creating a new account we use constractor method
 
-        int userChoice;
+        
+        
+        // System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t " + Utilities.ANSI_RESET);
+
+        while (true) {
+
+            int userChoice;
         boolean jumpToMain = false;
        
         System.out.println("\n\n");
@@ -25,11 +35,7 @@ public class createAccount extends loginAbstract {
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Create User Account" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. Jump to Main Menu" + Utilities.ANSI_RESET);
         
-        
-        // System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t " + Utilities.ANSI_RESET);
 
-        while (true) {
-            
             try {
                 System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter your choice: " + Utilities.ANSI_RESET);
                 userChoice = sc.nextInt();
@@ -42,29 +48,38 @@ public class createAccount extends loginAbstract {
             }
 
             Utilities.clearScreen();
-            switch (userChoice) {
-                case 1:
+           if(userChoice==1){
+                System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Enter Admin   Pass Code" + Utilities.ANSI_RESET);
+                String adminPass=sc.nextLine();
+                if(adminPass.equals("admin")){
                     receiveAccountDetail();
                     writeOnFile("Admin.txt");
                     displayAccountDetail();
                     new Admin();
-                    break;
-                case 2:
+                    return;
+                }
+                else if(userChoice==2){
                     receiveAccountDetail();
                     writeOnFile("User.txt");
                     displayAccountDetail();
                     new Customers();
-                    break;
-                case 3:
+                    return;
+                }
+                else if(userChoice==3){
                     jumpToMain= true;
-                    break;
-                case 4:
+                   return;
+                }
+                else if(userChoice==4){
                     System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
                     System.exit(0);
-                    break;
-                default:
+                    return;
+                
+                }
+                else{
                     System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
-                    break;
+                    return;
+                }
+                   
             }
             // if user wants to go back to main menu
             if (jumpToMain) {
@@ -72,6 +87,8 @@ public class createAccount extends loginAbstract {
             }
         }
     }
+
+    ////////////////////////////***************/////////////////////////////////
 
     // receive new account DETAILS
     public void receiveAccountDetail() {
