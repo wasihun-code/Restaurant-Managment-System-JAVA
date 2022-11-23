@@ -3,6 +3,7 @@ package Restaurant;
 // Import necessary sql packages
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -81,8 +82,6 @@ public class Admin extends AdminCustomers {
         }
     }
 
-    private void deleteItemFromMenu() {
-    }
 
     public void viewTotalSales() {
         // Return if no user has items in their cart
@@ -102,19 +101,19 @@ public class Admin extends AdminCustomers {
         for (HashMap<String, Object> salesItem : sales) {
 
             // Extract the price of the item
-            int itemPrice = (int) salesItem.get("itemPrice");
+            int item_Price = (int) salesItem.get("itemPrice");
 
             // Extract its quantity
-            int itemQuantity = (int) salesItem.get("itemQuantity");
+            int item_Quantity = (int) salesItem.get("itemQuantity");
 
             // Calculate total sales and increment number of quantity
-            totalSales += (itemPrice * itemQuantity);
-            totalItems += itemQuantity;
+            totalSales += item_Price * item_Quantity;
+            totalItems += item_Quantity;
         }
 
         // Print total items sold and total sales generated
-        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
         return;
     }
 
@@ -135,7 +134,8 @@ public class Admin extends AdminCustomers {
         final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
-        if (itemExists(itemName)) {
+        if (itemExists(itemName.toUpperCase())) {
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item already exists!" + Utilities.ANSI_RESET);
             return;
         }
 
@@ -147,15 +147,45 @@ public class Admin extends AdminCustomers {
         item = new HashMap<String, Object>() {
             {
                 put("itemNumber", itemNumber);
-                put("itemName", itemName);
+                put("itemName", itemName.toUpperCase());
                 put("itemPrice", itemPrice);
             }
         };
         // Add item to the menu
         menu.add(item);
+
+        // Add the item to the menu database as well
+        addItemToMenu_DB(item);
+
+        // Print success message
+        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
     }
 
-    public void deleteFromMenu() {
+    public void addItemToMenu_DB(HashMap<String, Object> item) {
+        // Create Strings for Connection
+
+        // Create string for connection
+        final String uname = "root";
+        final String pass = "RMS.java";
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
+
+        // Connect to the database and close it after you are done
+        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+            String query_insert_menu = "INSERT INTO ethiopians_menu " + "(ID, Name, Price) VALUES(?, ?, ?)";
+
+            PreparedStatement pstmt = con.prepareStatement(query_insert_menu);
+            pstmt.setInt(1, (int) item.get("itemNumber"));
+            pstmt.setString(2, (String) item.get("itemName"));
+            pstmt.setInt(3, (int) item.get("itemPrice"));
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println("Error : " + ex.getMessage());
+        }
+    }
+
+    public void deleteItemFromMenu() {
 
         // if menu doesn't have any items
         if (menu.isEmpty()) {
@@ -253,10 +283,10 @@ public class Admin extends AdminCustomers {
         final String uname = "root";
         final String pass = "RMS.java";
         final String url = "jdbc:mysql://localhost:3306/restaurant";
-        
+
         // Connect to the database and close it after you are done
         try (Connection con = DriverManager.getConnection(url, uname, pass)) {
-            
+
             // Create statement
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM sales");
@@ -277,8 +307,6 @@ public class Admin extends AdminCustomers {
                 };
                 sales.add(item);
             }
-
-
 
         } catch (SQLException ex) {
             System.out.println("Error : " + ex.getMessage());
