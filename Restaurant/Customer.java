@@ -4,8 +4,9 @@ package Restaurant;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
@@ -26,6 +27,13 @@ public class Customer extends AdminCustomers {
         System.out.println(Utilities.ANSI_RED + "\t \t\t\t\t Welcome Customer" +
                 Utilities.ANSI_RESET);
         while (true) {
+
+            // Clear cart and load it
+            cart.clear();
+
+            // Load the user cart from the database
+            loadCartFromDB();
+
             customerMainMenu();
 
             // Store user choice of going back to main menu
@@ -41,13 +49,13 @@ public class Customer extends AdminCustomers {
             Utilities.clearScreen();
             switch (choice) {
                 case 1:
-                    addToCart();
+                    addItemToCart();
                     break;
                 case 2:
                     viewCart();
                     break;
                 case 3:
-                    removeFromCart();
+                    removeItemFromCart();
                     break;
                 case 4:
                     showSubtotal();
@@ -73,7 +81,7 @@ public class Customer extends AdminCustomers {
         }
     }
 
-    public void addToCart() {
+    public void addItemToCart() {
         // Display menu to user to be able to select items
         displayMenu();
 
@@ -105,7 +113,7 @@ public class Customer extends AdminCustomers {
                             // Add the item to users cart in the database as well
                             // This function will also increment the quantity if the item is already in the
                             // cart
-                            dbAddToCart(menuItem, true);
+                            addItemToCart_DB(menuItem, true);
                             return;
                         }
                     }
@@ -117,7 +125,7 @@ public class Customer extends AdminCustomers {
                 cart.add(menuItem);
 
                 // Add the item to users cart in the database as well
-                dbAddToCart(menuItem, false);
+                addItemToCart_DB(menuItem, false);
 
                 // Also add the item to the sales menu as if the user has bought it
                 sales.add(menuItem);
@@ -136,8 +144,8 @@ public class Customer extends AdminCustomers {
                 Utilities.ANSI_RED + "\t \t \t \t => Please choose an item from the menu" + Utilities.ANSI_RESET);
     }
 
-    // Add the item to the users cart in the database as well
-    public void dbAddToCart(HashMap<String, Object> menuItem, boolean itemExists) {
+    // Add the item to the user's cart in the database as well
+    public void addItemToCart_DB(HashMap<String, Object> menuItem, boolean itemExists) {
 
         // Create Strings for the database connection
         String url = "jdbc:mysql://localhost:3306/restaurant";
@@ -236,7 +244,7 @@ public class Customer extends AdminCustomers {
         f.close();
     }
 
-    public void removeFromCart() {
+    public void removeItemFromCart() {
 
         // If the cart is empty
         if (cart.isEmpty()) {
@@ -287,7 +295,8 @@ public class Customer extends AdminCustomers {
     }
 
     // Remove item from the database as well
-    public void dbremoveFromCart() {
+    public void removeItemFromCart_DB() {
+        // THIS NEEDS TO BE IMPLEmENTED
 
     }
 
@@ -322,6 +331,42 @@ public class Customer extends AdminCustomers {
         return;
     }
 
+    // Method to load the cart from the database
+    public void loadCartFromDB() {
+        // THIS NEEDS TO BE IMPLEMENTED
+        // Create strings for connection
+        String uname = "root";
+        String pass = "RMS.java";
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
+
+        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+
+            String table = "cart_" + LoginToAccount.UserId;
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM " + table);
+
+            while (rs.next()) {
+                final int itemNumber = (int) rs.getInt("itemNumber");
+                final String itemName = (String) rs.getString("itemName");
+                final int itemPrice = (int) rs.getInt("itemPrice");
+                final int itemQuantity = (int) rs.getInt("itemPrice");
+
+                item = new HashMap<String, Object>() {
+                    {
+                        put("itemNumber", itemNumber);
+                        put("itemName", itemName);
+                        put("itemPrice", itemPrice);
+                        put("itemQuantity", itemQuantity);
+                    }
+                };
+                cart.add(item);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+
     // This method is used to show customers main menu
     public void customerMainMenu() {
 
@@ -334,20 +379,4 @@ public class Customer extends AdminCustomers {
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 6. Exit" + Utilities.ANSI_RESET);
     }
 
-   
-    /*
-     * // Test this class only
-     * public static void main(String[] args) {
-     * Customer customer = new Customer();
-     * AdminCustomers.item = new HashMap<>() {
-     * {
-     * put("itemNumber", 1);
-     * put("itemName", "DOROWOT");
-     * put("itemPrice", 250);
-     * put("itemQuantity", 1);
-     * }
-     * };
-     * customer.addToCartDatabase(item, true);
-     * }
-     */
 }
