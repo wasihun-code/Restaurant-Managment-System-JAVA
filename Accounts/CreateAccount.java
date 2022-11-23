@@ -270,7 +270,7 @@ public class CreateAccount {
 
             // Create a cart table for the user
             st.executeUpdate("CREATE TABLE cart_" + UserId
-                    + " (itemNumber INT(4), itemName VARCHAR(10), itemPrice INT(4), itemQuantity INT(2))");
+                    + " (itemNumber INT(4), itemName VARCHAR(50), itemPrice INT(4), itemQuantity INT(2))");
         } catch (SQLException e) {
             e.printStackTrace();
         }

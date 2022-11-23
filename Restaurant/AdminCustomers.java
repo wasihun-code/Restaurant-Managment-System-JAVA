@@ -29,12 +29,42 @@ public class AdminCustomers {
 
     // An Admins sales is represented as an ArrayList of items sold
     public static ArrayList<HashMap<String, Object>> sales = new ArrayList<HashMap<String, Object>>();
+    
+    // Store the table to be loaded and then modified or whatever
+    static String tableToLoad;
 
     // LOAD MENU FROM DATABASE
     public AdminCustomers() {
 
+        // print the countries list to the console
+        printCountriesList();
+
+        // Enter country to load the menu
+        int choice = Utilities.validateAndReturnUserInput();
+
+        // Print four countries
+        switch (choice) {
+            case 1:
+                tableToLoad = "ethiopians_menu";
+                break;
+            case 2:
+                tableToLoad = "indians_menu";
+                break;
+            case 3:
+                tableToLoad = "syrians_menu";
+                break;
+            case 4:
+                tableToLoad = "brasilians_menu";
+                break;
+            default:
+                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.exit(1);
+                return;
+        }
+        
         // Load the menu from the database when user logs in
-        loadMenu_From_DB();
+        loadMenu_From_DB(tableToLoad);
     }
 
     // Method to display the menu in a tabular format
@@ -114,7 +144,7 @@ public class AdminCustomers {
     }
 
     // Method to load the menu from the database
-    public void loadMenu_From_DB() {
+    public void loadMenu_From_DB(String tableToLoad) {
 
         try {
             // Connect to the database
@@ -124,7 +154,7 @@ public class AdminCustomers {
             Statement st = con.createStatement();
 
             // Execute the query and save the result in a ResultSet
-            ResultSet rs = st.executeQuery("select * from ethiopians_menu");
+            ResultSet rs = st.executeQuery("select * from " + tableToLoad);
 
             // Loop through the result set
             while (rs.next()) {
@@ -156,5 +186,18 @@ public class AdminCustomers {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    // Print the countries list for the user to choose from
+    public void printCountriesList() {
+
+        // Clear the screen for the next menu
+        Utilities.clearScreen();
+        
+        // Print the countries list
+        System.out.println(Utilities.ANSI_VIOLET + "\n\t\t\t\t => 1. ETHIOPIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 2. INDIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 3. SYRIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 4. BRAZIL" + Utilities.ANSI_RESET);
     }
 }

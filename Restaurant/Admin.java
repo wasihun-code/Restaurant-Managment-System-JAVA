@@ -175,7 +175,7 @@ public class Admin extends AdminCustomers {
 
         // Connect to the database and close it after you are done
         try (Connection con = DriverManager.getConnection(url, uname, pass)) {
-            String query_insert_menu = "INSERT INTO ethiopians_menu " + "(ID, Name, Price) VALUES(?, ?, ?)";
+            String query_insert_menu = "INSERT INTO " + AdminCustomers.tableToLoad + "(ID, Name, Price) VALUES(?, ?, ?)";
 
             PreparedStatement pstmt = con.prepareStatement(query_insert_menu);
             pstmt.setInt(1, (int) item.get("itemNumber"));
@@ -241,7 +241,7 @@ public class Admin extends AdminCustomers {
         try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
             // Create query string to delete from the table
-            String query_delete_from_menu = "DELETE FROM ethiopians_menu WHERE ID = ?";
+            String query_delete_from_menu = "DELETE FROM " + AdminCustomers.tableToLoad + " WHERE ID = ?";
 
             // Create prepared statement 
             PreparedStatement pstmt = con.prepareStatement(query_delete_from_menu);

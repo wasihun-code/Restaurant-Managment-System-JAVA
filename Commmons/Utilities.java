@@ -19,6 +19,10 @@ public class Utilities {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_PINK = "\u001B[35m";
+    public static final String ANSI_INDIGO = "\u001B[34m";
+    public static final String ANSI_GREY = "\u001B[37m";
+    public static final String ANSI_VIOLET = "\u001B[35m";
 
     // Method to clear the console screen
     public static void clearScreen() {
