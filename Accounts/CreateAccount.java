@@ -37,7 +37,7 @@ public class CreateAccount {
             while (true) {
 
                 // Validate user choice
-                int choice = Utilities.validateUserInputTryCatch();
+                int choice = Utilities.validateAndReturnUserInput();
 
                 // User has chosen to input something other than an integer so ask them again
                 if (choice == -1234)

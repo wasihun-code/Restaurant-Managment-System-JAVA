@@ -20,7 +20,7 @@ public class LoginToAccount {
 
     public LoginToAccount() {
         // Create Strings to store user input
-          String password;
+        String password;
 
         try (Scanner sc = new Scanner(System.in)) {
             // Get username and password from user
@@ -57,7 +57,7 @@ public class LoginToAccount {
                 boolean goBackToMainMenu = false;
 
                 // Validate User input using -catch
-                int choice = Utilities.validateUserInputTryCatch();
+                int choice = Utilities.validateAndReturnUserInput();
 
                 if (choice == -1234) {
                     continue;
@@ -108,9 +108,12 @@ public class LoginToAccount {
     public static boolean authenticateId_From_DB(String UserId) {
 
         // Connect to the database and check if the user id exists
-        try {
-            Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass);
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
+
+            // Create a statement to execute the query
             Statement st = con.createStatement();
+
+            // Store the query result to result set
             ResultSet rs = st.executeQuery("select * from accounts where UserId = '" + UserId + "'");
 
             // Extract the user id from the result set
@@ -122,7 +125,9 @@ public class LoginToAccount {
                     return true;
                 }
             }
-        } catch (SQLException e) {
+        } catch (
+
+        SQLException e) {
             // Display account not found message
             System.out.println("Account not found");
             return false;
@@ -132,8 +137,7 @@ public class LoginToAccount {
 
     public static boolean authenticatePassword_DB(String UserId, String UserPassword) {
 
-        try {
-            Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass);
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select UserPassword from accounts where UserId = '" + UserId + "'");
 

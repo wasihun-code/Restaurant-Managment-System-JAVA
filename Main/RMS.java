@@ -25,7 +25,7 @@ public class RMS {
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 3. EXIT" + Utilities.ANSI_RESET);
 
                 // Validate User input using -catch
-                int choice = Utilities.validateUserInputTryCatch();
+                int choice = Utilities.validateAndReturnUserInput();
 
                 if (choice == -1234) {
                     continue;

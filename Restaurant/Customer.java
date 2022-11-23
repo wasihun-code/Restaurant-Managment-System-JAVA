@@ -41,7 +41,7 @@ public class Customer extends AdminCustomers {
             boolean goBackToMainMenu = false;
 
             // Validate user input with try-catch
-            int choice = Utilities.validateUserInputTryCatch();
+            int choice = Utilities.validateAndReturnUserInput();
 
             if (choice == -1234) {
                 continue;
@@ -193,13 +193,12 @@ public class Customer extends AdminCustomers {
             pstmt_cart.setInt(1, (int) menuItem.get("itemNumber"));
             pstmt_cart.setString(2, (String) menuItem.get("itemName"));
             pstmt_cart.setInt(3, (int) menuItem.get("itemPrice"));
-            pstmt_cart.setInt(4, (int) menuItem.get("itemQuantity"));
-
+            pstmt_cart.setInt(4, 1);
 
             pstmt_sales.setInt(1, (int) menuItem.get("itemNumber"));
             pstmt_sales.setString(2, (String) menuItem.get("itemName"));
             pstmt_sales.setInt(3, (int) menuItem.get("itemPrice"));
-            pstmt_sales.setInt(4, (int) menuItem.get("itemQuantity"));
+            pstmt_sales.setInt(4, 1);
 
             // Execute the query
             pstmt_cart.executeUpdate();

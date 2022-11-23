@@ -39,7 +39,7 @@ public class Admin extends AdminCustomers {
             boolean goBackToMainMenu = false;
 
             // Validate user input with try-catch
-            int choice = Utilities.validateUserInputTryCatch();
+            int choice = Utilities.validateAndReturnUserInput();
 
             if (choice == -1234) {
                 continue;
@@ -295,7 +295,7 @@ public class Admin extends AdminCustomers {
                 final int itemNumber = (int) rs.getInt("itemNumber");
                 final String itemName = (String) rs.getString("itemName");
                 final int itemPrice = (int) rs.getInt("itemPrice");
-                final int itemQuantity = (int) rs.getInt("itemPrice");
+                final int itemQuantity = (int) rs.getInt("itemQuantity");
 
                 item = new HashMap<String, Object>() {
                     {

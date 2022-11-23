@@ -29,7 +29,7 @@ public class Utilities {
         }
     }
 
-    public static int validateUserInputTryCatch() {
+    public static int validateAndReturnUserInput() {
 
         int choice;
         try {
