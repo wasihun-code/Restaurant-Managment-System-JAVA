@@ -28,7 +28,7 @@ public class LoginToAccount {
             UserId = sc.nextLine();
 
             // Exit the program if user enters incorrect password
-            if (!authenticateId(UserId)) {
+            if (!authenticateId_From_DB(UserId)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
@@ -39,7 +39,7 @@ public class LoginToAccount {
             password = sc.nextLine();
 
             // Exit the program if user enters incorrect password
-            if (!authenticatePassword(UserId, password)) {
+            if (!authenticatePassword_DB(UserId, password)) {
                 System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
@@ -105,16 +105,11 @@ public class LoginToAccount {
         }
     }
 
-    public static boolean authenticateId(String UserId) {
-
-        // Create strings to store database user name and password
-        final String uname = "root";
-        final String pass = "RMS.java";
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
+    public static boolean authenticateId_From_DB(String UserId) {
 
         // Connect to the database and check if the user id exists
         try {
-            Connection con = DriverManager.getConnection(url, uname, pass);
+            Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select * from accounts where UserId = '" + UserId + "'");
 
@@ -135,13 +130,10 @@ public class LoginToAccount {
         return false;
     }
 
-    public static boolean authenticatePassword(String UserId, String UserPassword) {
-        final String uname = "root";
-        final String pass = "RMS.java";
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
+    public static boolean authenticatePassword_DB(String UserId, String UserPassword) {
 
         try {
-            Connection con = DriverManager.getConnection(url, uname, pass);
+            Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select UserPassword from accounts where UserId = '" + UserId + "'");
 

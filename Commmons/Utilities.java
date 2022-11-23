@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class Utilities {
     static Scanner sc = new Scanner(System.in);
+
+    // Create Strings for the database connection
+    public static final String url = "jdbc:mysql://localhost:3306/restaurant";
+    public static final String uname = "root";
+    public static final String pass = "RMS.java";
+
     // Colors
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";

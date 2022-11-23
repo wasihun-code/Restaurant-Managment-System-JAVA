@@ -186,13 +186,8 @@ public class CreateAccount {
     // Write UserId, phone, password, bankaccount to database table: account
     public static boolean storeAccount_DB() {
 
-        // Create strings for the database connection
-        String uname = "root";
-        String pass = "RMS.java";
-        String url = "jdbc:mysql://localhost:3306/restaurant";
-
         // Create a connection object
-        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
             // Create a statement
             Statement st = con.createStatement();
 
@@ -268,12 +263,8 @@ public class CreateAccount {
     // Create a cart table for the user on the database
     public static boolean createCart_DB() {
 
-        // Create strings for the database connection
-        String uname = "root";
-        String password = "RMS.java";
-        String url = "jdbc:mysql://localhost:3306/restaurant";
 
-        try (Connection con = DriverManager.getConnection(url, uname, password)) {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
             // Create a statement
             Statement st = con.createStatement();
 

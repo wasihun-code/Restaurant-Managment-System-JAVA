@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class Customer extends AdminCustomers {
             cart.clear();
 
             // Load the user cart from the database
-            loadCartFromDB();
+            loadCartFrom_DB();
 
             customerMainMenu();
 
@@ -146,49 +147,63 @@ public class Customer extends AdminCustomers {
 
     // Add the item to the user's cart in the database as well
     public void addItemToCart_DB(HashMap<String, Object> menuItem, boolean itemExists) {
-
-        // Create Strings for the database connection
-        String url = "jdbc:mysql://localhost:3306/restaurant";
-        String uname = "root";
-        String pass = "RMS.java";
-
         // Connect with the database using try-resource
-        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
             // Create a statement to execute the query
 
             if (itemExists) {
                 // Store table name of users cart
-                String table = "cart_" + LoginToAccount.UserId;
+                String cart_table = "cart_" + LoginToAccount.UserId;
+
 
                 // If the item is already in the cart just increase the quantity
-                String query = "UPDATE " + table + " SET itemQuantity = itemQuantity + 1 WHERE itemName = ?";
+                String query_cart = "UPDATE " + cart_table + " SET itemQuantity = itemQuantity + 1 WHERE itemName = ?";
 
-                // Create a prepared statement to execute the query
-                PreparedStatement st = con.prepareStatement(query);
+                // Also add it to sales database
+                String query_sales = "UPDATE sales " + "  SET itemQuantity = itemQuantity + 1 WHERE itemName = ?";
+
+                // Create a prepared statement to execute the query for cart
+                PreparedStatement st_cart = con.prepareStatement(query_cart);
+
+                // Create a prepared statement to execute the query for sales
+                PreparedStatement st_sales = con.prepareStatement(query_sales);
 
                 // Set the values for the prepared statement
-                st.setString(1, (String) menuItem.get("itemName"));
+                st_cart.setString(1, (String) menuItem.get("itemName"));
+                st_sales.setString(1, (String) menuItem.get("itemName"));
 
                 // Execute the query
-                st.executeUpdate();
+                st_cart.executeUpdate();
+                st_sales.executeUpdate();
 
                 return;
             }
 
             // Create a query to insert the item to the cart
-            String query = "INSERT INTO " + "cart_" + LoginToAccount.UserId +
+            String query_cart = "INSERT INTO " + "cart_" + LoginToAccount.UserId +
                     "(itemNumber, itemName, itemPrice, itemQuantity) VALUES(?,?,?,?)";
-            PreparedStatement pstmt = con.prepareStatement(query);
+            PreparedStatement pstmt_cart = con.prepareStatement(query_cart);
 
-            // pstmt.setString(1, "cart_1009");
-            pstmt.setInt(1, (int) menuItem.get("itemNumber"));
-            pstmt.setString(2, (String) menuItem.get("itemName"));
-            pstmt.setInt(3, (int) menuItem.get("itemPrice"));
-            pstmt.setInt(4, (int) menuItem.get("itemQuantity"));
+            // Create a query to insert the item to the sales
+            String query_sales = "INSERT INTO sales" +
+                    "(itemNumber, itemName, itemPrice, itemQuantity) VALUES(?,?,?,?)";
+            PreparedStatement pstmt_sales = con.prepareStatement(query_sales);
+
+            pstmt_cart.setInt(1, (int) menuItem.get("itemNumber"));
+            pstmt_cart.setString(2, (String) menuItem.get("itemName"));
+            pstmt_cart.setInt(3, (int) menuItem.get("itemPrice"));
+            pstmt_cart.setInt(4, (int) menuItem.get("itemQuantity"));
+
+
+            pstmt_sales.setInt(1, (int) menuItem.get("itemNumber"));
+            pstmt_sales.setString(2, (String) menuItem.get("itemName"));
+            pstmt_sales.setInt(3, (int) menuItem.get("itemPrice"));
+            pstmt_sales.setInt(4, (int) menuItem.get("itemQuantity"));
 
             // Execute the query
-            pstmt.executeUpdate();
+            pstmt_cart.executeUpdate();
+            pstmt_sales.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -202,7 +217,7 @@ public class Customer extends AdminCustomers {
         if (cart.isEmpty()) {
 
             // Print the error message and return
-            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Order Menu is empty" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Your Cart is empty \n\n" + Utilities.ANSI_RESET);
             return;
         }
 
@@ -298,6 +313,7 @@ public class Customer extends AdminCustomers {
     public void removeItemFromCart_DB() {
         // THIS NEEDS TO BE IMPLEmENTED
 
+
     }
 
     public void showSubtotal() {
@@ -332,14 +348,8 @@ public class Customer extends AdminCustomers {
     }
 
     // Method to load the cart from the database
-    public void loadCartFromDB() {
-        // THIS NEEDS TO BE IMPLEMENTED
-        // Create strings for connection
-        String uname = "root";
-        String pass = "RMS.java";
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
-
-        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+    public void loadCartFrom_DB() {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
             String table = "cart_" + LoginToAccount.UserId;
             Statement stmt = con.createStatement();

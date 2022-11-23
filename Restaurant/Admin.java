@@ -134,7 +134,7 @@ public class Admin extends AdminCustomers {
         final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
-        if (itemExists(itemName.toUpperCase())) {
+        if (itemExistsInTheMenu(itemName.toUpperCase())) {
             System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item already exists!" + Utilities.ANSI_RESET);
             return;
         }
@@ -226,6 +226,11 @@ public class Admin extends AdminCustomers {
         return;
     }
 
+    public void deleteItemFromMenu_DB() {
+        // THIS NEEDS TO BE IMPLEMENTED
+
+    }
+
     public void displaySalesMenu() {
 
         // If no user has items in their cart then sales is empty
@@ -277,15 +282,10 @@ public class Admin extends AdminCustomers {
 
     // Method to load the sales from the database
     public void loadSales_DB() {
-        // THIS NEEDS TO BE IMPLEMENTED
 
-        // Create string for connection
-        final String uname = "root";
-        final String pass = "RMS.java";
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
 
         // Connect to the database and close it after you are done
-        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
             // Create statement
             Statement stmt = con.createStatement();

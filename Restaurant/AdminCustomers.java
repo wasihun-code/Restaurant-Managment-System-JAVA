@@ -16,7 +16,8 @@ import java.sql.Statement;
 import Commmons.Utilities;
 
 public class AdminCustomers {
-    // Item representation {"itemNumber"=1, "itemName"="Burger", "itemPrice"=100}
+    // Item representation is as hashmap that looks like this
+    // => {"itemNumber"=1, "itemName"="Burger", "itemPrice"=100, "itemQuantity"=1}
     public static HashMap<String, Object> item;
 
     // An order is represented as an ArrayList of items
@@ -32,7 +33,7 @@ public class AdminCustomers {
     public AdminCustomers() {
 
         // Load the menu from the database when user logs in
-        dbLoadMenu();
+        loadMenu_From_DB();
     }
 
     // Method to display the menu in a tabular format
@@ -87,7 +88,7 @@ public class AdminCustomers {
     }
 
     // Method to check if an item is already present in the menu
-    public boolean itemExists(String itemName) {
+    public boolean itemExistsInTheMenu(String itemName) {
 
         // If menu have a list of items
         if (!menu.isEmpty()) {
@@ -112,17 +113,11 @@ public class AdminCustomers {
     }
 
     // Method to load the menu from the database
-    public void dbLoadMenu() {
-        // Save database user name and password as constants
-        final String uname = "root";
-        final String password = "RMS.java";
-
-        // Create url to connect to mysql database
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
+    public void loadMenu_From_DB() {
 
         try {
             // Connect to the database
-            Connection con = DriverManager.getConnection(url, uname, password);
+            Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass);
 
             // Create a statement
             Statement st = con.createStatement();
@@ -143,7 +138,7 @@ public class AdminCustomers {
                 };
 
                 // Check if item already exists in the menu
-                if (!itemExists(item.get("itemName").toString())) {
+                if (!itemExistsInTheMenu(item.get("itemName").toString())) {
 
                     // Add the item to the menu if it doesn't exist
                     menu.add(item);
