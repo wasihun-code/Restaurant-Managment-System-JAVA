@@ -82,8 +82,9 @@ public class Admin extends AdminCustomers {
         }
     }
 
-
+    // Calculate the total sales from the sales array list 
     public void viewTotalSales() {
+
         // Return if no user has items in their cart
         if (sales.isEmpty()) {
             System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => No sales yet" + Utilities.ANSI_RESET);
@@ -117,8 +118,10 @@ public class Admin extends AdminCustomers {
         return;
     }
 
+    // Add the item to the menu
     public void addItemToMenu() {
 
+        // Store the last number of the item in the menu
         int tempitemNumber = 0;
 
         // Get the last itemNumber from the menu
@@ -161,6 +164,7 @@ public class Admin extends AdminCustomers {
         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
     }
 
+    // Add the item to the database table as well
     public void addItemToMenu_DB(HashMap<String, Object> item) {
         // Create Strings for Connection
 
@@ -185,6 +189,7 @@ public class Admin extends AdminCustomers {
         }
     }
 
+    // Delete the item from the menu
     public void deleteItemFromMenu() {
 
         // if menu doesn't have any items
@@ -212,6 +217,9 @@ public class Admin extends AdminCustomers {
                 // Then remove it
                 menu.remove(menuItem);
 
+                // Remove it from the database as well
+                deleteItemFromMenu_DB(itemNumber);
+
                 // Display success message to admin and return
                 System.out.println(
                         Utilities.ANSI_RED + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
@@ -226,11 +234,31 @@ public class Admin extends AdminCustomers {
         return;
     }
 
-    public void deleteItemFromMenu_DB() {
+    // Delete the item from the database table as well    
+    public void deleteItemFromMenu_DB(int item_number) {
         // THIS NEEDS TO BE IMPLEMENTED
+
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
+
+            // Create query string to delete from the table
+            String query_delete_from_menu = "DELETE FROM ethiopians_menu WHERE ID = ?";
+
+            // Create prepared statement 
+            PreparedStatement pstmt = con.prepareStatement(query_delete_from_menu);
+            pstmt.setInt(1, item_number);
+
+            // Execute the statement to remove the item
+            pstmt.executeUpdate();
+            
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
 
     }
 
+    // Display the sales menu
     public void displaySalesMenu() {
 
         // If no user has items in their cart then sales is empty
@@ -280,7 +308,7 @@ public class Admin extends AdminCustomers {
         f.close();
     }
 
-    // Method to load the sales from the database
+    // Loads the sales from the database
     public void loadSales_DB() {
 
 
@@ -314,6 +342,7 @@ public class Admin extends AdminCustomers {
 
     }
 
+    // Display the admin menu
     public void adminMainMenu() {
         System.out.println(Utilities.ANSI_YELLOW + "\n\t \t \t \t 1. View total sales" + Utilities.ANSI_RESET);
         System.out.println(

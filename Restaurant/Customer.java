@@ -13,8 +13,8 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Scanner;
 
+// Import necessary project packages
 import Accounts.LoginToAccount;
-// Import utilities module from Commons package
 import Commmons.Utilities;
 
 public class Customer extends AdminCustomers {
@@ -66,7 +66,7 @@ public class Customer extends AdminCustomers {
                     goBackToMainMenu = true;
                     return;
                 case 6:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for usingour service"
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
                             + Utilities.ANSI_RESET);
                     System.exit(0);
                     break;
@@ -82,6 +82,7 @@ public class Customer extends AdminCustomers {
         }
     }
 
+    // Add item to cart and sales arrayLists
     public void addItemToCartAndSales() {
         // Display menu to user to be able to select items
         displayMenu();
@@ -259,6 +260,7 @@ public class Customer extends AdminCustomers {
         f.close();
     }
 
+    // Remove the item from the cart and sales 
     public void removeItemFromCartAndSales() {
 
         // If the cart is empty
@@ -319,7 +321,7 @@ public class Customer extends AdminCustomers {
         return;
     }
 
-    // Remove item from the database as well
+    // Remove item from the cart and sales in the database table as well
     public void removeItemFromCartAndSales_DB(int itemNumberUser, boolean itemQuantityGreaterThanOne) {
         // THIS NEEDS TO BE IMPLEmENTED
 
@@ -383,6 +385,7 @@ public class Customer extends AdminCustomers {
 
     }
 
+    // Calculate the total bill amount for the cart
     public void showSubtotal() {
 
         // if the cart is empty
