@@ -358,7 +358,7 @@ public class Customer extends AdminCustomers {
                 final int itemNumber = (int) rs.getInt("itemNumber");
                 final String itemName = (String) rs.getString("itemName");
                 final int itemPrice = (int) rs.getInt("itemPrice");
-                final int itemQuantity = (int) rs.getInt("itemPrice");
+                final int itemQuantity = (int) rs.getInt("itemQuantity");
 
                 item = new HashMap<String, Object>() {
                     {
