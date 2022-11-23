@@ -162,8 +162,27 @@ public class AdminCustomers {
 
         
     }
-}
-}
 
-    
+    //read text file to display different country foods
+    public void readCountryFile(String countryName){
+        try {
+            // Create a file reader
+            FileReader fileReader = new FileReader(countryName + ".txt");
 
+            // Create a buffered reader
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // Read the file line by line
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Close the file
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + "Menu does not exist.");
+        }
+    }
+
+}
