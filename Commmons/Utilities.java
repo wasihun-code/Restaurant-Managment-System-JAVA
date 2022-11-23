@@ -1,6 +1,7 @@
 package Commmons;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Utilities {
@@ -38,11 +39,17 @@ public class Utilities {
         int choice;
         try {
             // Read user input
-            System.out.print(ANSI_CYAN + "\t\t\t\t => Enter your choice: " + ANSI_RESET);
+            System.out.print(ANSI_VIOLET + "\n\t\t\t   => Enter your choice: " + ANSI_RESET);
             choice = sc.nextInt();
             sc.nextLine(); // Consume newline left-over
             return choice;
+        } catch (NoSuchElementException ex){
+            // Handling ctrl + d Exception exit the program with exit code 0 and display a message
+            System.out.println(ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + ANSI_RESET);
+            System.exit(1);
+            return -1234;
         } catch (Exception e) {
+            e.printStackTrace();
             sc.nextLine(); // Consume newline left-over
             Utilities.clearScreen();
             System.out.print(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +

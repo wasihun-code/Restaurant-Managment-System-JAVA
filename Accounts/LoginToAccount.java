@@ -27,7 +27,7 @@ public class LoginToAccount {
 
         try (Scanner sc = new Scanner(System.in)) {
             // Get username and password from user
-            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter User ID: " + Utilities.ANSI_RESET);
+            System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter User ID: " + Utilities.ANSI_RESET);
             UserId = sc.nextLine();
 
             // Exit the program if user enters incorrect password
@@ -38,7 +38,7 @@ public class LoginToAccount {
             }
 
             // Get password from user
-            System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter Password: " + Utilities.ANSI_RESET);
+            System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter Password: " + Utilities.ANSI_RESET);
             password = sc.nextLine();
 
             // Exit the program if user enters incorrect password

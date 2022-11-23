@@ -195,9 +195,12 @@ public class AdminCustomers {
         Utilities.clearScreen();
         
         // Print the countries list
-        System.out.println(Utilities.ANSI_VIOLET + "\n\t\t\t\t => 1. ETHIOPIA" + Utilities.ANSI_RESET);
+
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t=> Choose a country to load the menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 1. ETHIOPIA" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 2. INDIA" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 3. SYRIA" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 4. BRAZIL" + Utilities.ANSI_RESET);
+        System.out.println();
     }
 }

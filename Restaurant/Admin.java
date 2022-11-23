@@ -25,7 +25,7 @@ public class Admin extends AdminCustomers {
         Utilities.clearScreen();
 
         // Display welcome message to admin
-        System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t WELCOME ADMIN" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\n \t \t \t \t WELCOME ADMIN" + Utilities.ANSI_RESET);
 
         while (true) {
 
@@ -40,7 +40,7 @@ public class Admin extends AdminCustomers {
 
             // Validate user input with try-catch
             int choice = Utilities.validateAndReturnUserInput();
-
+           
             if (choice == -1234) {
                 continue;
             }
@@ -48,19 +48,19 @@ public class Admin extends AdminCustomers {
             Utilities.clearScreen();
             switch (choice) {
                 case 1:
-                    viewTotalSales();
-                    break;
-                case 2:
-                    addItemToMenu();
-                    break;
-                case 3:
-                    deleteItemFromMenu();
-                    break;
-                case 4:
                     displayMenu();
                     break;
-                case 5:
+                case 2:
                     displaySalesMenu();
+                    break;
+                case 3:
+                    viewTotalSales();
+                    break;
+                case 4:
+                    addItemToMenu();
+                    break;
+                case 5:
+                    deleteItemFromMenu();
                     break;
                 case 6:
                     // Go back to main menu
@@ -82,7 +82,7 @@ public class Admin extends AdminCustomers {
         }
     }
 
-    // Calculate the total sales from the sales array list 
+    // Calculate the total sales from the sales array list
     public void viewTotalSales() {
 
         // Return if no user has items in their cart
@@ -113,8 +113,8 @@ public class Admin extends AdminCustomers {
         }
 
         // Print total items sold and total sales generated
-        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
         return;
     }
 
@@ -133,7 +133,7 @@ public class Admin extends AdminCustomers {
         tempitemNumber++;
         final int itemNumber = tempitemNumber;
 
-        System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter item name: " + Utilities.ANSI_RESET);
+        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter item name: " + Utilities.ANSI_RESET);
         final String itemName = sc.nextLine();
 
         // Check if item is already present in the menu
@@ -142,7 +142,7 @@ public class Admin extends AdminCustomers {
             return;
         }
 
-        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter item price: " + Utilities.ANSI_RESET);
+        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter item price: " + Utilities.ANSI_RESET);
         final int itemPrice = sc.nextInt();
         sc.nextLine(); // Consume new line character
 
@@ -161,7 +161,7 @@ public class Admin extends AdminCustomers {
         addItemToMenu_DB(item);
 
         // Print success message
-        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
     }
 
     // Add the item to the database table as well
@@ -175,7 +175,8 @@ public class Admin extends AdminCustomers {
 
         // Connect to the database and close it after you are done
         try (Connection con = DriverManager.getConnection(url, uname, pass)) {
-            String query_insert_menu = "INSERT INTO " + AdminCustomers.tableToLoad + "(ID, Name, Price) VALUES(?, ?, ?)";
+            String query_insert_menu = "INSERT INTO " + AdminCustomers.tableToLoad
+                    + "(ID, Name, Price) VALUES(?, ?, ?)";
 
             PreparedStatement pstmt = con.prepareStatement(query_insert_menu);
             pstmt.setInt(1, (int) item.get("itemNumber"));
@@ -185,7 +186,9 @@ public class Admin extends AdminCustomers {
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            System.out.println("Error : " + ex.getMessage());
+            // Print error message that the item could not be added to the menu database
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item could not be added to the menu database"
+                    + Utilities.ANSI_RESET);
         }
     }
 
@@ -204,7 +207,7 @@ public class Admin extends AdminCustomers {
         displayMenu();
 
         // Get item number to delete
-        System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
+        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
         int itemNumber = sc.nextInt();
         sc.nextLine(); // Consume new line character
 
@@ -222,7 +225,7 @@ public class Admin extends AdminCustomers {
 
                 // Display success message to admin and return
                 System.out.println(
-                        Utilities.ANSI_RED + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
+                        Utilities.ANSI_GREEN + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
                 return;
             }
         }
@@ -234,7 +237,7 @@ public class Admin extends AdminCustomers {
         return;
     }
 
-    // Delete the item from the database table as well    
+    // Delete the item from the database table as well
     public void deleteItemFromMenu_DB(int item_number) {
         // THIS NEEDS TO BE IMPLEMENTED
 
@@ -243,18 +246,16 @@ public class Admin extends AdminCustomers {
             // Create query string to delete from the table
             String query_delete_from_menu = "DELETE FROM " + AdminCustomers.tableToLoad + " WHERE ID = ?";
 
-            // Create prepared statement 
+            // Create prepared statement
             PreparedStatement pstmt = con.prepareStatement(query_delete_from_menu);
             pstmt.setInt(1, item_number);
 
             // Execute the statement to remove the item
             pstmt.executeUpdate();
-            
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
 
     }
 
@@ -311,7 +312,6 @@ public class Admin extends AdminCustomers {
     // Loads the sales from the database
     public void loadSales_DB() {
 
-
         // Connect to the database and close it after you are done
         try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
@@ -337,20 +337,19 @@ public class Admin extends AdminCustomers {
             }
 
         } catch (SQLException ex) {
-            System.out.println("Error : " + ex.getMessage());
+            // Print the error message that the sales table is empty
+            System.out.println(Utilities.ANSI_RED + "\t \t \t \t => Sales Menu is empty" + Utilities.ANSI_RESET);
         }
 
     }
 
     // Display the admin menu
     public void adminMainMenu() {
-        System.out.println(Utilities.ANSI_YELLOW + "\n\t \t \t \t 1. View total sales" + Utilities.ANSI_RESET);
-        System.out.println(
-                Utilities.ANSI_YELLOW + "\t \t \t \t 2. Add new items in the order menu" + Utilities.ANSI_RESET);
-        System.out.println(
-                Utilities.ANSI_YELLOW + "\t \t \t \t 3. Delete items from the order menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 4. Display order menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 5. Display sales menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_YELLOW + "\n\t \t \t \t 1. Display menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 2. Display sales" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 3. View total sales" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 4. Add to menu" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 5. Delete from menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 6. Go back to main menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 7. Exit" + Utilities.ANSI_RESET);
     }

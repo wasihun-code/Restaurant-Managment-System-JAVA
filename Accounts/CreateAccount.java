@@ -53,7 +53,7 @@ public class CreateAccount {
                     case 1:
 
                         // Prompt user to enter master password
-                        System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter Master Password: "
+                        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter Master Password: "
                                 + Utilities.ANSI_RESET);
 
                         // Store master password in a string
@@ -116,7 +116,7 @@ public class CreateAccount {
                         displayAccountDetail();
 
                         // Display success message and exit
-                        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Account Created Successfully" +
+                        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Account Created Successfully" +
                                 Utilities.ANSI_RESET);
                     }
                 }
@@ -126,7 +126,7 @@ public class CreateAccount {
             else {
 
                 // Display error message and exit
-                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Account Creation Failed" +
+                System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Account Creation Failed" +
                         Utilities.ANSI_RESET);
             }
 
@@ -280,7 +280,7 @@ public class CreateAccount {
 
     // Display the create account menu
     public static void createAccountMainMenu() {
-        System.out.println(Utilities.ANSI_RED + "\n\t\t\t   => Choose Account Type: "
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t   => Choose Account Type: "
                 + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 1. ADMIN" +
                 Utilities.ANSI_RESET);
