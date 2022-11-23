@@ -35,10 +35,8 @@ public class CreateAccount {
 
             // Loop indefinitely until user chooses to exit
             while (true) {
-                // Get user choice
-                System.out.print(Utilities.ANSI_CYAN + "\t\t\t\t => Enter your choice: " +
-                        Utilities.ANSI_RESET);
 
+                // Validate user choice
                 int choice = Utilities.validateUserInputTryCatch();
 
                 // User has chosen to input something other than an integer so ask them again
@@ -109,10 +107,10 @@ public class CreateAccount {
             if (readAccountDetail()) {
 
                 // If account is created on the database successfully
-                if (storeAccountOnDB()) {
+                if (storeAccount_DB()) {
 
                     // If cart is created on the database successfully
-                    if (createCartOnDB()) {
+                    if (createCart_DB()) {
 
                         // Display the account details
                         displayAccountDetail();
@@ -186,7 +184,7 @@ public class CreateAccount {
     }
 
     // Write UserId, phone, password, bankaccount to database table: account
-    public static boolean storeAccountOnDB() {
+    public static boolean storeAccount_DB() {
 
         // Create strings for the database connection
         String uname = "root";
@@ -268,7 +266,7 @@ public class CreateAccount {
     }
 
     // Create a cart table for the user on the database
-    public static boolean createCartOnDB() {
+    public static boolean createCart_DB() {
 
         // Create strings for the database connection
         String uname = "root";
