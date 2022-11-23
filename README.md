@@ -1,5 +1,2 @@
 # Resturant Management System
-Restaurant Managment Systems
-Push to account-feature-Mikiyas branch from main
-
-
+Restaurant Managment Systems - Data Structure Project Using Java
