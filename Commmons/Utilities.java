@@ -28,15 +28,15 @@ public class Utilities {
         int choice;
         try {
             // Read user input
-            System.out.println(ANSI_CYAN + "\t\t\t\t => Enter your choice: " + ANSI_RESET);
+            System.out.print(ANSI_CYAN + "\t\t\t\t => Enter your choice: " + ANSI_RESET);
             choice = sc.nextInt();
             sc.nextLine(); // Consume newline left-over
             return choice;
         } catch (Exception e) {
-            System.out.print(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
-                    Utilities.ANSI_RESET);
             sc.nextLine(); // Consume newline left-over
             Utilities.clearScreen();
+            System.out.print(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
+                    Utilities.ANSI_RESET);
             return -1234;
         }
     }
