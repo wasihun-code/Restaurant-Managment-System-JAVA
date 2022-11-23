@@ -132,8 +132,13 @@ public class createAccount extends loginAbstract {
         try (BufferedWriter filewrite = new BufferedWriter(
                 new FileWriter(fileToOpen, true))) {
             filewrite.newLine();
+
             int userId = Integer.parseInt(ID) + 1;
+            //test statment
+            System.out.println("userid parsed: " + userId);
             ID = userId + "";
+
+            System.out.println("Static ID " + ID);
             filewrite.append("ID: " + userId + "\n");
             filewrite.append("Password: " + password + "\n");
             filewrite.append("Full Name: " + ownerName + "\n");

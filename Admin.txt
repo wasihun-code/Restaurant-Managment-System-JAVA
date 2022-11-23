@@ -28,3 +28,9 @@ Password: mdM12@
 Full Name: wasi woo
 Phone Number: 12345
 Bank Account: 12345
+
+ID: 1001
+Password: Passt1@
+Full Name: Mika teg
+Phone Number: 12345
+Bank Account: 12454

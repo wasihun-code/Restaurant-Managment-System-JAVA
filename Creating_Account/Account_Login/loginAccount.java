@@ -21,7 +21,7 @@ public class loginAccount extends loginAbstract {
         while (true) {
 
         int userChoice;
-        boolean jumpToMain = false;
+        // boolean jumpToMain = false;
         System.out.println("\n\n");
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Login to Admin Account" + Utilities.ANSI_RESET);
                 System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Login To User Account" + Utilities.ANSI_RESET);
@@ -59,6 +59,10 @@ public class loginAccount extends loginAbstract {
                         if(userPasswordAuthentication("User.txt", password)){
                             new Admin();
 
+                        }
+                        else{
+                            System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user password. Enter Correct password" + Utilities.ANSI_RESET);
+                            continue;
                         }
                     }
                     else{
@@ -117,9 +121,9 @@ public class loginAccount extends loginAbstract {
             // }
             
             // if user wants to go back to main menu
-            if (jumpToMain) {
-                break;
-            }
+            // if (jumpToMain) {
+            //     break;
+            // }
         }
     }
 
@@ -133,7 +137,7 @@ public class loginAccount extends loginAbstract {
 
     public boolean userPasswordAuthentication(String fileToOpen, String password) {
         Matcher passwordMatcher = null;
-        Pattern passwordPattern = Pattern.compile("^Password: ([0-9]{4})");
+        Pattern passwordPattern = Pattern.compile("^Password: ([0-9]{6,8})");
 
         return searchString(fileToOpen, passwordPattern, passwordMatcher, password);
     }
