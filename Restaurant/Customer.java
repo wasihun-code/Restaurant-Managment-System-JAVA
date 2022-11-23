@@ -23,7 +23,7 @@ public class Customer extends AdminCustomers {
     Scanner sc = new Scanner(System.in);
 
     public Customer() {
-        Utilities.clearScreen();
+        // Utilities.clearScreen();
         System.out.println("\n");
         System.out.println(Utilities.ANSI_RED + "\t \t\t\t\t Welcome Customer" +
                 Utilities.ANSI_RESET);
@@ -47,7 +47,7 @@ public class Customer extends AdminCustomers {
                 continue;
             }
 
-            Utilities.clearScreen();
+            // Utilities.clearScreen();
             switch (choice) {
                 case 1:
                     addItemToCartAndSales();
