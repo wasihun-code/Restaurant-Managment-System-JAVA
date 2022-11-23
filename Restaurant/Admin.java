@@ -1,5 +1,12 @@
 package Restaurant;
 
+// Import necessary sql packages
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
@@ -20,6 +27,13 @@ public class Admin extends AdminCustomers {
         System.out.println(Utilities.ANSI_RED + "\n \t \t \t \t WELCOME ADMIN" + Utilities.ANSI_RESET);
 
         while (true) {
+
+            // Clear sales and load it
+            sales.clear();
+
+            // Load the sales menu from the database when Admin logs in
+            loadSales_DB();
+
             adminMainMenu();
             boolean goBackToMainMenu = false;
 
@@ -36,10 +50,10 @@ public class Admin extends AdminCustomers {
                     viewTotalSales();
                     break;
                 case 2:
-                    addToMenu();
+                    addItemToMenu();
                     break;
                 case 3:
-                    deleteFromMenu();
+                    deleteItemFromMenu();
                     break;
                 case 4:
                     displayMenu();
@@ -52,7 +66,8 @@ public class Admin extends AdminCustomers {
                     goBackToMainMenu = true;
                     break;
                 case 7:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
+                            + Utilities.ANSI_RESET);
                     System.exit(0);
                     break;
                 default:
@@ -64,6 +79,9 @@ public class Admin extends AdminCustomers {
                 break;
             }
         }
+    }
+
+    private void deleteItemFromMenu() {
     }
 
     public void viewTotalSales() {
@@ -94,13 +112,13 @@ public class Admin extends AdminCustomers {
             totalItems += itemQuantity;
         }
 
-        // Print total items sold and total sales generated 
+        // Print total items sold and total sales generated
         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
         return;
     }
 
-    public void addToMenu() {
+    public void addItemToMenu() {
 
         int tempitemNumber = 0;
 
@@ -165,12 +183,14 @@ public class Admin extends AdminCustomers {
                 menu.remove(menuItem);
 
                 // Display success message to admin and return
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
+                System.out.println(
+                        Utilities.ANSI_RED + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
                 return;
             }
         }
 
-        // If what admin chose isn't in the menu. Prompt with an error message and return
+        // If what admin chose isn't in the menu. Prompt with an error message and
+        // return
         System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item not found." + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Please Enter a valid number again" + Utilities.ANSI_RESET);
         return;
@@ -192,11 +212,11 @@ public class Admin extends AdminCustomers {
 
         // Format the table title
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
-        "", "SALES MENU", "", "");
+                "", "SALES MENU", "", "");
 
         // Format the table title separator
         f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
-        "---------", "-------------", "------------", "-------------");
+                "---------", "-------------", "------------", "-------------");
 
         // format the table header
         f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
@@ -210,7 +230,8 @@ public class Admin extends AdminCustomers {
         for (HashMap<String, Object> item1 : sales) {
 
             // Format the sales menu rows
-            f.format(Utilities.ANSI_CYAN +"%14s %14s %15s %10s %15s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
+            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s %15s\n" + Utilities.ANSI_RESET, "",
+                    item1.get("itemNumber"),
                     item1.get("itemName"), item1.get("itemPrice"), item1.get("itemQuantity"));
 
             // Format the sales menu rows separator
@@ -224,10 +245,53 @@ public class Admin extends AdminCustomers {
         f.close();
     }
 
+    // Method to load the sales from the database
+    public void loadSales_DB() {
+        // THIS NEEDS TO BE IMPLEMENTED
+
+        // Create string for connection
+        final String uname = "root";
+        final String pass = "RMS.java";
+        final String url = "jdbc:mysql://localhost:3306/restaurant";
+        
+        // Connect to the database and close it after you are done
+        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+            
+            // Create statement
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM sales");
+
+            while (rs.next()) {
+                final int itemNumber = (int) rs.getInt("itemNumber");
+                final String itemName = (String) rs.getString("itemName");
+                final int itemPrice = (int) rs.getInt("itemPrice");
+                final int itemQuantity = (int) rs.getInt("itemPrice");
+
+                item = new HashMap<String, Object>() {
+                    {
+                        put("itemNumber", itemNumber);
+                        put("itemName", itemName);
+                        put("itemPrice", itemPrice);
+                        put("itemQuantity", itemQuantity);
+                    }
+                };
+                sales.add(item);
+            }
+
+
+
+        } catch (SQLException ex) {
+            System.out.println("Error : " + ex.getMessage());
+        }
+
+    }
+
     public void adminMainMenu() {
         System.out.println(Utilities.ANSI_YELLOW + "\n\t \t \t \t 1. View total sales" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 2. Add new items in the order menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 3. Delete items from the order menu" + Utilities.ANSI_RESET);
+        System.out.println(
+                Utilities.ANSI_YELLOW + "\t \t \t \t 2. Add new items in the order menu" + Utilities.ANSI_RESET);
+        System.out.println(
+                Utilities.ANSI_YELLOW + "\t \t \t \t 3. Delete items from the order menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 4. Display order menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 5. Display sales menu" + Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_YELLOW + "\t \t \t \t 6. Go back to main menu" + Utilities.ANSI_RESET);
