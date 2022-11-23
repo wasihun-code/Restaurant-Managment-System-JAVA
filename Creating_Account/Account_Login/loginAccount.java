@@ -60,10 +60,6 @@ public class loginAccount extends loginAbstract {
                             new Admin();
 
                         }
-                        else{
-                            System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user PassWord. Enter Correct password" + Utilities.ANSI_RESET);
-                            continue;
-                        }
                     }
                     else{
                         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t Invalide user Id. Enter Correct Id" + Utilities.ANSI_RESET);
@@ -72,13 +68,12 @@ public class loginAccount extends loginAbstract {
 
                 }
 
-
+                ////////////Copilote suggestion///////////
                 else if(userChoice==2){
                     System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 1. Enter Your User ID" + Utilities.ANSI_RESET);
                     ID=sc.nextLine();
                     if( userIDAuthentication("User.txt", ID)){
                         System.out.println(Utilities.ANSI_CYAN + "\t \t \t \t 2. Enter Your Password:" + Utilities.ANSI_RESET);
-                        sc.nextLine();
                         password=sc.nextLine();
                         if(userPasswordAuthentication("User.txt", password)){
                             new Customers();
