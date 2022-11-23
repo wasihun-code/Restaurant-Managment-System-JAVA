@@ -17,8 +17,6 @@ import Commmons.Utilities;
 
 public class CreateAccount {
 
-    // Scanner object to read user input
-    static Scanner sc = new Scanner(System.in);
     
     // Create strings to store user details
     static String UserName = "SOMETHING", UserPassword = "13";
@@ -53,7 +51,7 @@ public class CreateAccount {
                     case 1:
 
                         // Prompt user to enter master password
-                        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter Master Password: "
+                        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t => Enter Master Password: "
                                 + Utilities.ANSI_RESET);
 
                         // Store master password in a string
@@ -68,14 +66,14 @@ public class CreateAccount {
                             if (!(masterPassword.equals("RMS.java"))) {
 
                                 // If Incorrect, throw an exception and exit
-                                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Password" +
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
                                         Utilities.ANSI_RESET);
                                 throw new Exception();
                             }
                         } catch (Exception e) {
 
                             // Catch the exception and exit
-                            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                            System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." +
                                     Utilities.ANSI_RESET);
                             System.exit(1);
                         }
@@ -89,13 +87,13 @@ public class CreateAccount {
 
                     // Exit
                     case 3:
-                        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+                        System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." +
                                 Utilities.ANSI_RESET);
                         System.exit(1);
 
                         // Invalid choice
                     default:
-                        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" +
+                        System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Choice" +
                                 Utilities.ANSI_RESET);
                         break;
                 }
@@ -116,7 +114,7 @@ public class CreateAccount {
                         displayAccountDetail();
 
                         // Display success message and exit
-                        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Account Created Successfully" +
+                        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Account Created Successfully" +
                                 Utilities.ANSI_RESET);
                     }
                 }
@@ -126,12 +124,12 @@ public class CreateAccount {
             else {
 
                 // Display error message and exit
-                System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Account Creation Failed" +
+                System.out.println(Utilities.ANSI_GREEN + "\t\t\t => Account Creation Failed" +
                         Utilities.ANSI_RESET);
             }
 
             // But whatever happens, exit
-            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." +
+            System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." +
                     Utilities.ANSI_RESET);
             System.exit(1);
         }
@@ -158,9 +156,9 @@ public class CreateAccount {
         String prompt;
         prompt = """
                 First name must be minimum 2 characters long and contain only letters
-                \t\t\t\t Last name must be minimum 2 characters long and contain only letters
-                \t\t\t\t There must be a space between the first and last name
-                \t\t\t\t Enter your name:""";
+                \t\t\t Last name must be minimum 2 characters long and contain only letters
+                \t\t\t There must be a space between the first and last name
+                \t\t\t Enter your name:""";
 
         // Get verified user name from the user
         UserName = validateUserInput(UserNamePattern, prompt);
@@ -174,9 +172,9 @@ public class CreateAccount {
         // Create string prompt to display to the user about password requirements
         prompt = """
                 Minimum 6 characters, Maximum 10 characters
-                \t\t\t\t At least One uppercase letter, One lowercase letter
-                \t\t\t\t At least One Digit and One special characteር
-                \t\t\t\t Enter Password:""";
+                \t\t\t At least One uppercase letter, One lowercase letter
+                \t\t\t At least One Digit and One special characteር
+                \t\t\t Enter Password:""";
 
         // Get verified user password from the user
         UserPassword = validateUserInput(passwordPattern, prompt);
@@ -207,7 +205,7 @@ public class CreateAccount {
             }
         } catch (SQLException e) {
             // Catch any SQL exception and print the error and return false
-            System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Error: " + e.getMessage() +
+            System.out.println(Utilities.ANSI_RED + "\t\t\t => Error: " + e.getMessage() +
                     Utilities.ANSI_RESET);
             return false;
         }
@@ -247,10 +245,10 @@ public class CreateAccount {
             Utilities.clearScreen();
 
             // Display the prompt
-            System.out.print(Utilities.ANSI_PURPLE + "\t\t\t\t " + prompt + " " + Utilities.ANSI_RESET);
+            System.out.print(Utilities.ANSI_PURPLE + "\t\t\t " + prompt + " " + Utilities.ANSI_RESET);
 
             // Get the user input
-            string = sc.nextLine();
+            string = Utilities.sc.nextLine();
 
             // Create a matcher object to match the user input with the pattern
             matcher = pattern.matcher(string);
@@ -282,11 +280,11 @@ public class CreateAccount {
     public static void createAccountMainMenu() {
         System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t   => Choose Account Type: "
                 + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 1. ADMIN" +
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t 1. ADMIN" +
                 Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 2. CUSTOMER" +
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t 2. CUSTOMER" +
                 Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t\t\t\t 3. EXIT" +
+        System.out.println(Utilities.ANSI_CYAN + "\t\t\t 3. EXIT" +
                 Utilities.ANSI_RESET);
     }
 

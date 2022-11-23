@@ -11,7 +11,6 @@ import java.sql.Statement;
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Scanner;
 
 // Import necessary project packages
 import Accounts.LoginToAccount;
@@ -19,13 +18,11 @@ import Commmons.Utilities;
 
 public class Customer extends AdminCustomers {
 
-    // Scanner to read user input
-    Scanner sc = new Scanner(System.in);
-
     public Customer() {
+
         Utilities.clearScreen();
         System.out.println("\n");
-        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t  Welcome Customer\n" +
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t  Welcome Customer\n" +
                 Utilities.ANSI_RESET);
         while (true) {
 
@@ -35,6 +32,7 @@ public class Customer extends AdminCustomers {
             // Load the user cart from the database
             loadCartFrom_DB();
 
+            // Display the menu
             customerMainMenu();
 
             // Store user choice of going back to main menu
@@ -64,14 +62,14 @@ public class Customer extends AdminCustomers {
                 case 5:
                     // Go back to main menu
                     goBackToMainMenu = true;
-                    return;
+                    break;
                 case 6:
-                    System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Thank you for using our service"
+                    System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Thank you for using our service"
                             + Utilities.ANSI_RESET);
                     System.exit(0);
                     break;
                 default:
-                    System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Invalid choice" +
+                    System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Invalid choice" +
                             Utilities.ANSI_RESET);
                     break;
             }
@@ -88,10 +86,8 @@ public class Customer extends AdminCustomers {
         displayMenu();
 
         // Get the item number from user
-        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
-        sc = new Scanner(System.in);
-        int itemNumber = sc.nextInt();
-        sc.nextLine();
+        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
+        int itemNumber = Utilities.validateAndReturnUserInput();
 
         // loop through the menu to find the item
         for (HashMap<String, Object> menuItem : menu) {
@@ -274,10 +270,8 @@ public class Customer extends AdminCustomers {
         viewCart();
 
         // Read the item number from the user
-        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
-        sc = new Scanner(System.in);
-        int itemNumberUser = sc.nextInt();
-        sc.nextLine(); // consume the new line
+        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
+        int itemNumberUser = Utilities.validateAndReturnUserInput();
 
         // Loop through the cart to find the itemNumber
         for (HashMap<String, Object> cartItem : cart) {

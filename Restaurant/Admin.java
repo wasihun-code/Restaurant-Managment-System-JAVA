@@ -11,15 +11,12 @@ import java.sql.Statement;
 // Import necessary util packages
 import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Scanner;
 
 // Import utilities module from Commons package
 import Commmons.Utilities;
 
 public class Admin extends AdminCustomers {
 
-    // Scanner object to read user input
-    Scanner sc = new Scanner(System.in);
 
     public Admin() {
         Utilities.clearScreen();
@@ -67,12 +64,12 @@ public class Admin extends AdminCustomers {
                     goBackToMainMenu = true;
                     break;
                 case 7:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service"
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Thank you for using our service"
                             + Utilities.ANSI_RESET);
                     System.exit(0);
                     break;
                 default:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
                     break;
             }
             // if user wants to go back to main menu
@@ -87,7 +84,7 @@ public class Admin extends AdminCustomers {
 
         // Return if no user has items in their cart
         if (sales.isEmpty()) {
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => No sales yet" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t => No sales yet" + Utilities.ANSI_RESET);
             return;
         }
 
@@ -113,8 +110,8 @@ public class Admin extends AdminCustomers {
         }
 
         // Print total items sold and total sales generated
-        System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_GREEN + "\t\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\t\t\t => Total Items Sold: " + totalItems + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\t\t\t => Total Sales: " + totalSales + Utilities.ANSI_RESET);
         return;
     }
 
@@ -133,18 +130,18 @@ public class Admin extends AdminCustomers {
         tempitemNumber++;
         final int itemNumber = tempitemNumber;
 
-        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter item name: " + Utilities.ANSI_RESET);
-        final String itemName = sc.nextLine();
+        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter item name: " + Utilities.ANSI_RESET);
+        final String itemName = Utilities.sc.nextLine();
 
         // Check if item is already present in the menu
         if (itemExistsInTheMenu(itemName.toUpperCase())) {
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item already exists!" + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Item already exists!" + Utilities.ANSI_RESET);
             return;
         }
 
-        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter item price: " + Utilities.ANSI_RESET);
-        final int itemPrice = sc.nextInt();
-        sc.nextLine(); // Consume new line character
+        System.out.print(Utilities.ANSI_VIOLET + "\t\t\t => Enter item price: " + Utilities.ANSI_RESET);
+        final int itemPrice = Utilities.sc.nextInt();
+        Utilities.sc.nextLine(); // Consume new line character
 
         // Add item detail to the hashmap
         item = new HashMap<String, Object>() {
@@ -161,7 +158,7 @@ public class Admin extends AdminCustomers {
         addItemToMenu_DB(item);
 
         // Print success message
-        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Item added to the menu " + Utilities.ANSI_RESET);
     }
 
     // Add the item to the database table as well
@@ -187,7 +184,7 @@ public class Admin extends AdminCustomers {
 
         } catch (SQLException ex) {
             // Print error message that the item could not be added to the menu database
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item could not be added to the menu database"
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Item could not be added to the menu database"
                     + Utilities.ANSI_RESET);
         }
     }
@@ -199,7 +196,7 @@ public class Admin extends AdminCustomers {
         if (menu.isEmpty()) {
 
             // Display message to admin and return
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Menu is already empty." + Utilities.ANSI_RESET);
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Menu is already empty." + Utilities.ANSI_RESET);
             return;
         }
 
@@ -207,9 +204,9 @@ public class Admin extends AdminCustomers {
         displayMenu();
 
         // Get item number to delete
-        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
-        int itemNumber = sc.nextInt();
-        sc.nextLine(); // Consume new line character
+        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter item number to delete: " + Utilities.ANSI_RESET);
+        int itemNumber = Utilities.sc.nextInt();
+        Utilities.sc.nextLine(); // Consume new line character
 
         // Loop through the menu items
         for (HashMap<String, Object> menuItem : menu) {
@@ -225,15 +222,15 @@ public class Admin extends AdminCustomers {
 
                 // Display success message to admin and return
                 System.out.println(
-                        Utilities.ANSI_GREEN + "\n\t\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
+                        Utilities.ANSI_GREEN + "\n\t\t\t => Item deleted successfully." + Utilities.ANSI_RESET);
                 return;
             }
         }
 
         // If what admin chose isn't in the menu. Prompt with an error message and
         // return
-        System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Item not found." + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Please Enter a valid number again" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Item not found." + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_RED + "\t\t\t => Please Enter a valid number again" + Utilities.ANSI_RESET);
         return;
     }
 

@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-// Import necessary packages
-import java.util.Scanner;
 
 // Import project packages
 import Commmons.Utilities;
@@ -25,26 +23,25 @@ public class LoginToAccount {
         // Create Strings to store user input
         String password;
 
-        try (Scanner sc = new Scanner(System.in)) {
             // Get username and password from user
-            System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t\t => Enter User ID: " + Utilities.ANSI_RESET);
-            UserId = sc.nextLine();
+            System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter User ID: " + Utilities.ANSI_RESET);
+            UserId = Utilities.sc.nextLine();
 
             // Exit the program if user enters incorrect password
             if (!authenticateId_From_DB(UserId)) {
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Invalid Username" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
             }
 
             // Get password from user
-            System.out.print(Utilities.ANSI_VIOLET + "\t\t\t\t => Enter Password: " + Utilities.ANSI_RESET);
-            password = sc.nextLine();
+            System.out.print(Utilities.ANSI_VIOLET + "\t\t\t => Enter Password: " + Utilities.ANSI_RESET);
+            password = Utilities.sc.nextLine();
 
             // Exit the program if user enters incorrect password
             if (!authenticatePassword_DB(UserId, password)) {
-                System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\n\t\t\t => Invalid Password" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
             }
 
@@ -54,7 +51,6 @@ public class LoginToAccount {
             } else {
                 new Customer();
             }
-        }
     }
 
     public static boolean authenticateId_From_DB(String UserId) {

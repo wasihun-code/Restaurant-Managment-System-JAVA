@@ -57,8 +57,8 @@ public class AdminCustomers {
                 tableToLoad = "brasilians_menu";
                 break;
             default:
-                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Invalid Choice" + Utilities.ANSI_RESET);
-                System.out.println(Utilities.ANSI_RED + "\t\t\t\t => Exiting..." + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Choice" + Utilities.ANSI_RESET);
+                System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." + Utilities.ANSI_RESET);
                 System.exit(1);
                 return;
         }
@@ -197,10 +197,10 @@ public class AdminCustomers {
         // Print the countries list
 
         System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t=> Choose a country to load the menu" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 1. ETHIOPIA" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 2. INDIA" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 3. SYRIA" + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_VIOLET + "\t\t\t\t => 4. BRAZIL" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_INDIGO + "\n\t\t\t => 1. ETHIOPIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_INDIGO + "\t\t\t => 2. INDIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_INDIGO + "\t\t\t => 3. SYRIA" + Utilities.ANSI_RESET);
+        System.out.println(Utilities.ANSI_INDIGO + "\t\t\t => 4. BRAZIL" + Utilities.ANSI_RESET);
         System.out.println();
     }
 }
