@@ -50,13 +50,13 @@ public class Customer extends AdminCustomers {
             Utilities.clearScreen();
             switch (choice) {
                 case 1:
-                    addItemToCart();
+                    addItemToCartAndSales();
                     break;
                 case 2:
                     viewCart();
                     break;
                 case 3:
-                    removeItemFromCart();
+                    removeItemFromCartAndSales();
                     break;
                 case 4:
                     showSubtotal();
@@ -82,7 +82,7 @@ public class Customer extends AdminCustomers {
         }
     }
 
-    public void addItemToCart() {
+    public void addItemToCartAndSales() {
         // Display menu to user to be able to select items
         displayMenu();
 
@@ -114,7 +114,7 @@ public class Customer extends AdminCustomers {
                             // Add the item to users cart in the database as well
                             // This function will also increment the quantity if the item is already in the
                             // cart
-                            addItemToCart_DB(menuItem, true);
+                            addItemToCartAndSales_DB(menuItem, true);
                             return;
                         }
                     }
@@ -126,7 +126,7 @@ public class Customer extends AdminCustomers {
                 cart.add(menuItem);
 
                 // Add the item to users cart in the database as well
-                addItemToCart_DB(menuItem, false);
+                addItemToCartAndSales_DB(menuItem, false);
 
                 // Also add the item to the sales menu as if the user has bought it
                 sales.add(menuItem);
@@ -146,7 +146,7 @@ public class Customer extends AdminCustomers {
     }
 
     // Add the item to the user's cart in the database as well
-    public void addItemToCart_DB(HashMap<String, Object> menuItem, boolean itemExists) {
+    public void addItemToCartAndSales_DB(HashMap<String, Object> menuItem, boolean itemExists) {
         // Connect with the database using try-resource
         try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
 
@@ -187,7 +187,7 @@ public class Customer extends AdminCustomers {
 
             // Create a query to insert the item to the sales
             String query_sales = "INSERT INTO sales" +
-                    "(itemNumber, itemName, itemPrice, itemQuantity) VALUES(?,?,?,?)";
+                    "(itemNumber, itemName, itemPrice, itemQuantity, userId) VALUES(?,?,?,?,?)";
             PreparedStatement pstmt_sales = con.prepareStatement(query_sales);
 
             pstmt_cart.setInt(1, (int) menuItem.get("itemNumber"));
@@ -199,6 +199,7 @@ public class Customer extends AdminCustomers {
             pstmt_sales.setString(2, (String) menuItem.get("itemName"));
             pstmt_sales.setInt(3, (int) menuItem.get("itemPrice"));
             pstmt_sales.setInt(4, 1);
+            pstmt_sales.setString(5, LoginToAccount.UserId);
 
             // Execute the query
             pstmt_cart.executeUpdate();
@@ -210,6 +211,7 @@ public class Customer extends AdminCustomers {
         }
     }
 
+    // Display the cart to the user
     public void viewCart() {
 
         // If the cart is empty
@@ -258,7 +260,7 @@ public class Customer extends AdminCustomers {
         f.close();
     }
 
-    public void removeItemFromCart() {
+    public void removeItemFromCartAndSales() {
 
         // If the cart is empty
         if (cart.isEmpty()) {
@@ -309,7 +311,7 @@ public class Customer extends AdminCustomers {
     }
 
     // Remove item from the database as well
-    public void removeItemFromCart_DB() {
+    public void removeItemFromCartAndSales_DB() {
         // THIS NEEDS TO BE IMPLEmENTED
 
 
