@@ -90,10 +90,12 @@ public class AdminCustomers {
                     System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
                     break;
             }
+            
             // if user wants to go back to main menu
             if (goBackToMainMenu) {
                 break;
             }
+            break;
 
         }
     }
@@ -130,6 +132,7 @@ public class AdminCustomers {
 
     // Method to display the menu in a tabular format
     public static void displayMenu() {
+        System.out.println(menu);
         if (menu.isEmpty()) {
             System.out.println("\t \t \t \t => Order Menu is empty");
             return;
@@ -160,6 +163,7 @@ public class AdminCustomers {
             f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                     "---------", "-------------", "------------");
         }
+        
         
         
 
@@ -196,34 +200,6 @@ public class AdminCustomers {
 
     
 
-    //read text file to display different country foods
-    // public void readCountryFile(String countryName){
-    //     try {
-    //         // Create a file reader
-    //         FileReader fileReader = new FileReader(countryName + ".txt");
-
-    //         // Create a buffered reader
-    //         BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-    //         // Read the file line by line
-    //         String line;
-    //         //split the line from file by comma
-    //         String[] splitLine;
-    //         while ((line = bufferedReader.readLine()) != null) {
-    //             splitLine = line.split(",");
-    //             //add the split line to the menu
-    //             addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
-    //         }
-    //         while ((line = bufferedReader.readLine()) != null) {
-    //             // System.out.println(line);
-    //         }
-
-    //         // Close the file
-    //         bufferedReader.close();
-    //     } catch (IOException e) {
-    //         System.out.println("Error: " + "Menu does not exist.");
-    //     }
-    // }
     //Method to add item from file to Menu
     public void addItemToMenu(String itemNumber, String itemName, double itemPrice) {
         // Create a new item
