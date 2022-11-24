@@ -250,57 +250,29 @@ public class AdminCustomers {
         // Add the item to the menu
         menu.add(item);
     }
-     //Temporary method to add menus to file for testing
-     public void addMenuToFile() {
+   
+    //Method to add a new menu to file
+    public void addNewMenuToFile(String fileName) {
         try {
             // Create a file writer
-            FileWriter fileWriter = new FileWriter("menu.txt");
+            FileWriter fileWriter = new FileWriter(fileName + ".txt");
 
             // Create a buffered writer
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            //////////////////////////////////////////////////////////
+            // Write the menu to the file
+            for (HashMap<String, Object> item : menu) {
+                bufferedWriter.write(item.get("itemNumber") + "," + item.get("itemName") + "," + item.get("itemPrice"));
+                bufferedWriter.newLine();
+            }
 
-            Formatter f = new Formatter();
-
-        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
-                + Utilities.ANSI_RESET, "", "", "ORDER MENU", "");
-
-        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
-                + Utilities.ANSI_RESET, "", "---------",
-                "-------------", "------------");
-        // format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
-                Utilities.ANSI_RESET, "", "Number", "Item Name", "Item Price");
-
-        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
-                + Utilities.ANSI_RESET, "",
-                "---------", "-------------", "------------");
-        // loop through the menu
-        for (HashMap<String, Object> item1 : menu) {
-            // format the table body
-            f.format(Utilities.ANSI_CYAN + "%14s %14s %15s %10s\n" + Utilities.ANSI_RESET, "", item1.get("itemNumber"),
-                    item1.get("itemName"), item1.get("itemPrice"));
-            f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
-                    "---------", "-------------", "------------");
-        }
-
-        // display the table menu
-        // f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" +
-        // Utilities.ANSI_RESET, "",
-        // "-----------------", "-----------------", "------------");
-        System.out.println(Utilities.ANSI_GREEN + f + Utilities.ANSI_RESET);
-        //write the table above to the file
-        bufferedWriter.write(f.toString());
-        f.close();
-
-        ///////////////////////////////////////////////////////////////
-
-            // Write to the file
-         
+            // Close the file
+            bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("Error: " + "Menu does not exist.");
         }
+
     }
+
 
 }
