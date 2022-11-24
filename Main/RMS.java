@@ -27,6 +27,7 @@ public class RMS {
                 continue;
             }
 
+           
             // Clear the screen everytime user makes a choice
             Utilities.clearScreen();
 
@@ -50,7 +51,7 @@ public class RMS {
                             + Utilities.ANSI_RESET);
                     // Exit the program if user chooses to exit
                     System.exit(0);
-                    break;
+                    break; 
 
                 // Invalid choice
                 default:

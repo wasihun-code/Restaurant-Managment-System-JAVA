@@ -77,6 +77,7 @@ public class LoginToAccount {
 
         SQLException e) {
             // Display account not found message
+            e.printStackTrace();
             System.out.println("Account not found");
             return false;
         }

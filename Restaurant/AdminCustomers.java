@@ -91,7 +91,7 @@ public class AdminCustomers {
                 "-------------", "------------");
 
         // Format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n"
+        f.format(Utilities.ANSI_YELLOW + "%15s %15s %15s %15s\n"
                 + Utilities.ANSI_RESET, "",
                 "Number", "Item Name", "Item Price");
 

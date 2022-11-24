@@ -86,7 +86,7 @@ public class Customer extends AdminCustomers {
         displayMenu();
 
         // Get the item number from user
-        System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
+        // System.out.print(Utilities.ANSI_VIOLET + "\n\t\t\t => Enter the item Number: " + Utilities.ANSI_RESET);
         int itemNumber = Utilities.validateAndReturnUserInput();
 
         // loop through the menu to find the item
@@ -230,7 +230,7 @@ public class Customer extends AdminCustomers {
                 "---------", "-------------", "------------", "-------------");
 
         // Format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
+        f.format(Utilities.ANSI_YELLOW + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
                 "Item Name", "Item Price", "Item Quantity");
 
         // Format the table header separator

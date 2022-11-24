@@ -10,7 +10,7 @@ public class Utilities {
     // Create Strings for the database connection
     public static final String url = "jdbc:mysql://localhost:3306/restaurant";
     public static final String uname = "root";
-    public static final String pass = "RMS.java";
+    public static final String pass = "Mysqlmikisroot1";
 
     // Colors
     public static final String ANSI_RESET = "\u001B[0m";
@@ -25,6 +25,10 @@ public class Utilities {
     // Method to clear the console screen
     public static void clearScreen() {
         try {
+            delay(700);
+            //display delay message in blue Colors
+            System.out.println(ANSI_PURPLE + "\n\n\t\t\t => Please wait..." + ANSI_RESET);
+            delay(800);
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -40,6 +44,7 @@ public class Utilities {
             System.out.print(ANSI_VIOLET + "\n\t\t\t=> Enter your choice: " + ANSI_RESET);
             choice = sc.nextInt();
             sc.nextLine(); // Consume newline left-over
+            
             return choice;
 
             // Handle ctrl + d exception
@@ -70,6 +75,14 @@ public class Utilities {
             System.out.print(Utilities.ANSI_RED + "\t\t\t => Invalid Choice" +
                     Utilities.ANSI_RESET);
             return -1234;
+        }
+    }
+    //method to add time delay in Displaying the output
+    public static void delay(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

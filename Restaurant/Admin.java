@@ -280,7 +280,7 @@ public class Admin extends AdminCustomers {
                 "---------", "-------------", "------------", "-------------");
 
         // format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
+        f.format(Utilities.ANSI_YELLOW + "%15s %15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "", "Number",
                 "Item Sold", "Price Sold", "Quantity Sold");
 
         // Format the table header separator

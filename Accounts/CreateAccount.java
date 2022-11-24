@@ -17,7 +17,6 @@ import Commmons.Utilities;
 
 public class CreateAccount {
 
-    
     // Create strings to store user details
     static String UserName = "SOMETHING", UserPassword = "13";
     static String UserEmail = "me@gmail.com", UserPhone = "1234576890", AccountType = "CUSTOMER";
@@ -63,7 +62,7 @@ public class CreateAccount {
                             masterPassword = input.nextLine();
 
                             // Check if master password is correct
-                            if (!(masterPassword.equals("RMS.java"))) {
+                            if (!(masterPassword.equals("admin"))) {
 
                                 // If Incorrect, throw an exception and exit
                                 System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
@@ -75,6 +74,7 @@ public class CreateAccount {
                             // Catch the exception and exit
                             System.out.println(Utilities.ANSI_RED + "\t\t\t => Exiting..." +
                                     Utilities.ANSI_RESET);
+
                             System.exit(1);
                         }
                         AccountType = "ADMIN";
@@ -143,38 +143,29 @@ public class CreateAccount {
         Pattern UserNamePattern = Pattern.compile("^[a-zA-Z]{2,10} [a-zA-z]{2,}$");
 
         // Create the user phone number pattern which users have to follow
-        Pattern phonePattern = Pattern.compile("^[0-9]{10}$");
+        Pattern phonePattern = Pattern.compile("^[0-9]{1,}$");
 
         // Create the user password pattern which users have to follow
-        Pattern passwordPattern = Pattern.compile(
-                "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,10}$");
+        Pattern passwordPattern = Pattern.compile("^[a-zA-z0-9]{4,10}$");
 
         // Create the email pattern which users have to follow
         Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
 
         // Create string prompt to display to the user
         String prompt;
-        prompt = """
-                First name must be minimum 2 characters long and contain only letters
-                \t\t\t Last name must be minimum 2 characters long and contain only letters
-                \t\t\t There must be a space between the first and last name
-                \t\t\t Enter your name:""";
+        prompt = " \t\t\t Enter your name(Fisrt and Last):";
 
         // Get verified user name from the user
         UserName = validateUserInput(UserNamePattern, prompt);
 
         // Get verified user phone number from the user
-        UserPhone = validateUserInput(phonePattern, "\t Phone Number(10 digits):");
+        UserPhone = validateUserInput(phonePattern, "\t Phone Number:");
 
         // Get verified user email from the user
         UserEmail = validateUserInput(emailPattern, "\t Email:");
 
         // Create string prompt to display to the user about password requirements
-        prompt = """
-                Minimum 6 characters, Maximum 10 characters
-                \t\t\t At least One uppercase letter, One lowercase letter
-                \t\t\t At least One Digit and One special characteር
-                \t\t\t Enter Password:""";
+        prompt = "\t\t\t Enter Password(4-10 Character):";
 
         // Get verified user password from the user
         UserPassword = validateUserInput(passwordPattern, prompt);
@@ -260,7 +251,6 @@ public class CreateAccount {
 
     // Create a cart table for the user on the database
     public static boolean createCart_DB() {
-
 
         try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
             // Create a statement
