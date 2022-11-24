@@ -67,7 +67,7 @@ public class CreateAccount {
                                 // If Incorrect, throw an exception and exit
                                 System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
                                         Utilities.ANSI_RESET);
-                                throw new Exception();
+                                // throw new Exception();
                             }
                         } catch (Exception e) {
 
@@ -182,8 +182,7 @@ public class CreateAccount {
 
             // Write the user details to the database
             st.executeUpdate(
-                    "INSERT INTO accounts (UserName, UserPhone, UserEmail, UserPassword, AccountType) VALUES('"
-                            + UserName + "', '" + UserPhone + "', '" + UserEmail + "', '"
+                    "INSERT INTO accounts (UserName, UserPhone, UserEmail, UserPassword, AccountType)           VALUES('" + UserName + "', '" + UserPhone + "', '" + UserEmail + "', '"
                             + UserPassword + "', '" + AccountType + "')");
 
             // Extract user id from the database where user email and password match
