@@ -2,7 +2,6 @@ package Main;
 import Restaurant.AdminCustomers;
 // import AdminCutsomers.*;
 
-import Restaurant.*;
 
 
 public class Menu_Tester{
