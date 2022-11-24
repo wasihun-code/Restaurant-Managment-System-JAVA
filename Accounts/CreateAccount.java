@@ -267,9 +267,9 @@ public class CreateAccount {
 
     // Display the create account menu
     public static void createAccountMainMenu() {
-        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t   => Choose Account Type: "
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Choose Account Type: "
                 + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t\t\t 1. ADMIN" +
+        System.out.println(Utilities.ANSI_CYAN + "\n\t\t\t 1. ADMIN" +
                 Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_CYAN + "\t\t\t 2. CUSTOMER" +
                 Utilities.ANSI_RESET);
