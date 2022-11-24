@@ -19,7 +19,8 @@ public class Customers extends AdminCustomers {
         System.out.println("\n");
         System.out.println(Utilities.ANSI_CYAN + "\t \t\t\t\t Welcome Customer" + Utilities.ANSI_RESET);
         while (true) {
-            customerMainMenu();
+            //to chose the country and load file to display
+            new AdminCustomers();
 
             int choice;
             boolean goBackToMainMenu = false;

@@ -1,4 +1,4 @@
-1,Fish Curry,400
+1,FishCurry,400
 2,Briyani,300
 3,Samosa,150
 4,Bhutta,450

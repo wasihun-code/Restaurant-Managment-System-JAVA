@@ -29,59 +29,38 @@ public class AdminCustomers {
     // Scanner object to take input from the user
     Scanner sc = new Scanner(System.in);
 
-    /*
-     * MENU SHOULD BE INITIALIZED FROM THE DATABASE NOT FROM A FILE
-     */
-    public AdminCustomers() {
-        try (BufferedReader in = new BufferedReader(new FileReader("ETH.txt"))) {
-            String line;
-            boolean duplicateFound = false;
-
-            // read the file line by line
-            while ((line = in.readLine()) != null) {
-                // split the line into tokens: itemNumber, itemName and itemPrice
-                String[] parts = line.split(",");
-
-                // extract the itemNumber
-                int itemNumber = Integer.parseInt(parts[0]);
-
-                // Check if the itemNumber is already present in the menu
-                for (HashMap<String, Object> menuItem : menu) {
-
-                    // if the itemNumber is already present
-                    if (menuItem.containsValue(itemNumber)) {
-
-                        // then set duplicateFound to true and break out of the loop
-                        duplicateFound = true;
-                        break;
-                    }
+   /*
+    * After the user chose countryName, Initialize the constructor to read the menu form file
+    */
+    
+        public void readCountryFile(String countryName){
+            try {
+                // Create a file reader
+                FileReader fileReader = new FileReader(countryName + ".txt");
+    
+                // Create a buffered reader
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+    
+                // Read the file line by line
+                String line;
+                //split the line from file by comma
+                String[] splitLine;
+                while ((line = bufferedReader.readLine()) != null) {
+                    splitLine = line.split(",");
+                    //add the split line to the menu
+                    addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
                 }
-
-                // item is already present in the menu so skip adding it to menu again
-                if (duplicateFound) {
-
-                    // reset duplicateFound to false
-                    duplicateFound = false;
-                    continue;
-                }
-
-                // item is not present in the menu so create its representation
-                item = new HashMap<>() {
-                    {
-                        put("itemNumber", Integer.parseInt(parts[0]));
-                        put("itemName", parts[1]);
-                        put("itemPrice", Integer.parseInt(parts[2]));
-                    }
-                };
-
-                // then add it to the menu
-                menu.add(item);
+                // while ((line = bufferedReader.readLine()) != null) {
+                //     // System.out.println(line);
+                // }
+    
+                // Close the file
+                bufferedReader.close();
+            } catch (IOException e) {
+                System.out.println("Error: " + "Menu does not exist.");
             }
-            System.out.println(menu);
-        } catch (IOException e) {
-            System.out.println("Error: " + "Menu does not exist.");
+    
         }
-    }
 
     // Method to display the menu in a tabular format
     public void displayMenu() {
@@ -100,12 +79,12 @@ public class AdminCustomers {
                 + Utilities.ANSI_RESET, "", "---------",
                 "-------------", "------------");
         // format the table header
-        f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
-                Utilities.ANSI_RESET, "" );
+        // f.format(Utilities.ANSI_PURPLE + "%15s %15s %15s %15s\n" +
+        //         Utilities.ANSI_RESET, "" );
 
-        f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
-                + Utilities.ANSI_RESET, "",
-                "---------", "-------------", "------------");
+        // f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n"
+        //         + Utilities.ANSI_RESET, "",
+        //         "---------", "-------------", "------------");
         // loop through the menu
         for (HashMap<String, Object> item1 : menu) {
             // format the table body
@@ -114,6 +93,8 @@ public class AdminCustomers {
             f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" + Utilities.ANSI_RESET, "",
                     "---------", "-------------", "------------");
         }
+        
+        
 
         // display the table menu
         // f.format(Utilities.ANSI_GREEN + "%15s %15s %15s %15s\n" +
@@ -122,6 +103,7 @@ public class AdminCustomers {
         System.out.println(Utilities.ANSI_GREEN + f + Utilities.ANSI_RESET);
         f.close();
     }
+    
 
     // Method to check if an item is already present in the menu
     public boolean itemExists(String itemName) {
@@ -146,7 +128,7 @@ public class AdminCustomers {
     }
 
     //function for country list and food displayMenu
-    public void chooseCountry(){
+    public AdminCustomers(){
         while(true){
         //blue Colors
         System.out.println(Utilities.ANSI_BLUE + "Choose Country" + Utilities.ANSI_RESET);
@@ -184,13 +166,13 @@ public class AdminCustomers {
                     readCountryFile("Ethiopia");
                     break;
                 case 2:
-                    readCountryFile("India");
+                   readCountryFile("India");
                     break;
                 case 3:
-                    readCountryFile("Syria");
+                   readCountryFile("Syria");
                     break;
                 case 4:
-                    readCountryFile("Myanmar");
+                   readCountryFile("Myanmar");
                     break;
                 case 5:
                     goBackToMainMenu = true;
@@ -212,34 +194,34 @@ public class AdminCustomers {
     }
 
     //read text file to display different country foods
-    public void readCountryFile(String countryName){
-        try {
-            // Create a file reader
-            FileReader fileReader = new FileReader(countryName + ".txt");
+    // public void readCountryFile(String countryName){
+    //     try {
+    //         // Create a file reader
+    //         FileReader fileReader = new FileReader(countryName + ".txt");
 
-            // Create a buffered reader
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+    //         // Create a buffered reader
+    //         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            // Read the file line by line
-            String line;
-            //split the line from file by comma
-            String[] splitLine;
-            while ((line = bufferedReader.readLine()) != null) {
-                splitLine = line.split(",");
-                //add the split line to the menu
-                addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
-            }
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
+    //         // Read the file line by line
+    //         String line;
+    //         //split the line from file by comma
+    //         String[] splitLine;
+    //         while ((line = bufferedReader.readLine()) != null) {
+    //             splitLine = line.split(",");
+    //             //add the split line to the menu
+    //             addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
+    //         }
+    //         while ((line = bufferedReader.readLine()) != null) {
+    //             // System.out.println(line);
+    //         }
 
-            // Close the file
-            bufferedReader.close();
-        } catch (IOException e) {
-            System.out.println("Error: " + "Menu does not exist.");
-        }
-    }
-    //add item to menu method
+    //         // Close the file
+    //         bufferedReader.close();
+    //     } catch (IOException e) {
+    //         System.out.println("Error: " + "Menu does not exist.");
+    //     }
+    // }
+    //Method to add item from file to Menu
     public void addItemToMenu(String itemNumber, String itemName, double itemPrice) {
         // Create a new item
         HashMap<String, Object> item = new HashMap<String, Object>();
