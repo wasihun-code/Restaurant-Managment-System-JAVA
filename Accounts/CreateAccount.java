@@ -67,7 +67,6 @@ public class CreateAccount {
                                 // If Incorrect, throw an exception and exit
                                 System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
                                         Utilities.ANSI_RESET);
-                                throw new Exception();
                             }
                         } catch (Exception e) {
 
