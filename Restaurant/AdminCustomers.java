@@ -32,6 +32,71 @@ public class AdminCustomers {
    /*
     * After the user chose countryName, Initialize the constructor to read the menu form file
     */
+    //constructor to add item to menu
+    public AdminCustomers(){
+        while(true){
+        //blue Colors
+        System.out.println(Utilities.ANSI_BLUE + "Choose Country" + Utilities.ANSI_RESET);
+        //green colors
+        System.out.println(Utilities.ANSI_GREEN + "1. Ethiopia" + Utilities.ANSI_RESET);
+        //yellow colors
+        System.out.println(Utilities.ANSI_YELLOW + "2. India" + Utilities.ANSI_RESET);
+        //red colors
+        System.out.println(Utilities.ANSI_RED + "3. Syria" + Utilities.ANSI_RESET);
+        //cyan colors
+        System.out.println(Utilities.ANSI_CYAN + "4. Myanmar" + Utilities.ANSI_RESET);
+        //pink colors
+        System.out.println(Utilities.ANSI_PURPLE + "5. Jump to main" + Utilities.ANSI_RESET);
+        //purple colors
+        System.out.println(Utilities.ANSI_PURPLE + "6. Exit" + Utilities.ANSI_RESET);
+
+        int choice;
+        boolean goBackToMainMenu = false;
+
+        // Validate user input with try-catch
+        try {
+            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t =>Enter your choice: " + Utilities.ANSI_RESET);
+            choice = sc.nextInt();
+            sc.nextLine(); // To consume the newline character
+        } catch (Exception e) {
+            Utilities.clearScreen();
+            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t =>Invalid Input. Please Try again" + Utilities.ANSI_RESET);
+            sc.nextLine(); // To consume the newline character
+            continue;
+        }
+
+        // Utilities.clearScreen();
+            switch (choice) {
+                case 1:
+                    readCountryFile("Ethiopia");
+                    break;
+                case 2:
+                   readCountryFile("India");
+                    break;
+                case 3:
+                   readCountryFile("Syria");
+                    break;
+                case 4:
+                   readCountryFile("Myanmar");
+                    break;
+                case 5:
+                    goBackToMainMenu = true;
+                    break;
+                case 6:
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
+                    break;
+            }
+            // if user wants to go back to main menu
+            if (goBackToMainMenu) {
+                break;
+            }
+
+        }
+    }
     
         public void readCountryFile(String countryName){
             try {
@@ -50,6 +115,7 @@ public class AdminCustomers {
                     //add the split line to the menu
                     addItemToMenu(splitLine[0], splitLine[1], Double.parseDouble(splitLine[2]));
                 }
+                System.out.println("reader print ln");
                 // while ((line = bufferedReader.readLine()) != null) {
                 //     // System.out.println(line);
                 // }
@@ -63,11 +129,12 @@ public class AdminCustomers {
         }
 
     // Method to display the menu in a tabular format
-    public void displayMenu() {
+    public static void displayMenu() {
         if (menu.isEmpty()) {
             System.out.println("\t \t \t \t => Order Menu is empty");
             return;
         }
+
 
         // Create a table to display the menu
         Formatter f = new Formatter();
@@ -127,71 +194,7 @@ public class AdminCustomers {
         return false;
     }
 
-    //function for country list and food displayMenu
-    public AdminCustomers(){
-        while(true){
-        //blue Colors
-        System.out.println(Utilities.ANSI_BLUE + "Choose Country" + Utilities.ANSI_RESET);
-        //green colors
-        System.out.println(Utilities.ANSI_GREEN + "1. Ethiopia" + Utilities.ANSI_RESET);
-        //yellow colors
-        System.out.println(Utilities.ANSI_YELLOW + "2. India" + Utilities.ANSI_RESET);
-        //red colors
-        System.out.println(Utilities.ANSI_RED + "3. Syria" + Utilities.ANSI_RESET);
-        //cyan colors
-        System.out.println(Utilities.ANSI_CYAN + "4. Myanmar" + Utilities.ANSI_RESET);
-        //pink colors
-        System.out.println(Utilities.ANSI_PURPLE + "5. Jump to main" + Utilities.ANSI_RESET);
-        //purple colors
-        System.out.println(Utilities.ANSI_PURPLE + "6. Exit" + Utilities.ANSI_RESET);
-
-        int choice;
-        boolean goBackToMainMenu = false;
-
-        // Validate user input with try-catch
-        try {
-            System.out.print(Utilities.ANSI_CYAN + "\n\t\t\t\t =>Enter your choice: " + Utilities.ANSI_RESET);
-            choice = sc.nextInt();
-            sc.nextLine(); // To consume the newline character
-        } catch (Exception e) {
-            Utilities.clearScreen();
-            System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t =>Invalid Input. Please Try again" + Utilities.ANSI_RESET);
-            sc.nextLine(); // To consume the newline character
-            continue;
-        }
-
-        Utilities.clearScreen();
-            switch (choice) {
-                case 1:
-                    readCountryFile("Ethiopia");
-                    break;
-                case 2:
-                   readCountryFile("India");
-                    break;
-                case 3:
-                   readCountryFile("Syria");
-                    break;
-                case 4:
-                   readCountryFile("Myanmar");
-                    break;
-                case 5:
-                    goBackToMainMenu = true;
-                    break;
-                case 6:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Thank you for using our service" + Utilities.ANSI_RESET);
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println(Utilities.ANSI_RED + "\n\t\t\t\t => Invalid choice" + Utilities.ANSI_RESET);
-                    break;
-            }
-            // if user wants to go back to main menu
-            if (goBackToMainMenu) {
-                break;
-            }
-
-        }
-    }
+    
 
     //read text file to display different country foods
     // public void readCountryFile(String countryName){
@@ -228,6 +231,7 @@ public class AdminCustomers {
         item.put("itemNumber", itemNumber);
         item.put("itemName", itemName);
         item.put("itemPrice", itemPrice);
+    
 
         // Add the item to the menu
         menu.add(item);
