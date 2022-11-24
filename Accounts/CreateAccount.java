@@ -65,8 +65,11 @@ public class CreateAccount {
                             if (!(masterPassword.equals("admin"))) {
 
                                 // If Incorrect, throw an exception and exit
-                                System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t Invalid Master Password!" +
                                         Utilities.ANSI_RESET);
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t  Exiting..." +
+                                        Utilities.ANSI_RESET);
+                                System.exit(1);
                             }
                         } catch (Exception e) {
 
