@@ -10,7 +10,7 @@ public class Utilities {
     // Create Strings for the database connection
     public static final String url = "jdbc:mysql://localhost:3306/restaurant";
     public static final String uname = "root";
-    public static final String pass = "Mysqlmikisroot1";
+    public static final String pass = "RMS.java";
 
     // Colors
     public static final String ANSI_RESET = "\u001B[0m";

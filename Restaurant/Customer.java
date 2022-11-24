@@ -283,7 +283,6 @@ public class Customer extends AdminCustomers {
                 if ((int) cartItem.get("itemQuantity") > 1) {
 
                     // Decrease the item quantity by 1
-                    System.out.println((String) cartItem.get("itemName") + " Number is greater than one");
                     cartItem.put("itemQuantity", (int) cartItem.get("itemQuantity") - 1);
 
                     // Decrease the item quantity from the database as well
@@ -346,7 +345,7 @@ public class Customer extends AdminCustomers {
                 pstmt_sales_update.executeUpdate();
 
                 // Display message for user
-                System.out.println("Item Quantity decreased from the database successefully");
+                // System.out.println("Item Quantity decreased from the database successefully");
                 return;
             }
 

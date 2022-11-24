@@ -163,15 +163,9 @@ public class Admin extends AdminCustomers {
 
     // Add the item to the database table as well
     public void addItemToMenu_DB(HashMap<String, Object> item) {
-        // Create Strings for Connection
-
-        // Create string for connection
-        final String uname = "root";
-        final String pass = "RMS.java";
-        final String url = "jdbc:mysql://localhost:3306/restaurant";
 
         // Connect to the database and close it after you are done
-        try (Connection con = DriverManager.getConnection(url, uname, pass)) {
+        try (Connection con = DriverManager.getConnection(Utilities.url, Utilities.uname, Utilities.pass)) {
             String query_insert_menu = "INSERT INTO " + AdminCustomers.tableToLoad
                     + "(ID, Name, Price) VALUES(?, ?, ?)";
 

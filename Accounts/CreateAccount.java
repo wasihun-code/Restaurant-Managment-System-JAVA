@@ -65,9 +65,11 @@ public class CreateAccount {
                             if (!(masterPassword.equals("admin"))) {
 
                                 // If Incorrect, throw an exception and exit
-                                System.out.println(Utilities.ANSI_RED + "\t\t\t => Invalid Password" +
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t Invalid Master Password!" +
                                         Utilities.ANSI_RESET);
-                                // throw new Exception();
+                                System.out.println(Utilities.ANSI_RED + "\t\t\t  Exiting..." +
+                                        Utilities.ANSI_RESET);
+                                System.exit(1);
                             }
                         } catch (Exception e) {
 
@@ -267,9 +269,9 @@ public class CreateAccount {
 
     // Display the create account menu
     public static void createAccountMainMenu() {
-        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t   => Choose Account Type: "
+        System.out.println(Utilities.ANSI_GREEN + "\n\t\t\t => Choose Account Type: "
                 + Utilities.ANSI_RESET);
-        System.out.println(Utilities.ANSI_CYAN + "\t\t\t 1. ADMIN" +
+        System.out.println(Utilities.ANSI_CYAN + "\n\t\t\t 1. ADMIN" +
                 Utilities.ANSI_RESET);
         System.out.println(Utilities.ANSI_CYAN + "\t\t\t 2. CUSTOMER" +
                 Utilities.ANSI_RESET);
